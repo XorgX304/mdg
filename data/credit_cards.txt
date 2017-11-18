@@ -1,0 +1,16 @@
+Visa
+American Express
+MasterCard
+Discover
+Diners Club International
+HSBC
+BC Card
+China UnionPay
+Barclaycard
+Capital One
+Chase
+Citibank
+BankAmericard
+Wells Fargo
+US Bank
+USAA
