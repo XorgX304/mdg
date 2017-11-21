@@ -47,7 +47,7 @@ Cocos (Keeling) Islands
 Colombia
 Comoros
 Congo
-Congo, the Democratic Republic of the
+Congo the Democratic Republic of the
 Cook Islands
 Costa Rica
 Cote d'Ivoire
@@ -111,11 +111,11 @@ Jordan
 Kazakhstan
 Kenya
 Kiribati
-Korea, Democratic People's Republic of
-Korea, Republic of
+Korea Democratic People's Republic of
+Korea Republic of
 Kuwait
 Kyrgyzstan
-Lao, People's Democratic Republic
+Lao People's Democratic Republic
 Latvia
 Lebanon
 Lesotho
@@ -125,7 +125,7 @@ Liechtenstein
 Lithuania
 Luxembourg
 Macau
-Macedonia, The Former Yugoslav Republic of
+Macedonia The Former Yugoslav Republic of
 Madagascar
 Malawi
 Malaysia
@@ -138,8 +138,8 @@ Mauritania
 Mauritius
 Mayotte
 Mexico
-Micronesia, Federated States of
-Moldova, Republic of
+Micronesia Federated States of
+Moldova Republic of
 Monaco
 Mongolia
 Montserrat
@@ -205,9 +205,9 @@ Swaziland
 Sweden
 Switzerland
 Syrian Arab Republic
-Taiwan, Province of China
+Taiwan Province of China
 Tajikistan
-Tanzania, United Republic of
+Tanzania United Republic of
 Thailand
 Togo
 Tokelau

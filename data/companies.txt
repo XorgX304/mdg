@@ -1,4 +1,4 @@
- 21st Century Fox
+21st Century Fox
  24 Hour Fitness
  3M
  4Licensing Corporation
@@ -7,19 +7,19 @@
  A. O. Smith
  A. Schulman
  A&W Restaurants
- a21, Inc.
- Aaron's, Inc.
+ a21 Inc.
+ Aaron's Inc.
  Abbott Laboratories
  AbbVie
  Abercrombie & Fitch
- Ablitech, Inc.
+ Ablitech Inc.
  ABM Industries
  ABS Capital Partners
  ABX Air
  AC Lens
  Academi
  Accenture Plc
- Access Systems Americas, Inc.
+ Access Systems Americas Inc.
  ACCO Brands
  Accuquote
  Accuride Corporation
@@ -85,7 +85,7 @@
  Ally Financial
  Aloha Air Cargo
  Alphabet Inc.
- Google, Inc.
+ Google Inc.
  Nest Labs
  X
  Altec Lansing
@@ -94,7 +94,7 @@
  Altria
  Philip Morris
  Amazon.com
- Audible, Inc.
+ Audible Inc.
  Whole Foods Market
  Ameren
  American Axle
@@ -112,7 +112,7 @@
  American Reprographics Company
  American Securities LLC
  Oreck Corporation
- American Sugar Refining, Inc.
+ American Sugar Refining Inc.
  American Tower Corporation
  American Water
  Amerigroup
@@ -125,14 +125,14 @@
  Amphenol
  AMR Corporation
  American Airlines
- AMSOIL, Inc.
+ AMSOIL Inc.
  Amtrak (National Railroad Passenger Corporation)
  Amway
  Amy's Kitchen
  Anadarko Petroleum Corporation
  Analog Devices
  AnaSpec
- Ancestry.com, Inc.
+ Ancestry.com Inc.
  Anchor Bay Entertainment
  Anchor Brewing Company
  AND1
@@ -180,7 +180,7 @@
  Associated Electrics
  Associated Wholesale Grocers
  Assurant
- AT Conference, Inc.
+ AT Conference Inc.
  AT&T Inc.
  AT&T Mobility
  Atari
@@ -232,11 +232,11 @@
  Beckman Coulter
  Becton Dickinson
  Bed Bath & Beyond
- Beer Nuts, Inc.
+ Beer Nuts Inc.
  Belk
  Belkin
  Bellwether Technology Corporation
- Bemis Company, Inc.
+ Bemis Company Inc.
  Bemis Manufacturing Company
  Ben Franklin
  Benchmark Electronics
@@ -268,16 +268,16 @@
  Biomet
  Birchbox
  Birdwell
- Bissell, Inc.
+ Bissell Inc.
  BJ Services Company
  BJ's Wholesale Club
  Black Angus Steakhouse
  BlackRock
  Blackstone Group
- Blistex, Inc.
+ Blistex Inc.
  Bloomin' Brands
  BlueLinx
- Blyth, Inc.
+ Blyth Inc.
  BMC Software
  Bob Evans Restaurants
  Boeing
@@ -322,7 +322,7 @@
  Burton Snowboards
  BuzzFeed
  C. H. Robinson Worldwide
- C. R. Bard, Inc.
+ C. R. Bard Inc.
  C&S Wholesale Grocers
  CA Technologies
  Cablevision Systems
@@ -330,7 +330,7 @@
  Cabot Oil & Gas
  CACI
  Cadence Design Systems
- Cal-Maine Foods, Inc.
+ Cal-Maine Foods Inc.
  California Pizza Kitchen
  Calista Corporation
  Callaway Golf Company
@@ -351,7 +351,7 @@
  Carnival Corporation & plc
  Carpenter Technology Corporation
  Carroll Shelby International
- Carter's, Inc.
+ Carter's Inc.
  Casco Bay Lines
  Caterpillar Inc.
  Bucyrus-Erie
@@ -399,11 +399,11 @@
  CIT Group
  Citigroup
  Citrix Systems
- Citizens Financial Group, Inc.
+ Citizens Financial Group Inc.
  CKE Restaurants
  Carl's Jr.
  Hardee's
- Clayton, Dubilier & Rice
+ Clayton Dubilier & Rice
  Clearwater Paper
  Cliffs Natural Resources
  The Clorox Company
@@ -432,7 +432,7 @@
  Comerica
  Commercial Metals Company
  Comodo
- The Compleat Sculptor, Inc.
+ The Compleat Sculptor Inc.
  Compuware
  ConAgra Foods
  Conair Corporation
@@ -452,7 +452,7 @@
  Corsair Memory
  Costco Wholesale Corporation
  Cott Corporation
- Coty, Inc.
+ Coty Inc.
  Cox Enterprises
  Cox Communications
  Cox Media Group
@@ -460,7 +460,7 @@
  Cracker Barrel
  Craft Brew Alliance
  Craigslist
- Crane & Co., Inc.
+ Crane & Co. Inc.
  Crane Carrier Company
  Crane Company
  Cray
@@ -470,7 +470,7 @@
  Crown Holdings
  CSX Corporation
  Cubic Corporation
- Culver's Franchising System, Inc.
+ Culver's Franchising System Inc.
  Cumberland Farms
  Cummins
  Curtiss-Wright
@@ -504,7 +504,7 @@
  Denny's
  Dentsply Sirona
  Devon Energy
- DeVry, Inc.
+ DeVry Inc.
  Dex Media
  Diamond Foods
  Diamond Offshore Drilling
@@ -512,14 +512,14 @@
  Dick's Sporting Goods
  Diebold
  Digi-Key
- Digital Realty Trust, Inc.
+ Digital Realty Trust Inc.
  Dillard's
  DineEquity
  Dippin' Dots
  Discover Financial
  Discovery Communications
  Dish Network
- DivX, Inc.
+ DivX Inc.
  Dogfish Head Brewery
  Dole Food Company
  Dollar General
@@ -558,9 +558,9 @@
  Edwards Lifesciences
  El Pollo Loco
  Electronic Arts
- Electronics for Imaging, Inc.
+ Electronics for Imaging Inc.
  Eli Lilly and Company
- Elizabeth Arden, Inc.
+ Elizabeth Arden Inc.
  Emcor
  Emerson Electric Company
  Emerson Radio
@@ -587,7 +587,7 @@
  Exelis
  Exelon
  Exide Technologies
- Expedia, Inc.
+ Expedia Inc.
  Expeditors International
  Express Scripts
  Extra Space Storage
@@ -632,9 +632,9 @@
  Forest Laboratories
  Forrester Research
  Fortive
- Fortune Brands Home & Security, Inc.
+ Fortune Brands Home & Security Inc.
  Forum Communications
- Fossil, Inc.
+ Fossil Inc.
  Foster Farms
  Fosters Freeze
  Franklin Templeton
@@ -723,11 +723,11 @@
  Haworth Inc.
  HC2 Holdings
  Hearst Corporation
- Heaven Hill Distilleries, Inc.
+ Heaven Hill Distilleries Inc.
  Henry Repeating Arms
- Henry Schein, Inc.
+ Henry Schein Inc.
  Herbalife
- Herman Miller, Inc.
+ Herman Miller Inc.
  The Hershey Company
  The Hertz Corporation
  Hess Corporation
@@ -737,10 +737,10 @@
  Hillerich & Bradsby Company
  Hilton Worldwide
  HNI Corporation
- Hobbico, Inc.
+ Hobbico Inc.
  Hobby Lobby
  Holley Performance Products
- Hologic, Inc.
+ Hologic Inc.
  The Home Depot
  Home Shopping Network
  Honeywell
@@ -748,7 +748,7 @@
  Hornbeck Offshore Services
  Horton Holding
  Hospital Corporation of America
- Host Hotels & Resorts, Inc.
+ Host Hotels & Resorts Inc.
  Hostess Brands
  Hot Topic
  Houchens Industries
@@ -816,7 +816,7 @@
  Jimmy John's
  JL Audio
  JN-International Medical Corporation
- Jockey International, Inc.
+ Jockey International Inc.
  Johnson & Johnson
  Johnson Controls
  Johnsonville Foods
@@ -859,7 +859,7 @@
  Georgia-Pacific
  Guardian Industries
  Invista
- Molex, Inc.
+ Molex Inc.
  Kohler Company
  Kohl's
  Kraft Heinz
@@ -936,7 +936,7 @@
  Lucas Oil
  Lumencraft
  MacAndrews & Forbes Holdings
- Macy's, Inc.
+ Macy's Inc.
  Madison Dearborn Partners
  Magellan Navigation
  Magnavox
@@ -948,7 +948,7 @@
  Marriott International
  The Ritz-Carlton Hotel Company
  Starwood Hotels & Resorts Worldwide
- Mars, Incorporated
+ Mars Incorporated
  Marsh & McLennan Companies
  Marshall Pottery
  Martha Stewart Living Omnimedia
@@ -985,9 +985,9 @@
  Mesa Airlines
  Metapress
  MetLife
- MGM Holdings, Inc.
+ MGM Holdings Inc.
  Mettler-Toledo
- Michaels Stores, Inc.
+ Michaels Stores Inc.
  Microchip Technology
  Micron Technology
  Microsoft
@@ -1005,7 +1005,7 @@
  Montana Resources
  Moody's Corporation
  Moog Incorporated
- Monro Muffler Brake, Inc.
+ Monro Muffler Brake Inc.
  Morgan Stanley
  Morningstar
  The Mosaic Company
@@ -1017,14 +1017,14 @@
  Mylan Inc.
  NACCO Industries
  NASDAQ OMX Group
- Nathan's Famous, Inc.
+ Nathan's Famous Inc.
  National Airlines
  National Beverage
  National Oilwell Varco
  National Presto Industries
  National Railway Equipment Company
  Nationwide Mutual Insurance Company
- Nautilus, Inc.
+ Nautilus Inc.
  NCR Corporation
  Necco
  Neiman Marcus Group
@@ -1034,14 +1034,14 @@
  Netgear
  New Balance
  New York Life Insurance Company
- Newegg.com, Inc.
+ Newegg.com Inc.
  Newell Rubbermaid
  Newfield Exploration
  Newmont Mining Corporation
  NewPage Corporation
  News Corporation
  Nielsen
- Nike, Inc.
+ Nike Inc.
  NL Industries
  Noble Energy
  Nordstrom
@@ -1088,7 +1088,7 @@
  OSI Restaurant Partners
  Outerwall
  Overcast Media
- Overstock.com, Inc.
+ Overstock.com Inc.
  Owens Corning
  Owens-Illinois
  Pabst Brewing Company
@@ -1203,7 +1203,7 @@ QCR Holdings
  Rent-A-Center
  Rent-A-Wreck
  Renys
- Republic Services, Inc.
+ Republic Services Inc.
  Respironics
  Restaurant Brands International
  Burger King
@@ -1217,10 +1217,10 @@ QCR Holdings
  Robinson Helicopter Company
  ROBLOX
  Rockport Company
- Rockstar, Inc.
+ Rockstar Inc.
  Rockwell Automation
  Rockwell Collins
- Rodale, Inc.
+ Rodale Inc.
  Rollins Inc.
  Roper Technologies
  Rosetta Stone Inc.
@@ -1239,7 +1239,7 @@ QCR Holdings
  SAIC
  Saleen Automotive
  Salem Communications
- Salesforce.com, Inc.
+ Salesforce.com Inc.
  SanDisk
  Savage Arms Company
  Save Mart Supermarkets
@@ -1247,7 +1247,7 @@ QCR Holdings
  Sbarro
  SCANA Corporation
  Schlumberger
- Schneider National, Inc.
+ Schneider National Inc.
  Schnitzer Steel Industries
  Schnucks
  Schoep's Ice Cream
@@ -1271,7 +1271,7 @@ QCR Holdings
  Shaklee Corporation
  Sharecare
  Shea Homes
- Sheetz, Inc.
+ Sheetz Inc.
  Sherwin-Williams
  Shirokiya
  Shoney's
@@ -1291,14 +1291,14 @@ QCR Holdings
  Six Flags
  Sizzler
  Skechers
- SkyWest, Inc.
+ SkyWest Inc.
  Sky Combat Ace
  Smart & Final
  Snap-On
- Snyder's-Lance, Inc.
+ Snyder's-Lance Inc.
  Society Awards
  Sociometric Solutions
- Sonic Restaurants, Inc.
+ Sonic Restaurants Inc.
  Sony Corporation of America
  Columbia Pictures
  Sony Pictures Entertainment
@@ -1310,13 +1310,13 @@ QCR Holdings
  Space Adventures
  Space Exploration Technologies Corporation
  Spanx
- Specialized Bicycle Components, Inc.
+ Specialized Bicycle Components Inc.
  Spectra Energy
  Spectrum Brands
  Speedway Motorsports
  Spirit AeroSystems
  Spirit Airlines
- Springfield Armory, Inc.
+ Springfield Armory Inc.
  Sprint Corporation
  SPX Corporation
  Stanley Black & Decker
@@ -1327,7 +1327,7 @@ QCR Holdings
  State Street Corporation
  Stater Bros. Markets
  Steel Dynamics
- Steelcase, Inc.
+ Steelcase Inc.
  Steinway Musical Instruments
  Stephens Inc.
  Stericycle
@@ -1337,10 +1337,10 @@ QCR Holdings
  Stewart-Warner
  STI International
  Storage Technology Corporation
- Strayer-Voigt, Inc.
+ Strayer-Voigt Inc.
  Stryker Corporation
  Stuckey's
- Sturm, Ruger & Company
+ Sturm Ruger & Company
  STX
  Subway
  Sun Capital Partners
@@ -1349,7 +1349,7 @@ QCR Holdings
  Sunoco
  Sunrise Senior Living
  Sunsweet Growers Incorporated
- SunTrust Banks, Inc.
+ SunTrust Banks Inc.
  Super One Foods
  SuperValu
  Shop 'n Save
@@ -1370,7 +1370,7 @@ QCR Holdings
  Take-Two Interactive
  2K Games
  Rockstar Games
- Tailored Brands, Inc.
+ Tailored Brands Inc.
  Talbots
  Talend
  Tanadgusix Corporation
@@ -1416,7 +1416,7 @@ QCR Holdings
  Timken Company
  TiVo Corporation
  TJX Companies
- Togo's Eateries, Inc.
+ Togo's Eateries Inc.
  Toll Brothers
  Tony Roma's
  Tootsie Roll Industries
@@ -1430,7 +1430,7 @@ QCR Holdings
  Trader Vic's
  Transamerica Corporation
  World Financial Group
- Transammonia, Inc.
+ Transammonia Inc.
  TransDigm Group
  The Travelers Companies
  Traxxas
@@ -1453,7 +1453,7 @@ QCR Holdings
  Tupperware Brands
  Turtle Wax
  Twitter
- Tyr Sport, Inc.
+ Tyr Sport Inc.
  Tyson Foods
  U-Haul
  UberOffices
@@ -1491,13 +1491,13 @@ QCR Holdings
  US Highland
  U.S. music
  Washburn Guitars
- U.S. Ordnance, Inc.
+ U.S. Ordnance Inc.
  U.S. Steel
  U.S. Venture Partners
  USAA (United Services Automobile Association)
  USG Corporation
  Uwajimaya
- Vail Resorts, Inc.
+ Vail Resorts Inc.
  Valero Energy Corporation
  The Valspar Corporation
  Valve Corporation
@@ -1508,7 +1508,7 @@ QCR Holdings
  Vectren
  Venrock
  Venus Swimwear
- Verifone Systems, Inc.
+ Verifone Systems Inc.
  Verisign
  Verisk Analytics
  Verizon Communications
@@ -1580,7 +1580,7 @@ QCR Holdings
  Watco Companies
  Waters Corporation
  Watkins Incorporated
- Watsco, Inc.
+ Watsco Inc.
  Wausau Paper
  Wawa Inc.
  WD-40
@@ -1606,13 +1606,13 @@ QCR Holdings
  William Blair & Company
  Williams Companies
  Williams-Sonoma
- WinCo Foods, Inc.
+ WinCo Foods Inc.
  Windstream Communications
  The Wine Group
  Winnebago Industries
  Wolverine Worldwide
- Woodward, Inc.
- Woolrich, Inc.
+ Woodward Inc.
+ Woolrich Inc.
  World Fuel Services
  Worthington Industries
  WWE (World Wrestling Entertainment)
@@ -1622,11 +1622,11 @@ QCR Holdings
  Xenco Medical
  Xerox
  Xilinx
- XIM, Inc.
+ XIM Inc.
  XPO Logistics
  Xylem Inc.
  Yahoo!
- Yelp, Inc.
+ Yelp Inc.
  YRC Worldwide
  Yum! Brands
  KFC
@@ -1640,7 +1640,7 @@ QCR Holdings
  Zimmer Holdings
  Zions Bancorp
  Zippo Manufacturing Company
- Zoetis, Inc.
+ Zoetis Inc.
  Zoo York
  Zoom Telephonics
  Zumiez
