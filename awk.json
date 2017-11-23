@@ -1,14 +1,24 @@
 
 {
-  "auto-increment": "NR",
-  "random-float": "{0}+rand()*({1}-{0}+1)",
-  "random-int": "int({0}+rand()*({1}-{0}+1))",
-  "timestamp": "int(1511087530+rand()*(2000000000-1511087530+1))",
-  "zipcode": "int(100000+rand()*(999999-100000+1))",
-  "phone": "\"(\"int(100+rand()*(999-100+1))\")-\"int(1000000+rand()*(9999999-1000000+1))",
-  "cc-number": "int(100000000000000+rand()*(9999999999999999-100000000000000+1))",
-  "cvv": "int(100+rand()*(999-100+1))",
-  "balance": "int(10+rand()*(99999-10+1)) \"$\"",
-  "cc-exp": "int(1+rand()*(12-1+1))\"/\"int(2017+rand()*(2026-2017+1))",
-  "rgb": "\"(\"int(1+rand()*(255))\",\"int(1+rand()*(255))\",\"int(1+rand()*(255))\")\""
+  "commands": {
+    "auto-increment": "NR",
+    "random-float": "{0}+rand()*({1}-{0}+1)",
+    "random-int": "int({0}+rand()*({1}-{0}+1))",
+    "timestamp": "int(1511087530+rand()*(2000000000-1511087530+1))",
+    "zipcode": "int(100000+rand()*(999999-100000+1))",
+    "phone": "\"(\"int(100+rand()*(999-100+1))\")-\"int(1000000+rand()*(9999999-1000000+1))",
+    "cc-number": "int(100000000000000+rand()*(9999999999999999-100000000000000+1))",
+    "cvv": "int(100+rand()*(999-100+1))",
+    "balance": "int(10+rand()*(99999-10+1)) \"$\"",
+    "cc-exp": "int(1+rand()*(12-1+1))\"/\"int(2017+rand()*(2026-2017+1))",
+    "rgb": "\"(\"int(1+rand()*(255))\",\"int(1+rand()*(255))\",\"int(1+rand()*(255))\")\""
+  },
+  "constants": {
+    "python_loop":"python -c 'for i in range({0}): print' |",
+    "awk_cmd_string":"awk '{%s}'",
+    "delimiter": " OFS={0} ",
+    "decimal_count": "OFMT={0}",
+    "append_file": ">> {0}"
+  }
 }
+

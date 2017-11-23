@@ -27,6 +27,9 @@ class DataGenerator:
         self.names = self.redis.lrange('names', 0, -1)
         self.last_names = self.redis.lrange('last_names', 0, -1)
 
+    def __str__(self):
+        return "Data generator class"
+
     # Dates
     def random_date(self):
         """Generate random date ranging 1970-01-01 and 2018-12-31"""
@@ -107,4 +110,8 @@ class DataGenerator:
         return RGBA_COLOR_FORMAT.format((randint(0, 255)), randint(0, 255), randint(0, 255), round(random(), 1))
 
 
-dg = DataGenerator()
+# df = pd.read_csv('file.csv', delimiter=',')
+# df['country'] = df['country'].apply(lambda x: choice(countries))
+# df.to_csv('file.csv', index=False)
+# last_names = [x for x in last_names]
+# r.rpush('last_names', *last_names)

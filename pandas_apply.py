@@ -23,6 +23,7 @@ post_data = {
     'first_name': 'first-names'
 }
 
+
 python_string = "python -c 'for i in range({0}): print' |"
 # print(';'.join(x + '=' + post_data.get('x') for x in ))
 awk_string = "awk '{%s}'"
@@ -31,7 +32,7 @@ with open('awk.json', 'r') as awk_cmds:
 
 
 def awk_close(filename='file.csv', ofs=',', ofmt=None):
-    """Return string of AWK arguments delimiter & decimal digit amount"""
+    """Return string of AWK delimiter, decimal digit amount, and append to file"""
     close_args = ' OFS={0} '.format(ofs)  # AWK delimiter
     if ofmt:
         close_args += 'OFMT={0}'.format(ofmt)  # AWK number of decimal digits
