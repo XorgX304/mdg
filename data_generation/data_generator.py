@@ -1,4 +1,3 @@
-import time
 import redis
 import datetime
 import uuid
@@ -23,9 +22,13 @@ class DataGenerator:
     def __init__(self):
         self.redis = redis.Redis()
         # Load data from redis to cache
-        self.countries = self.redis.lrange('countries', 0, -1)
-        self.names = self.redis.lrange('names', 0, -1)
-        self.last_names = self.redis.lrange('last_names', 0, -1)
+        self.countries = open('data/countries.txt')
+        self.first_names = open('data/names.txt')
+        self.last_names = open('data/last_names.txt')
+        self.commands = {
+            'lat': self.latitude,
+            'long': self.longitude
+        }
 
     def __str__(self):
         return "Data generator class"
@@ -108,10 +111,3 @@ class DataGenerator:
     def rgba():
         """Generate random color in rgba format"""
         return RGBA_COLOR_FORMAT.format((randint(0, 255)), randint(0, 255), randint(0, 255), round(random(), 1))
-
-
-# df = pd.read_csv('file.csv', delimiter=',')
-# df['country'] = df['country'].apply(lambda x: choice(countries))
-# df.to_csv('file.csv', index=False)
-# last_names = [x for x in last_names]
-# r.rpush('last_names', *last_names)
