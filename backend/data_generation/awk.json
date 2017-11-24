@@ -17,8 +17,12 @@
     "python_loop":"python -c 'for i in range({0}): print' |",
     "awk_cmd_string":"awk '{%s}'",
     "delimiter": " OFS={0} ",
-    "decimal_count": "OFMT={0}",
-    "append_file": ">> {0}"
+    "decimal_digits": "OFMT=%.5f",
+    "append_file": ">> {0}",
+    "int_min": "intRangeMin",
+    "int_max": "intRangeMax",
+    "float_min": "floatRangeMin",
+    "float_max": "floatRangeMax"
   }
 }
 

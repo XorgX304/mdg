@@ -77,7 +77,6 @@ $(function () {
 			dataImg.attr('src', '/images/xml.png');
 			tooltip.attr('title', '* Avoid using the \'&\' sign in column/node name. This makes for an valid XML file.\r\n' +
 														'* XML is the slowest to generate. Be patient :)');
-			wrapContainer.append(xmlNode);
 			break;
 		}
 	});
@@ -93,8 +92,8 @@ $(function () {
 		case 'bool':
 			options.append(boolInput);
 			break;
-		case 'random-id':
-			options.append(idRange);
+		case 'random-int':
+			options.append(intRange);
 			break;
 		case 'random-float':
 			options.append(floatRange);
@@ -239,9 +238,7 @@ function generateMockData() {
 			displayDownload(file)
 		},
 		error: function (err) {
-			if (err.status === 401) {
-				displayErrorMsg(guestRowLimit);
-			} else if (err.status === 429) {
+			if (err.status === 429) {
 				displayErrorMsg(requestLimit)
 			} else {
 				displayErrorMsg(generalErr)

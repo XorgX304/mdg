@@ -2,14 +2,13 @@ var downloadBtn = '<p style="display: inline-block; font-size: 14px; text-align:
 	' id="download"><a href="#"><button class="btn btn-secondary btn-success">' +
 	'<i class="fa fa-download"></i></button></a></p>';
 
-var floatRange = '<p style="font-size: 14px; text-align: left;">Min<input min="0" max="10000000" value="1" type="number" style="width: 90px"' +
+var floatRange = '<p style="font-size: 14px; text-align: left;">Min<input min="0" max="10000000" value="1" type="number"' +
 	' class="float-range-min"' + ' required="required">Max' + '<input type="number" min="0" max="10000000"' +
-	' value="10" style="width: 65px;"' + ' class="float-range-max" required="required"># Decimal digits' +
-	'<input type="number" min="1" max="20" value="2" style="width: 70px;" class="decimal-limit" required="required"></p>';
+	' value="10" class="float-range-max" required="required"></p>';
 
-var idRange = '<p style="font-size: 14px; text-align: left;">Min' +
-	'<input min="0" max="10000000" value="1" type="number" class="id-range-min" required="required">Max' +
-	'<input min="0" max="10000000" value="1000" type="number" class="id-range-max" required="required"></p>';
+var intRange = '<p style="font-size: 14px; text-align: left;">Min' +
+	'<input min="0" max="10000000000" value="1" type="number" class="id-range-min" required="required">Max' +
+	'<input min="0" max="10000000000" value="1000" type="number" class="id-range-max" required="required"></p>';
 
 var boolInput = '<p style="font-size: 14px; text-align: left;">% Of false value' +
 	'<input min="0" max="100" value="50" type="number" required="required"' +
@@ -34,7 +33,7 @@ var rowContent = '<div class="row text-center">\n' +
 		' <option value="auto-increment">Auto Increment Id</option>\n' +
 		' <option value="uuid">UUID</option>\n' +
 		' <optgroup label="Numbers"></optgroup>\n' +
-		' <option value="random-id">Number</option>\n' +
+		' <option value="random-int">Number</option>\n' +
 		' <option value="random-float">Float</option>\n' +
 		' <optgroup label="Names"></optgroup>\n' +
 		' <option value="first-names">First Names</option>\n' +
@@ -68,7 +67,7 @@ var rowContent = '<div class="row text-center">\n' +
 	' <option value="month">Month</option>\n' +
 	' <option value="timestamp">Timestamp</option>\n' +
 	'<optgroup label="Color"></optgroup>\n' +
-    '<option value="name">Name</option>\n' +
+    '<option value="color-name">Color Name</option>\n' +
     '<option value="hex">Hex </option>\n' +
    '<option value="shorthex">Short Hex</option>\n' +
     '<option value="rgb">RGB</option>\n' +
@@ -95,15 +94,6 @@ var createTable = '<div id="create-table-row" class="row text-left">\n' +
 	'    <label for="create-table" id="create-table-label">Create Table Statement</label>\n' +
 	'  </div>\n' +
 	'</div>';
-
-var xmlNode = '<div class="row text-left" id=\'xml-node-row\'>\n' +
-	'  <div class="col-sm-4">\n' +
-	'    <label for="xml-node" id="xml-node-label">Data Node</label>\n' +
-	'    <input id="xml-node" name="xml-node" required="required" value="item" style="width: 120px; margin: 3px 3px 3px 3px; height: 70%;;"/>\n' +
-	'  </div>\n' +
-	'</div>';
-
-
 
 var delimiter = '<div id="delimiter" class="row text-left"><div class="col-sm-4">\n' +
 		'<label for="delimiter">Delimiter</label>' +

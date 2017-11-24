@@ -1,0 +1,5 @@
+{
+  "constants": {
+    "xml_conversion": "/c2x/c2x-cmd -s:{0} -sep{1} -t"
+  }
+}

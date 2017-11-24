@@ -19,12 +19,12 @@ function typeOptions(type, column, td,  postData) {
 			}
 			postData[column + 'boolPercentage'] = boolPercentage;
 			return postData;
-		case 'random-id':
+		case 'random-int':
 			// Min & max values for range of numbers, floats
-			var idRangeMin = column + 'idRangeMin',
-					idRangeMax = column + 'idRangeMax';
-			postData[idRangeMin] = td.find('.id-range-min').val();
-			postData[idRangeMax] = td.find('.id-range-max').val();
+			var intRangeMin = column + 'intRangeMin',
+					intRangeMax = column + 'intRangeMax';
+			postData[intRangeMin] = td.find('.id-range-min').val();
+			postData[intRangeMax] = td.find('.id-range-max').val();
 			return postData;
 		case 'random-float':
 			var floatRangeMin = column + 'floatRangeMin',
