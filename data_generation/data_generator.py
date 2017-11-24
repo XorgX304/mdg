@@ -7,31 +7,57 @@ from ipaddress import IPv4Address, IPv6Address
 
 IPV6_LENGTH = 128
 IPV4_LENGTH = 32
-HEX_COLOR = 0xFFFFFF
-SHORT_HEX_COLOR = 0xFFF
+HEX_COLOR = '0xFFFFFF',
+SHORT_HEX_COLOR = '0xFFF'
 HEX_FORMAT = '#%06x'
 SHORT_HEX_FORMAT = '#%03x'
-RGBA_COLOR_FORMAT = "({}, {}, {}, {})"
+RGBA_COLOR_FORMAT = '({}, {}, {}, {})'
 FEMALE = 'F'
 MALE = 'M'
 
 
 class DataGenerator:
-    """DataGenerator class for generating random data."""
+    """DataGenerator class for generating random files."""
 
     def __init__(self):
         self.redis = redis.Redis()
-        # Load data from redis to cache
-        self.countries = open('data/countries.txt')
-        self.first_names = open('data/names.txt')
-        self.last_names = open('data/last_names.txt')
+        # Load files from redis to cache
+        self.countries = open('files/countries.txt')
+        self.first_names = open('files/names.txt')
+        self.last_names = open('files/last_names.txt')
+        # All files types and their corresponding generating commands
         self.commands = {
-            'lat': self.latitude,
-            'long': self.longitude
+            "rand-date": self.random_date,
+            "date-range": self.date_range,
+            "lat": self.latitude,
+            "long": self.longitude,
+            "uuid": self.gen_uuid,
+            "bool": self.boolean,
+            "gender": self.gender,
+            "ipv6": self.ipv6,
+            "ip": self.ipv4,
+            "hex": self.hex_color,
+            "short-hex": self.short_hex_color,
+            "rgba": self.rgba,
+            "country": self.rand_element,
+            "first-names": self.rand_element,
+            "last-names": self.rand_element,
+            "cc-type": self.rand_element,
+            "street-name": self.rand_element,
+            "name": self.rand_element,
+            "company": self.rand_element,
+            "weekday": self.rand_element,
+            "email": self.rand_element,
+            "month": self.rand_element,
+            "username": self.rand_element,
+            "url": self.rand_element,
+            "street-addr": self.rand_element,
+            "domain": self.rand_element,
+            "null-val": self.null_val
         }
 
     def __str__(self):
-        return "Data generator class"
+        return "Data generator"
 
     # Dates
     def random_date(self):
@@ -81,6 +107,10 @@ class DataGenerator:
         return MALE
 
     @staticmethod
+    def null_val():
+        return
+
+    @staticmethod
     def rand_element(data):
         """Return a random element from list loaded from Redis and decode it"""
         return choice(data).decode()
@@ -100,7 +130,7 @@ class DataGenerator:
     @staticmethod
     def hex_color():
         """Generate random color in hex format"""
-        return HEX_FORMAT % randint(0, HEX_COLOR)
+        return HEX_COLOR % randint(0, HEX_COLOR)
 
     @staticmethod
     def short_hex_color():

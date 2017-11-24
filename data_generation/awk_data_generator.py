@@ -16,12 +16,12 @@ class AWKDataGenerator:
             self.constants = self.awk_config['constants']
 
     def __str__(self):
-        return "AWK data generator class"
+        return "AWK files generator"
 
     def _get_awk_cmd(self, data_type, header):
         """
-        Return AWK command for data type, else header if not is self.commands
-        :param post_data: POST request data
+        Return AWK command for files type, else header if not is self.commands
+        :param post_data: POST request files
         :param header: CSV column header
         """
         return self.commands.get(data_type, header)
@@ -32,8 +32,8 @@ class AWKDataGenerator:
 
     def _awk_command_body(self, post_data, headers):
         """
-        Return the awk data generating command for each header.
-        :param post_data: POST request data
+        Return the awk files generating command for each header.
+        :param post_data: POST request files
         :param headers: CSV column headers
         """
         return (SEMI_COLON + EOL).join(header + EQ + self._get_awk_cmd(post_data.get(header), header)
@@ -53,7 +53,7 @@ class AWKDataGenerator:
         """
         close_statement = self.constants['delimiter'].format(COMMA)  # AWK close_statement
         if ofmt:
-            # If there's a float data type, concat number of decimal digits
+            # If there's a float files type, concat number of decimal digits
             close_statement += self.constants['decimal_count'].format(ofmt)
         return close_statement + self.constants['append_file'].format(filename)
 

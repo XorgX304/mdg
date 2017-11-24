@@ -19,7 +19,6 @@
     "delimiter": " OFS={0} ",
     "decimal_count": "OFMT={0}",
     "append_file": ">> {0}"
-
   }
 }
 
