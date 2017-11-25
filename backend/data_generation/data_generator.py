@@ -71,7 +71,7 @@ class DataGenerator:
         return "Python generated data generator"
 
     # Dates
-    def random_date(self):
+    def random_date(self, *args):
         """Generate random date ranging 1970-01-01 and 2018-12-31"""
         try:
             year = randint(MIN_YEAR, MAX_YEAR)

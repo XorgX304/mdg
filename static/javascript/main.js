@@ -60,6 +60,7 @@ $(function () {
 					' statement.\r\n* Avoid using SQL keywords such as NULL, TABLE or COLUMN in in table/column name');
 			wrapContainer.append(tableNameInput);
 			wrapContainer.append(createTable);
+			wrapContainer.append(sqlExtension);
 			break;
 		case 'json':
 			removeExtraOptions();
@@ -135,10 +136,7 @@ function removeAlerts() {
 
 // Remove extra options on data type change
 function removeExtraOptions() {
-	$('#table-name-row').remove();
-	$('#create-table-row').remove();
-	$('#xml-node-row').remove();
-	$('#delimiter').remove();
+	$('.extra-options').remove();
 }
 
 // Add new field / header / column
@@ -221,6 +219,7 @@ function generateMockData() {
 	if (postData.dataType === '.sql') {
 		postData.tableName = $('#table-name').val();
 		postData.createTable = $('#create-table').is(":checked");
+		postData.sqlExtension= $("input[name=sql-extension]:checked").val()
 	} else if (postData.dataType === '.xml') {
 		postData.xmlNode = $('#xml-node').val();
 	} else if (postData.dataType === '.csv') {

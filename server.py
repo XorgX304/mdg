@@ -15,6 +15,12 @@ COMMA = ','
 DELIMITER = 'delimiter'
 UTF = 'utf-8'
 MAX_ROWS = 250000
+SQL_STRING = 'INSERT INTO {} VALUES (%s);\n'
+CREATE_TABLE = 'CREATE TABLE {0} (%s);\n'
+SEMI_COLON = ';'
+DECIMAL_TYPES = ("random-floa", "lat", "long")
+INT_TYPES = ("random-int", "auto-increment", "zipcode", "timestamp")
+DATE_TYPES = ("date-range", "rand-date")
 
 # Using camel case just to match front end arguments
 # Option arguments for SQL/XML/CSV
@@ -79,8 +85,8 @@ def generate():
     filename = post_data.get(headers.pop()) + CSV
     num_rows = post_data.get(headers.pop())
     file_type = post_data.get(headers.pop())
-    if num_rows > MAX_ROWS or len(headers) > 10:
-        return "Illegel requests", 400
+    if int(num_rows) > MAX_ROWS or len(headers) > 10:
+        return "Illegel request", 400
 
     # Create an empty file with headers
     with open(filename, 'w') as file:
@@ -91,7 +97,7 @@ def generate():
 
     # Check if file needs to be converted from CSV
     if not is_csv(file_type):
-        filename = file_conversion(file_type, filename, options_dict)
+        filename = file_conversion(file_type, filename, options_dict, headers, post_data)
     return filename
 
 
@@ -117,7 +123,7 @@ def write_awk_generated(headers, awk_generated, post_data, num_rows, filename, o
     # Else call write_python_generated func with python_generated column set
     else:
         python_generated = set(headers) - set(awk_generated)
-        # Get delimiter or set default one
+        # Get delimiter from options or set default one
         delimiter = delimiter_chars.get(options.get(DELIMITER), COMMA)
         write_python_generated(filename, post_data, python_generated, delimiter, options)
     return
@@ -125,7 +131,7 @@ def write_awk_generated(headers, awk_generated, post_data, num_rows, filename, o
 
 def write_python_generated(filename, post_data, python_generated, delimiter, options):
     """Write non-AWK column files using Pandas"""
-    df = pd.read_csv(filename, sep=COMMA)
+    df = pd.read_csv(filename, sep=COMMA, index_col=0)
     for header in python_generated:
         try:
             callback = data_generator.commands.get(post_data.get(header))
@@ -146,14 +152,14 @@ def is_csv(file_type):
     return file_type == CSV
 
 
-def file_conversion(file_type, filename, options):
+def file_conversion(file_type, filename, options, headers, post_data):
     """Check file type and call appropriate conversion function"""
     if file_type == '.xml':
         filename = convert_to_xml(filename)
     elif file_type == '.json':
         filename = convert_to_json(filename)
     elif file_type == '.sql':
-        filename = convert_to_sql(filename, options)
+        filename = convert_to_sql(filename, options, headers, post_data)
     return filename
 
 
@@ -171,7 +177,32 @@ def convert_to_json(filename):
     return json_file
 
 
-def convert_to_sql(filename, options):
+def convert_to_sql(filename, options, headers, post_data):
     sql_file = filename.split('.')[0] + options.get('sqlExtension')
-    # Run conversion to SQL here
+    table_name = options.get('tableName')
+    df = pd.read_csv(filename, sep=COMMA, index_col=0)
+    sql_string = SQL_STRING.format(table_name)
+    with open(sql_file, 'a') as file:
+        # Parameter comes as string representation from request hence the `== true` check
+        if options.get('createTable') == 'true':
+            # Write create table statement
+            table_creation_string = sql_create_table(headers, post_data)
+            file.write(CREATE_TABLE.format(table_name) % table_creation_string)
+        for row in df.itertuples():
+            file.write(sql_string % (COMMA.join(['"' + x + '"' if isinstance(x, str) else str(x) for x in list(row)])))
     return sql_file
+
+
+def sql_create_table(headers, post_data):
+    """Return create table statement with SQL data types"""
+    table_creation = []
+    for header in headers:
+        if post_data.get(header) in DECIMAL_TYPES:
+            table_creation.append(header + ' DECIMAL(20, 20)')
+        elif post_data.get(header) in INT_TYPES:
+            table_creation.append(header + ' INT(10)')
+        elif post_data.get(header) in DATE_TYPES:
+            table_creation.append(header + ' DATE')
+        else:
+            table_creation.append(header + ' VARCHAR(150)')
+    return COMMA.join(table_creation)

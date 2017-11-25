@@ -82,20 +82,20 @@ var rowContent = '<div class="row text-center">\n' +
 	' <div class="col-md-1"><a href="#" class="btn btn-sm"><i class="fa fa-times fa-lg"></i></a></div>\n' +
 	'</div>';
 
-var tableNameInput = '<div id="table-name-row" class="row text-left">\n' +
+var tableNameInput = '<div id="table-name-row" class="row text-left extra-options">\n' +
 	'  <div class="col-sm-4">\n' +
 	'    <label for="table-name" id="table-name-label">Table Name</label>\n' +
 	'<input id="table-name" type="text" name="table-name" required="required" style="width: 120px; margin: 3px 3px 3px 3px; height: 70%;"/>\n' +
 	'  </div></div>';
 
-var createTable = '<div id="create-table-row" class="row text-left">\n' +
+var createTable = '<div id="create-table-row" class="row text-left extra-options">\n' +
 	'  <div class="col-sm-4">\n' +
 	'    <input id="create-table" type="checkbox" name="create-table" style="margin-right: 3px; height: 70%;"/>\n' +
 	'    <label for="create-table" id="create-table-label">Create Table Statement</label>\n' +
 	'  </div>\n' +
 	'</div>';
 
-var delimiter = '<div id="delimiter" class="row text-left"><div class="col-sm-4">\n' +
+var delimiter = '<div id="delimiter" class="row text-left extra-options"><div class="col-sm-4">\n' +
 		'<label for="delimiter">Delimiter</label>' +
 		'  <select required="required" class="form-control-sm delimiter">\n' +
 		'    <option value="comma">Comma</option>\n' +
@@ -109,8 +109,6 @@ var alertMsg = '<div class="alert alert-danger">Duplicate headers are not allowe
 
 var maxCols = '<div class="alert alert-danger">Maximum number of columns reached</div>';
 
-var guestRowLimit = '<div class="alert alert-danger">Guests are limited to 5,000 rows. Register for free to get more.</div>';
-
 var generalErr = '<div class="alert alert-danger">Oops ! Something went wrong. Please try again</div>';
 
 var requestLimit = '<div class="alert alert-danger">Please limit your data generation requests to reasonable amount. Try again in 30 minutes.</div>';
@@ -118,3 +116,5 @@ var requestLimit = '<div class="alert alert-danger">Please limit your data gener
 var loader = '<div id="loader" class="loader">Generating...</div>';
 
 var bucketUrl = 'https://storage.googleapis.com/mockdatagen_files/';
+
+var sqlExtension = '<div id="sql-extension" class="row text-left extra-options">\n  <div class="col-sm-4">\n<label style="margin-right: 8px;">File Extension</label>    <input id="sql-text" type="radio" name="sql-extension" value=".txt" style="margin-right: 3px;" required/>\n    <label for="sql-text" >.txt</label>\n<input id="sql-sql" type="radio" name="sql-extension" value=".sql" style="margin-right: 3px;"/>\n<label for="sql-sql" >.sql</label>\n  </div>\n</div>'
