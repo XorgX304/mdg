@@ -1,6 +1,0 @@
-{
-  "constants": {
-    "xml_conversion": "/c2x/c2x-cmd -s:{0} -sep{1} -t",
-    "json_conversion": "csv2json {0} > {1} --delimiter='{2}'"
-  }
-}

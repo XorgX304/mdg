@@ -118,3 +118,13 @@ var loader = '<div id="loader" class="loader">Generating...</div>';
 var bucketUrl = 'https://storage.googleapis.com/mockdatagen_files/';
 
 var sqlExtension = '<div id="sql-extension" class="row text-left extra-options">\n  <div class="col-sm-4">\n<label style="margin-right: 8px;">File Extension</label>    <input id="sql-text" type="radio" name="sql-extension" value=".txt" style="margin-right: 3px;" required/>\n    <label for="sql-text" >.txt</label>\n<input id="sql-sql" type="radio" name="sql-extension" value=".sql" style="margin-right: 3px;"/>\n<label for="sql-sql" >.sql</label>\n  </div>\n</div>'
+
+var rootNode = '<div class="row text-left extra-options">\n' +
+               '<div class="col-sm-4"><label for="root-node" id="root-node-label">Root Node </label>\n' +
+               '<input id="root-node" name="root-node" required="required" value="root"\n' +
+               'style="width: 120px; margin: 3px 3px 3px 3px; height: 70%;;"/>\n</div></div>\n';
+
+var recordNode = '<div class="row text-left extra-options">\n' +
+								 '<div class="col-sm-4"><label for="record-node" id="record-node-label">Record Node</label>\n' +
+                 '<input id="record-node" name="record-node" required="required" value="record"\n' +
+                 'style="width: 120px; margin: 3px 3px 3px 3px; height: 70%;;"/>\n</div>\n</div>'

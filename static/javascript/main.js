@@ -56,8 +56,8 @@ $(function () {
 		case 'sql':
 			removeExtraOptions();
 			dataImg.attr('src', '/images/sql.png');
-			tooltip.attr('title', '* Checking the "Create Table" box will also include the "DROP TABLE IF EXISTS"' +
-					' statement.\r\n* Avoid using SQL keywords such as NULL, TABLE or COLUMN in in table/column name');
+			tooltip.attr('title', 'Checking the "Create Table" box will also include the "DROP TABLE IF EXISTS"' +
+					' statement.\r\n Avoid using SQL keywords such as NULL, TABLE or COLUMN in table or column name.');
 			wrapContainer.append(tableNameInput);
 			wrapContainer.append(createTable);
 			wrapContainer.append(sqlExtension);
@@ -65,7 +65,7 @@ $(function () {
 		case 'json':
 			removeExtraOptions();
 			dataImg.attr('src', '/images/json.png');
-			tooltip.attr('title', '* Use --jsonArray flag with MongoDB to import the file to a collection.');
+			tooltip.attr('title', 'Use --jsonArray flag with MongoDB to import the file to a collection.');
 			break;
 		case 'csv':
 			removeExtraOptions();
@@ -76,8 +76,9 @@ $(function () {
 		case 'xml':
 			removeExtraOptions();
 			dataImg.attr('src', '/images/xml.png');
-			tooltip.attr('title', '* Avoid using the \'&\' sign in column/node name. This makes for an valid XML file.\r\n' +
-														'* XML is the slowest to generate. Be patient :)');
+			tooltip.attr('title', 'Avoid using the special characters in column/node name. This makes for an valid XML file.\r\n');
+			wrapContainer.append(rootNode);
+			wrapContainer.append(recordNode);
 			break;
 		}
 	});
@@ -221,7 +222,8 @@ function generateMockData() {
 		postData.createTable = $('#create-table').is(":checked");
 		postData.sqlExtension= $("input[name=sql-extension]:checked").val()
 	} else if (postData.dataType === '.xml') {
-		postData.xmlNode = $('#xml-node').val();
+		postData.rootNode = $('#root-node').val();
+		postData.recordNode = $('#record-node').val();
 	} else if (postData.dataType === '.csv') {
 		postData.delimiter = $('.delimiter').val();
 	}

@@ -18,11 +18,7 @@
     "awk_cmd_string":"awk '{%s}'",
     "delimiter": " OFS={0} ",
     "decimal_digits": "OFMT=%.5f",
-    "append_file": ">> {0}",
-    "int_min": "intRangeMin",
-    "int_max": "intRangeMax",
-    "float_min": "floatRangeMin",
-    "float_max": "floatRangeMax"
+    "append_file": ">> {0}"
   }
 }
 

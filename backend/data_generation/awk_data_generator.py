@@ -1,11 +1,17 @@
 import json
 
 
+# Module level constants
 PRINT = 'print '  # Space intentional
 EQ = '='
 SEMI_COLON = ';'
 COMMA = ','
 EOL = '\n'
+# Using camel case strings just to match frontend form data
+INT_MIN = 'intRangeMin'
+INT_MAX = 'intRangeMax'
+FLOAT_MIN = 'floatRangeMin'
+FLOAT_MAX = 'floatRangeMax'
 
 
 class AWKDataGenerator:
@@ -29,11 +35,11 @@ class AWKDataGenerator:
         """
         # Format random integer/float command with min & max options
         if data_type == 'random-int':
-            cmd = self.commands.get(data_type, header).format(options.get(header + self.constants['int_min']),
-                                                              options.get(header + self.constants['int_max']))
+            cmd = self.commands.get(data_type, header).format(options.get(header + INT_MIN),
+                                                              options.get(header + INT_MAX))
         elif data_type == 'random-float':
-            cmd = self.commands.get(data_type, header).format(options.get(header + self.constants['float_min']),
-                                                              options.get(header + self.constants['float_max']))
+            cmd = self.commands.get(data_type, header).format(options.get(header + FLOAT_MIN),
+                                                              options.get(header + FLOAT_MAX))
         else:
             cmd = self.commands.get(data_type, header)
         return cmd

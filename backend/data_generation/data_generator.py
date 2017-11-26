@@ -6,11 +6,10 @@ from ipaddress import IPv4Address, IPv6Address
 
 IPV6_LENGTH = 128
 IPV4_LENGTH = 32
-# Extracting only years to variables because days(1-31) and months(1-12) are Python Singletons
 MIN_YEAR = 1970
 MAX_YEAR = 2018
-HEX_COLOR = '0xFFFFFF',
-SHORT_HEX_COLOR = '0xFFF'
+HEX_COLOR = 0xFFFFFF
+SHORT_HEX_COLOR = 0xFFF
 HEX_FORMAT = '#%06x'
 SHORT_HEX_FORMAT = '#%03x'
 RGBA_COLOR_FORMAT = '({}, {}, {}, {})'
@@ -74,6 +73,7 @@ class DataGenerator:
     def random_date(self, *args):
         """Generate random date ranging 1970-01-01 and 2018-12-31"""
         try:
+            # Extracted only years to variables because days(1-31) and months(1-12) are Python Singletons
             year = randint(MIN_YEAR, MAX_YEAR)
             month = randint(1, 12)
             day = randint(1, 31)

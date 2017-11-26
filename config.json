@@ -1,0 +1,31 @@
+{
+  "conversion": {
+    "xml": "backend/c2x/c2x-cmd -s:{0} -sep:, -alias:eRoot={1},eRecord={2} -t",
+    "json": "csvtojson {0} > {1} --delimiter=','"
+  },
+  "sql": {
+    "decimal_types": ["random-float", "lat", "long"],
+    "int_types": ["random-int", "auto-increment", "zipcode", "timestamp"],
+    "date_types": ["date-range", "rand-date"],
+    "decimal": " DECIMAL(20,20)",
+    "int": " INT(10)",
+    "date": " DATE",
+    "varchar": " VARCHAR(100)",
+    "insert": "INSERT INTO {} VALUES (%s);\n",
+    "create": "DROP TABLE IF EXISTS {0};\nCREATE TABLE {0} ({1});\n"
+  },
+  "options": {
+    "file_type_options": ["tableName", "createTable", "delimiter", "sqlExtension", "rootNode", "recordNode"],
+    "data_type_options": ["dateRangeStart", "dateRangeEnd", "boolPercentage", "intRangeMin", "intRangeMax",
+      "floatRangeMin", "floatRangeMax", "decimalLimit", "genderPercentage"],
+    "awk_generated": ["auto-increment", "random-float", "random-int", "timestamp", "zipcode", "phone", "cc-number",
+      "cvv", "balance", "cc-exp", "rgb"]
+  },
+  "delimiter_chars": {
+    "comma": ",",
+    "caret": "^",
+    "semi": ";",
+    "tab": "\t",
+    "pipe": "|"
+  }
+}
