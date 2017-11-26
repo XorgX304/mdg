@@ -80,6 +80,11 @@ $(function () {
 			wrapContainer.append(rootNode);
 			wrapContainer.append(recordNode);
 			break;
+		case 'xlsx':
+			removeExtraOptions();
+			dataImg.attr('src', '/images/xlsx.png');
+			tooltip.attr('title','');
+			break;
 		}
 	});
 

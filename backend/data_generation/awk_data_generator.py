@@ -1,23 +1,22 @@
 import json
 
 
-# Module level constants
-PRINT = 'print '  # Space intentional
-EQ = '='
-SEMI_COLON = ';'
-COMMA = ','
-EOL = '\n'
-# Using camel case strings just to match frontend form data
-INT_MIN = 'intRangeMin'
-INT_MAX = 'intRangeMax'
-FLOAT_MIN = 'floatRangeMin'
-FLOAT_MAX = 'floatRangeMax'
-
-
 class AWKDataGenerator:
+
+    PRINT = 'print '  # Space intentional
+    EQ = '='
+    SEMI_COLON = ';'
+    COMMA = ','
+    EOL = '\n'
+    # Using camel case strings just to match frontend form data
+    INT_MIN = 'intRangeMin'
+    INT_MAX = 'intRangeMax'
+    FLOAT_MIN = 'floatRangeMin'
+    FLOAT_MAX = 'floatRangeMax'
+
     def __init__(self):
-        with open('backend/data_generation/awk.json', 'r') as file:
-            self.awk_config = json.loads(file.read())
+        with open('backend/data_generation/awk.json', 'r') as awk_file:
+            self.awk_config = json.loads(awk_file.read())
             # Data types and their corresponding commands in AWK
             self.commands = self.awk_config['commands']
             # AWK related constants
@@ -35,11 +34,11 @@ class AWKDataGenerator:
         """
         # Format random integer/float command with min & max options
         if data_type == 'random-int':
-            cmd = self.commands.get(data_type, header).format(options.get(header + INT_MIN),
-                                                              options.get(header + INT_MAX))
+            cmd = self.commands.get(data_type, header).format(options.get(header + self.INT_MIN),
+                                                              options.get(header + self.INT_MAX))
         elif data_type == 'random-float':
-            cmd = self.commands.get(data_type, header).format(options.get(header + FLOAT_MIN),
-                                                              options.get(header + FLOAT_MAX))
+            cmd = self.commands.get(data_type, header).format(options.get(header + self.FLOAT_MIN),
+                                                              options.get(header + self.FLOAT_MAX))
         else:
             cmd = self.commands.get(data_type, header)
         return cmd
@@ -55,24 +54,22 @@ class AWKDataGenerator:
         :param headers: CSV column headers
         :param options: Data type options
         """
-        return (SEMI_COLON + EOL).join(header + EQ + self._get_awk_cmd(post_data.get(header), header, options)
-                                       for header in headers) + SEMI_COLON
+        return (self.SEMI_COLON + self.EOL).join(
+            header + self.EQ + self._get_awk_cmd(post_data.get(header), header, options) for header in headers) + \
+            self.SEMI_COLON
 
-    @staticmethod
-    def _print_statement(headers):
+    def _print_statement(self, headers):
         """Return AWK print statement for headers"""
-        return PRINT + COMMA.join(headers)
+        return self.PRINT + self.COMMA.join(headers)
 
     def _close_statement(self, filename):
-        """
-        Return string of AWK close_statement, decimal digit amount, and append to file
-        :param filename: Filename
-        """
-        close_statement = self.constants['delimiter'].format(COMMA) + self.constants['decimal_digits']
+        """Return string of AWK close_statement"""
+        close_statement = self.constants['delimiter'].format(self.COMMA) + self.constants['decimal_digits']
         return close_statement + self.constants['append_file'].format(filename)
 
     def create_awk_statement(self, post_data, headers, num_rows, filename, options):
         """Create full awk command"""
-        return EOL.join((self._python_loop_statement(num_rows),
-                         self.constants['awk_cmd_string'] % (self._awk_command_body(post_data, headers, options) +
-                         self._print_statement(headers)))) + self._close_statement(filename)
+        return self.EOL.join((self._python_loop_statement(num_rows),
+                              self.constants['awk_cmd_string'] % (
+                                  self._awk_command_body(post_data, headers, options) +
+                                  self._print_statement(headers)))) + self._close_statement(filename)

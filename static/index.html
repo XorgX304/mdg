@@ -1,44 +1,11 @@
-<!DOCTYPE html>
-<!-- Navbar layout-->
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>MockDataGenerator - Generate Your Data For Free</title>
-    <!-- Bootstrap core CSS-->
-    <link href="vendor/bootstrap/css/bootstrap-reboot.css" rel="stylesheet">
-    <link href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css rel="stylesheet">
-    <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="vendor/bootstrap/css/bootstrap-grid.css" rel="stylesheet">
-    <!-- Custom fonts for this template-->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link rel="icon" href="images/favicon.ico">
-    <link rel="stylesheet" href="/stylesheets/style.css">
-  </head>
-  <body id="page-top">
-    <!-- Navigation-->
-    <nav id="mainNav" class="navbar navbar-expand-lg navbar-light fixed-top">
-      <div class="container"><a href="/" class="navbar-brand js-scroll-trigger"><img src="/images/mdg.png" style="width: 190px; height: 55px;"></a>
-        <button type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler navbar-toggler-right">Menu<i class="fa fa-bars"></i></button>
-        <div id="navbarResponsive" class="collapse navbar-collapse">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a href="#generate" class="nav-link js-scroll-trigger">Generate Data</a></li>
-            <li class="nav-item"><a href="#about" class="nav-link js-scroll-trigger">About</a></li>
-            <li class="nav-item"><a href="#donate" class="nav-link js-scroll-trigger">Donate</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+{% extends "layout.html" %}
+{% block body %}
   <!-- Header-->
   <header class="masthead">
     <div class="container">
       <div class="message-container">
       </div>
-      <div class="intro-text"><span class="name">Mock Data Generator</span><span class="skills">JSON - CSV - XML - SQL</span><br/>
+      <div class="intro-text"><span class="name">Mock Data Generator</span><span class="skills">JSON - CSV - XML - SQL - XLSX</span><br/>
       </div>
     </div>
   </header>
@@ -306,6 +273,7 @@
                 <option value="json">JSON</option>
                 <option value="sql">SQL</option>
                 <option value="xml">XML</option>
+                <option value="xlsx">XLSX</option>
               </select><img src="/images/csv.png" id="data-img" style="width:32px; height:28px"/><a href="#" data-toggle="tooltip" title="* When generating rgb or rgba in the `color` column type, use a delimiter different than a comma." id="tooltip"><i class="fa fa-info-circle"></i></a>
             </div>
           </div>
@@ -345,14 +313,16 @@
   <section id="about" class="success">
     <div class="container">
       <h2 class="text-center">About</h2>
+      <br>
       <div class="col-lg-10 ml-lg-auto">
-        <p>Mock data generator is a free to use test data mocking web application.</p>
-        <p>Generate up to 250,000 rows of random data for free.</p>
-        <p>Among the technologies being used: Python, Flask, AWK, Redis, Google Cloud Platform.</p>
-        <p>If you found a bug, issue, have a question, suggestion, or just want to look at the source code,</p>
-        <p>you can do everything at the Mock data generator<a href="https://github.com/evyatarmeged/mdg"> GitHub.</a></p>
+        <p>Mock data generator is a free to use test data mocking web application.
+          Generate up to 250,000 rows of random data for free.</p>
+        <p>Mock data generator uses: Python, Flask, AWK, Redis, Nginx, jQuery, Google Cloud Platform.</p>
+        <p>If you found a bug, an issue, have a question, suggestion, or just want to look at the source code,</p>
+        <p>you can find everything at the Mock data generator
+          <a href="https://github.com/evyatarmeged/mdg"> GitHub repository.</a></p>
       </div>
-      <p style="right: -1400px; bottom: -100px; position: relative;" class="small">v0.1</p>
+      <p class="small">v0.2</p>
       <div class="col-lg-4 mr-auto"></div>
     </div>
   </section>
@@ -360,6 +330,7 @@
   <section id="donate">
     <div class="container">
       <h2 class="text-center">Donate</h2>
+      <br>
       <div class="col-lg-10 ml-lg-auto">
         <p>Mock data generator is free, but maintaining it costs money.</p>
         <p>If you found this page helpful, please consider making a secure donation by pressing the button below.</p>
@@ -372,12 +343,4 @@
       </div>
     </div>
   </section>
-  </body>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-  <script src="/javascript/freelancer.min.js"></script>
-  <script src="/javascript/main.js"></script>
-  <script src="/javascript/vars.js"></script>
-  <script src="/javascript/specialTypes.js"></script>
-</html>
+  {% endblock %}

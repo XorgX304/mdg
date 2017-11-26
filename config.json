@@ -1,13 +1,14 @@
 {
   "conversion": {
-    "xml": "backend/c2x/c2x-cmd -s:{0} -sep:, -alias:eRoot={1},eRecord={2} -t",
+    "xml": "backend/convert_utils/csv2xml/c2x-cmd -s:{0} -sep:, -alias:eRoot={1},eRecord={2} -t",
+    "xlsx": "backend/convert_utils/csv2xlsx/csv2xlsx -colsep , -infile {0} -outfile {1} -silent",
     "json": "csvtojson {0} > {1} --delimiter=','"
   },
   "sql": {
     "decimal_types": ["random-float", "lat", "long"],
     "int_types": ["random-int", "auto-increment", "zipcode", "timestamp"],
     "date_types": ["date-range", "rand-date"],
-    "decimal": " DECIMAL(20,20)",
+    "decimal": " DECIMAL(20,10)",
     "int": " INT(10)",
     "date": " DATE",
     "varchar": " VARCHAR(100)",
@@ -19,7 +20,7 @@
     "data_type_options": ["dateRangeStart", "dateRangeEnd", "boolPercentage", "intRangeMin", "intRangeMax",
       "floatRangeMin", "floatRangeMax", "decimalLimit", "genderPercentage"],
     "awk_generated": ["auto-increment", "random-float", "random-int", "timestamp", "zipcode", "phone", "cc-number",
-      "cvv", "balance", "cc-exp", "rgb"]
+      "cvv", "balance", "cc-exp"]
   },
   "delimiter_chars": {
     "comma": ",",

@@ -3,9 +3,9 @@ cdir=`dirname $0`
 pdir=$PWD
 echo "#######################################"
 echo "Caution :"
-echo "\"csv2xml\" has been renamed to \"c2x-cmd\""
+echo "\"csv2xml\" has been renamed to \"csv2xml-cmd\""
 echo "#######################################"
-echo "calling c2x-cmd..."
+echo "calling csv2xml-cmd..."
 echo " "
 if [ -n $cdir ]; then
         tdir=$pdir

@@ -1,17 +1,24 @@
 import os
 import json
+import gzip
+import shutil
 from collections import OrderedDict
 from time import time
 import pandas as pd
-from flask import Flask, request
+from flask import Flask, request, render_template
 from backend.data_generation.awk_data_generator import AWKDataGenerator
 from backend.data_generation.data_generator import DataGenerator
 
 
 # Module level constants
+CSV = '.csv'
+JSON = '.json'
+XML = '.xml'
+XLSX = '.xlsx'
+SQL = '.sql'
+GZIP = '.gz'
 AMP = '&'
 EQ = '='
-CSV = '.csv'
 QUOTES = '"'
 EOL = '\n'
 COMMA = ','
@@ -19,11 +26,11 @@ DELIMITER = 'delimiter'
 UTF = 'utf-8'
 MAX_ROWS = 250000
 SEMI_COLON = ';'
-with open('config.json', 'r') as json_config:
-    CONFIG = json.loads(json_config.read())
+with open('config.json', 'r') as config_file:
+    CONFIG = json.loads(config_file.read())
 
 # Instances
-app = Flask(__name__, static_url_path='')  # Set static folder path
+app = Flask(__name__, static_url_path='', template_folder='static')  # Set static folder path
 awk = AWKDataGenerator()
 data_generator = DataGenerator()
 
@@ -31,7 +38,13 @@ data_generator = DataGenerator()
 # Index
 @app.route('/')
 def index():
-    return app.send_static_file('index.html')
+    return render_template('index.html')
+
+
+# Donation
+@app.route('/donate')
+def donate():
+    return render_template('donate.html')
 
 
 # Generate POST handler
@@ -71,6 +84,8 @@ def generate():
     # Check if file needs to be converted from CSV
     if not is_csv(file_type):
         filename = file_conversion(file_type, filename, options_dict, headers, post_data)
+    filename = compress_file(filename)
+
     print(time() - start)
     return filename
 
@@ -132,22 +147,31 @@ def is_csv(file_type):
 
 def file_conversion(file_type, filename, options, headers, post_data):
     """Check file type and call appropriate conversion function"""
-    if file_type == '.json':
+    if file_type == JSON:
         filename = convert_to_json(filename)
-    elif file_type == '.xml':
+    elif file_type == XLSX:
+        filename = convert_to_xlsx(filename)
+    elif file_type == XML:
         filename = convert_to_xml(filename, options)
-    elif file_type == '.sql':
+    elif file_type == SQL:
         filename = convert_to_sql(filename, options, headers, post_data)
     return filename
 
 
 def convert_to_xml(filename, options):
-    """Call c2x library to convert CSV to XML"""
+    """Call csv2xml library to convert CSV to XML"""
     root_node = options.get(CONFIG['options']["file_type_options"][4])
     record_node = options.get(CONFIG['options']["file_type_options"][5])
     xml_file = filename.split('.')[0] + '.xml'
     os.system(CONFIG['conversion']['xml'].format(filename, root_node, record_node))
     return xml_file
+
+
+def convert_to_xlsx(filename):
+    """Call csv2xlsx library to convert CSV to XLSX"""
+    xlsx_file = filename.split('.')[0] + '.xlsx'
+    os.system(CONFIG['conversion']['xlsx'].format(filename, xlsx_file))
+    return xlsx_file
 
 
 def convert_to_json(filename):
@@ -160,7 +184,7 @@ def convert_to_json(filename):
 def convert_to_sql(filename, options, headers, post_data):
     """
     Convert CSV file to SQL.
-    Extract table name and create table args from options, write SQL insert statements formatted with values
+    Extract table name and create table arguments from options, write SQL insert statements formatted with values
     from each file's row using pandas itertuples function.
     """
     # Set wanted sql file extension
@@ -192,14 +216,23 @@ def sql_create_table(headers, post_data):
             table_creation.append(header + CONFIG['sql']['decimal'])
         elif post_data.get(header) in CONFIG['sql']['int_types']:
             table_creation.append(header + CONFIG['sql']['int'])
-        elif post_data.get(header) in CONFIG['sql']['date']:
+        elif post_data.get(header) in CONFIG['sql']['date_types']:
             table_creation.append(header + CONFIG['sql']['date'])
         else:
             table_creation.append(header + CONFIG['sql']['varchar'])
     return (COMMA + EOL).join(table_creation)
 
 
+def compress_file(filename):
+    compressed_file = filename + GZIP
+    with open(filename, 'rb') as in_file:
+        with gzip.open(filename + GZIP, 'wb') as out_file:
+            shutil.copyfileobj(in_file, out_file)
+    return compressed_file
+
+
 # 404 #
 @app.errorhandler(404)
-def not_found():
-    return app.send_static_file('error.html'), 404
+def not_found(err):
+    return app.send_static_file('404.html'), 404
+
