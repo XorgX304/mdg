@@ -26,6 +26,7 @@ $(function () {
 	});
 
 	$('.final').on('click', '#verify', function(event) {
+		$('.final').append(loader);
 		$.ajax({
 			type: 'GET',
 			url: '/sendverification',
@@ -197,9 +198,6 @@ function checkInputDuplication() {
 function downloadPlaceHolder() {
 	$('#generate-data').hide();
 	$('.final').append(loader);
-	setTimeout(function() {
-		$('#loader').text('Uploading...')
-	}, 8000)
 }
 
 // Remove placeholder and display download button
@@ -263,7 +261,9 @@ function generateMockData() {
 				displayErrorMsg(requestLimit)
 			} else if (err.status === 401) {
 					$('.final').empty();
-					$('.final').append(err.responseText);
+					$('.final').append(verify);
+			} else if (err.status === 403) {
+				displayErrorMsg(badCookie)
 			} else {
 				displayErrorMsg(generalErr)
 			}

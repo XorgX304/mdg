@@ -6,9 +6,9 @@
       <div class="message-container">
       </div>
       {% if err %}
-      <div class="alert alert-danger error">err</div>
+      <div class="alert alert-danger error">{{ err }}</div>
       {% elif success %}
-      <div class="alert alert-success successful">success</div>
+      <div class="alert alert-success successful">{{ success }}</div>
       {% endif %}
       <div class="intro-text"><span class="name">Mock Data Generator</span><span class="skills">JSON - CSV - XML - SQL - XLSX</span><br/>
       </div>

@@ -107,13 +107,21 @@ var delimiter = '<div id="delimiter" class="row text-left extra-options"><div cl
 
 var alertMsg = '<div class="alert alert-danger">Duplicate headers are not allowed</div>';
 
+var badCookie = '<div class="alert alert-danger">"There was something wrong with the cookie set in your browser. Please clear your cookies and try again."</div>';
+
 var maxCols = '<div class="alert alert-danger">Maximum number of columns reached</div>';
 
 var generalErr = '<div class="alert alert-danger">Oops ! Something went wrong. Please try again</div>';
 
 var requestLimit = '<div class="alert alert-danger">Please limit your data generation requests to reasonable amount. Try again in 10 minutes.</div>';
 
-var loader = '<div id="loader" class="loader">Generating...</div>';
+var loader = '<div id="loader"><div class="sk-fading-circle"><div class="sk-circle1 sk-circle"></div>' +
+						'<div class="sk-circle2 sk-circle"></div><div class="sk-circle3 sk-circle"></div>' +
+            '<div class="sk-circle4 sk-circle"></div><div class="sk-circle5 sk-circle"></div>' +
+            '<div class="sk-circle6 sk-circle"></div><div class="sk-circle7 sk-circle"></div>' +
+            '<div class="sk-circle8 sk-circle"></div><div class="sk-circle9 sk-circle"></div>' +
+            '<div class="sk-circle10 sk-circle"></div><div class="sk-circle11 sk-circle"></div>' +
+            '<div class="sk-circle12 sk-circle"></div></div></div>';
 
 var bucketUrl = 'https://storage.googleapis.com/mockdatagen_files/';
 
@@ -130,4 +138,6 @@ var recordNode = '<div class="row text-left extra-options">\n' +
                  'style="width: 120px; margin: 3px 3px 3px 3px; height: 70%;;"/>\n</div>\n</div>'
 
 var verificationSent = '<div class="alert alert-success">' +
-			'Verification email send successfully. Please check your email for further instructions.</div>'
+			'Verification email sent successfully. Please check your email for further instructions.</div>'
+
+var verify = "<div id='verification'><p style='font-size: 10;'>First time in Mock data generator ? Enter your email below to confirm you're human</p><input type='text' placeholder='Email' id='verification-email'>'><button type='button' id='verify' class='btn btn-outline-success'>Send verification</button></div>";

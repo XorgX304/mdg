@@ -2,14 +2,14 @@ import os
 import json
 import gzip
 import shutil
-import uuid
 from datetime import timedelta, datetime
 from collections import OrderedDict
-from time import time
 import pandas as pd
 import pymongo
+from bson.objectid import ObjectId
+from bson.errors import InvalidId
 from flask import Flask, request, render_template, make_response
-from flask_mail import Mail, Message
+from flask_mail import Mail
 from backend.data_generation.awk_data_generator import AWKDataGenerator
 from backend.data_generation.data_generator import DataGenerator
 
@@ -38,8 +38,8 @@ with open('config.json', 'r') as config_file:
 # Instances
 app = Flask(__name__, static_url_path='', template_folder='static')  # Set static folder path
 app.config.update(
-    MAIL_SERVER='smtp@gmail.com',
-    MAIL_PORT=485,
+    MAIL_SERVER='smtp.gmail.com',
+    MAIL_PORT=465,
     MAIL_USE_SSL=True,
     MAIL_USERNAME=os.environ.get('MAIL_USERNAME'),
     MAIL_PASSWORD=os.environ.get('MAIL_PASSWORD')
@@ -66,15 +66,19 @@ def send_verification():
 @app.route('/verify')
 def verify():
     """
-    Check if uid from URL equals random hash in Mongo document.
+    Check if uid from URL equals document _id in Mongo collection.
     If true, set cookie and render index.html with success message.
-    Else render index.html with error message
+    Else render index.html with error message.
     """
-    if not db.users.find_one({'hash': request.args.get('uid').count()}):
-        render_template(INDEX, err=CONFIG['bad_uid'])
-        return
-    response = make_response(render_template(INDEX, success=CONFIG['success']))
-    response.set_cookie(MDG, str(uuid.uuid4()), expires=datetime.now() + timedelta(days=365), httponly=True)
+    uid = request.args.get('uid')
+    if not find_by_id(uid):
+        return render_template(INDEX, err=CONFIG['bad_uid'])
+    if is_verified(uid):
+        response = make_response(render_template(INDEX, err=CONFIG['email_verified']))
+    else:
+        response = make_response(render_template(INDEX, success=CONFIG['success']))
+    update_user(uid, verification=True)
+    response.set_cookie(MDG, uid, expires=datetime.now() + timedelta(days=365), httponly=True)
     return response
 
 
@@ -87,8 +91,23 @@ def donate():
 # Generate POST handler
 @app.route('/generate', methods=['POST'])
 def generate():
-    """Parse request parameters, generate & upload file. Respond with download link"""
-    start = time()
+    """
+    Checks if request has cookie, if cookie matches _id in MongoDB users collection,
+    Updates users last_used time & increments generated count by 1.
+    Finally, Executes data generation:
+    Parses request parameters, generates, compresses &  uploads file. Returns download link.
+    """
+    # Check if user was verified
+    uid = request.cookies.get('mdg')
+    if not uid:
+        return CONFIG['not_verified'], 401
+    # Check for cookie authenticity
+    if not find_by_id(uid):
+        return CONFIG['bad_cookie_value'], 403
+    # Updates user's generated_count and last_used:
+    update_user(uid)
+
+    """Data generation logic"""
     # Decode request literal to utf8
     request_literal = request.get_data().decode(UTF)
     # Create on OrderedDict from the request literal
@@ -122,8 +141,6 @@ def generate():
     if not is_csv(file_type):
         filename = file_conversion(file_type, filename, options_dict, headers, post_data)
     filename = compress_file(filename)
-    if not request.cookies.get('mdg'):
-        return CONFIG['verify'], 401
     return filename
 
 
@@ -276,38 +293,61 @@ def send_email(recipient):
         'Verify your email address',
         sender='Mock data generator',
         recipients=[recipient],
-        body='Please click on the link below to verify your email address:\n '
-             '<a href=https://mockdatagenerator.com/verify?uid={0}>Click Here To Verify</a>'.format(uid)
-    )
+        html=CONFIG['verify_html'].format(uid))
     return
 
 
 def add_user_to_collection(email):
     """
-    Insert new email to MongoDB collection and return hash.
-    Alternatively, if user exists return it's current hash.
+    Check if @param email in collection `users`.
+    If true, return its _id, else inserts it to collection and calls add_user_to_collection again
+    :param email: Email address to look for in collection.
     """
-    uid = email_in_collection(email)
+    uid = find_by_email(email)
     if uid:  # Validation that uid is not None
-        return uid
+        return uid.get('_id')  # Return _id
     db.users.insert_one({
             "email": email,
-            "last_use": datetime.now(),
+            "last_used": datetime.now(),
             "generated_count": 1,
             "verified": False
          })
     return add_user_to_collection(email)
 
 
-def email_in_collection(email):
-    uid = db.users.find_one({'email': email}).get('_id')
-    return uid  # Will return _id for document if email in collection or None otherwise
+def find_by_email(email):
+    """Returns document if email in collection else None"""
+    return db.users.find_one({'email': email})
 
 
-def update_user(uid):
-    db.users.update()
-    # TODO: Update last_use date and generated_count +=1
-    pass
+def find_by_id(uid):
+    """Returns document if _id in collection else None"""
+    try:
+        return db.users.find_one({'_id': ObjectId(uid)})
+    except InvalidId:
+        return
+
+
+def is_verified(uid):
+    """Check if user's verified status in set to True"""
+    return find_by_id(uid).get('verified')
+
+
+def update_user(uid, verification=False):
+    """
+    Changes user verification status to `True` if verification boolean is set.
+    Otherwise, will increment generated_count and update last_use to datetime.now().
+    """
+    if verification:
+        db.users.find_one_and_update(
+            {'_id': ObjectId(uid)}, {'$set': {'verified': True}}
+        )
+    else:
+        db.users.find_one_and_update(
+            {'_id': ObjectId(uid)}, {'$set': {'last_used': datetime.now()},
+                                     '$inc': {'generated_count': 1}}
+        )
+    return
 
 
 # 404 #
