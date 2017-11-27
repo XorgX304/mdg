@@ -5,6 +5,11 @@
     <div class="container">
       <div class="message-container">
       </div>
+      {% if err %}
+      <div class="alert alert-danger error">err</div>
+      {% elif success %}
+      <div class="alert alert-success successful">success</div>
+      {% endif %}
       <div class="intro-text"><span class="name">Mock Data Generator</span><span class="skills">JSON - CSV - XML - SQL - XLSX</span><br/>
       </div>
     </div>
@@ -317,7 +322,7 @@
       <div class="col-lg-10 ml-lg-auto">
         <p>Mock data generator is a free to use test data mocking web application.
           Generate up to 250,000 rows of random data for free.</p>
-        <p>Mock data generator uses: Python, Flask, AWK, Redis, Nginx, jQuery, Google Cloud Platform.</p>
+        <p>Mock data generator uses: Python, Flask, AWK, MongoDB, Nginx, jQuery, Google Cloud Platform.</p>
         <p>If you found a bug, an issue, have a question, suggestion, or just want to look at the source code,</p>
         <p>you can find everything at the Mock data generator
           <a href="https://github.com/evyatarmeged/mdg"> GitHub repository.</a></p>

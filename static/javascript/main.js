@@ -25,6 +25,21 @@ $(function () {
 		event.preventDefault();
 	});
 
+	$('.final').on('click', '#verify', function(event) {
+		$.ajax({
+			type: 'GET',
+			url: '/sendverification',
+			data: {email: $('#verification-email').val()},
+			success: function(msg) {
+				$('.final').empty();
+				$('.final').append(verificationSent)
+			},
+			error: function(err) {
+				console.error(err)
+				}
+			})
+		});
+
 	// Prevent form submission and call checkInputDuplication function
 	form.on('submit', function (event) {
 		event.preventDefault();
@@ -246,6 +261,9 @@ function generateMockData() {
 		error: function (err) {
 			if (err.status === 429) {
 				displayErrorMsg(requestLimit)
+			} else if (err.status === 401) {
+					$('.final').empty();
+					$('.final').append(err.responseText);
 			} else {
 				displayErrorMsg(generalErr)
 			}

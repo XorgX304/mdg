@@ -2,10 +2,14 @@ import os
 import json
 import gzip
 import shutil
+import uuid
+from datetime import timedelta, datetime
 from collections import OrderedDict
 from time import time
 import pandas as pd
-from flask import Flask, request, render_template
+import pymongo
+from flask import Flask, request, render_template, make_response
+from flask_mail import Mail, Message
 from backend.data_generation.awk_data_generator import AWKDataGenerator
 from backend.data_generation.data_generator import DataGenerator
 
@@ -17,20 +21,31 @@ XML = '.xml'
 XLSX = '.xlsx'
 SQL = '.sql'
 GZIP = '.gz'
+MDG = 'mdg'
 AMP = '&'
 EQ = '='
 QUOTES = '"'
+SEMI_COLON = ';'
 EOL = '\n'
 COMMA = ','
 DELIMITER = 'delimiter'
 UTF = 'utf-8'
 MAX_ROWS = 250000
-SEMI_COLON = ';'
+INDEX = 'index.html'
 with open('config.json', 'r') as config_file:
     CONFIG = json.loads(config_file.read())
 
 # Instances
 app = Flask(__name__, static_url_path='', template_folder='static')  # Set static folder path
+app.config.update(
+    MAIL_SERVER='smtp@gmail.com',
+    MAIL_PORT=485,
+    MAIL_USE_SSL=True,
+    MAIL_USERNAME=os.environ.get('MAIL_USERNAME'),
+    MAIL_PASSWORD=os.environ.get('MAIL_PASSWORD')
+)
+mail = Mail(app)
+db = pymongo.MongoClient('mongodb://localhost:27017').mdg
 awk = AWKDataGenerator()
 data_generator = DataGenerator()
 
@@ -38,7 +53,29 @@ data_generator = DataGenerator()
 # Index
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template(INDEX)
+
+
+# Verification
+@app.route('/sendverification')
+def send_verification():
+    send_email(request.args.get('email'))
+    return "Verification sent."
+
+
+@app.route('/verify')
+def verify():
+    """
+    Check if uid from URL equals random hash in Mongo document.
+    If true, set cookie and render index.html with success message.
+    Else render index.html with error message
+    """
+    if not db.users.find_one({'hash': request.args.get('uid').count()}):
+        render_template(INDEX, err=CONFIG['bad_uid'])
+        return
+    response = make_response(render_template(INDEX, success=CONFIG['success']))
+    response.set_cookie(MDG, str(uuid.uuid4()), expires=datetime.now() + timedelta(days=365), httponly=True)
+    return response
 
 
 # Donation
@@ -85,8 +122,8 @@ def generate():
     if not is_csv(file_type):
         filename = file_conversion(file_type, filename, options_dict, headers, post_data)
     filename = compress_file(filename)
-
-    print(time() - start)
+    if not request.cookies.get('mdg'):
+        return CONFIG['verify'], 401
     return filename
 
 
@@ -224,11 +261,53 @@ def sql_create_table(headers, post_data):
 
 
 def compress_file(filename):
+    """Compress file function. Returns GZIP of file argument"""
     compressed_file = filename + GZIP
     with open(filename, 'rb') as in_file:
         with gzip.open(filename + GZIP, 'wb') as out_file:
             shutil.copyfileobj(in_file, out_file)
     return compressed_file
+
+
+def send_email(recipient):
+    """Send recipient a verification email """
+    uid = add_user_to_collection(recipient)
+    mail.send_message(
+        'Verify your email address',
+        sender='Mock data generator',
+        recipients=[recipient],
+        body='Please click on the link below to verify your email address:\n '
+             '<a href=https://mockdatagenerator.com/verify?uid={0}>Click Here To Verify</a>'.format(uid)
+    )
+    return
+
+
+def add_user_to_collection(email):
+    """
+    Insert new email to MongoDB collection and return hash.
+    Alternatively, if user exists return it's current hash.
+    """
+    uid = email_in_collection(email)
+    if uid:  # Validation that uid is not None
+        return uid
+    db.users.insert_one({
+            "email": email,
+            "last_use": datetime.now(),
+            "generated_count": 1,
+            "verified": False
+         })
+    return add_user_to_collection(email)
+
+
+def email_in_collection(email):
+    uid = db.users.find_one({'email': email}).get('_id')
+    return uid  # Will return _id for document if email in collection or None otherwise
+
+
+def update_user(uid):
+    db.users.update()
+    # TODO: Update last_use date and generated_count +=1
+    pass
 
 
 # 404 #

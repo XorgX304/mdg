@@ -28,5 +28,9 @@
     "semi": ";",
     "tab": "\t",
     "pipe": "|"
-  }
+
+  },
+  "bad_uid": "There was an error with verification. Are you sure you pressed the correct link ?",
+  "success": "Verification Successful. You can now generate and download files freely.",
+  "verify": "<div id='verification'><p style='font-size: 10;'>First time in Mock data generator ? Enter your email below to confirm you're human</p><input type='text' placeholder='Email' id='verification-email'>'><button type='button' id='verify' class='btn btn-outline-success'>Send verification</button></div>"
 }

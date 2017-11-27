@@ -111,7 +111,7 @@ var maxCols = '<div class="alert alert-danger">Maximum number of columns reached
 
 var generalErr = '<div class="alert alert-danger">Oops ! Something went wrong. Please try again</div>';
 
-var requestLimit = '<div class="alert alert-danger">Please limit your data generation requests to reasonable amount. Try again in 30 minutes.</div>';
+var requestLimit = '<div class="alert alert-danger">Please limit your data generation requests to reasonable amount. Try again in 10 minutes.</div>';
 
 var loader = '<div id="loader" class="loader">Generating...</div>';
 
@@ -128,3 +128,6 @@ var recordNode = '<div class="row text-left extra-options">\n' +
 								 '<div class="col-sm-4"><label for="record-node" id="record-node-label">Record Node</label>\n' +
                  '<input id="record-node" name="record-node" required="required" value="record"\n' +
                  'style="width: 120px; margin: 3px 3px 3px 3px; height: 70%;;"/>\n</div>\n</div>'
+
+var verificationSent = '<div class="alert alert-success">' +
+			'Verification email send successfully. Please check your email for further instructions.</div>'
