@@ -4,7 +4,7 @@
 $(function () {
 
 	// Variables after page load
-	var rowContainer = $('.row-container'),
+	let rowContainer = $('.row-container'),
 		form = $('#main-form'),
 		tooltip = $('#tooltip');
 
@@ -26,12 +26,13 @@ $(function () {
 	});
 
 	$('.final').on('click', '#verify', function(event) {
+		let email = $('#verification-email').val();
 		$('.final').empty();
 		$('.final').append(loader);
 		$.ajax({
 			type: 'GET',
 			url: '/sendverification',
-			data: {email: $('#verification-email').val()},
+			data: {email: email},
 			success: function(msg) {
 				$('.final').empty();
 				$('.final').append(verificationSent)
@@ -59,7 +60,7 @@ $(function () {
 	// Remove download button after click and restore `Generate Data` button
 	form.on('click', '#download > a', function (e) {
 		e.preventDefault();
-		var file = $('#download > a').attr('title');
+		let file = $('#download > a').attr('title');
 		$(this).parent().remove();
 		$('#generate-data').show();
 		window.open(bucketUrl + file);
@@ -67,7 +68,7 @@ $(function () {
 
 	// Add/Remove additional options per DATA type, change data type image and tooltip message.
 	$('#data-type').on('change', function () {
-		var dataImg = $('#data-img'),
+		let dataImg = $('#data-img'),
 				wrapContainer = $('.wrap-container');
 		switch ($(this).val()) {
 		case 'sql':
@@ -177,7 +178,7 @@ function addNewField() {
 
 // Test for duplication in column names. If none, call generateMockData
 function checkInputDuplication() {
-	var inputs = $('.row-input'),
+	let inputs = $('.row-input'),
 		uniques = [];
 	$.each(inputs, function (i, item) {
 		if (uniques.indexOf($(item).val()) !== -1) {
@@ -208,7 +209,7 @@ function displayDownload(file) {
 	$('#download').find('a').attr('title', file)
 }
 
-function displayErrorMsg(message) {
+function displayTempErrorMsg(message) {
 	$('#loader').remove();
 	$('#guest-limit').remove();
 	$('.final').append(message);
@@ -221,10 +222,10 @@ function displayErrorMsg(message) {
 
 // AJAX request to server to generate file with data from form
 function generateMockData() {
-	var postData = {};
+	let postData = {};
 	// Extract column name & type from each table row
 	$('.row-body').find('.row').each(function (index, row) {
-		var td = $(this), // Current table cell to extract values from
+		let td = $(this), // Current table cell to extract values from
 				column = $(row).find('input').val(), // Column name
 				type = $(row).find('select').val(); // Generated type
 		if (column.includes(' ')) {
@@ -259,17 +260,16 @@ function generateMockData() {
 		},
 		error: function (err) {
 			if (err.status === 429) {
-				displayErrorMsg(requestLimit)
+				displayTempErrorMsg(requestLimit)
 			} else if (err.status === 401) {
 					$('.final').empty();
 					$('.final').append(verify);
 			} else if (err.status === 403) {
-				displayErrorMsg(badCookie)
+				displayTempErrorMsg(badCookie)
 			} else {
-				displayErrorMsg(generalErr)
+				displayTempErrorMsg(generalErr)
 			}
 		}
 	});
 	return false
 }
-

@@ -1,28 +1,28 @@
-var downloadBtn = '<p style="display: inline-block; font-size: 14px; text-align: left;"' +
+let downloadBtn = '<p style="display: inline-block; font-size: 14px; text-align: left;"' +
 	' id="download"><a href="#"><button class="btn btn-secondary btn-success">' +
 	'<i class="fa fa-download"></i></button></a></p>';
 
-var floatRange = '<p style="font-size: 14px; text-align: left;">Min<input min="0" max="10000000" value="1" type="number"' +
+let floatRange = '<p style="font-size: 14px; text-align: left;">Min<input min="0" max="10000000" value="1" type="number"' +
 	' class="float-range-min"' + ' required="required">Max' + '<input type="number" min="0" max="10000000"' +
 	' value="10" class="float-range-max" required="required"></p>';
 
-var intRange = '<p style="font-size: 14px; text-align: left;">Min' +
+let intRange = '<p style="font-size: 14px; text-align: left;">Min' +
 	'<input min="0" max="10000000000" value="1" type="number" class="id-range-min" required="required">Max' +
 	'<input min="0" max="10000000000" value="1000" type="number" class="id-range-max" required="required"></p>';
 
-var boolInput = '<p style="font-size: 14px; text-align: left;">% Of false value' +
+let boolInput = '<p style="font-size: 14px; text-align: left;">% Of false value' +
 	'<input min="0" max="100" value="50" type="number" required="required"' +
 	' class="bool-percentage"></p>';
 
-var genderInput = '<p style="font-size: 14px; text-align: left;">% Of Male' +
+let genderInput = '<p style="font-size: 14px; text-align: left;">% Of Male' +
 	' <input min="0" max="100" value="50" type="number" required="required"' +
 	' class="gender-percentage"></p>';
 
-var dateInput = '<p style="font-size: 14px; text-align: left;"><strong>From</strong>' +
+let dateInput = '<p style="font-size: 14px; text-align: left;"><strong>From</strong>' +
 	'<input class="date-range-start" required="required" type="date"><strong>To</strong>' +
 	'<input class="date-range-end" required="required" type="date"></p>';
 
-var rowContent = '<div class="row text-center">\n' +
+let rowContent = '<div class="row text-center">\n' +
 		' <div class="col-md-3">\n' +
 		' <input required="required" type="text" placeholder="Enter Column Name" class="form-control row-input"/>\n' +
 		' </div>\n' +
@@ -82,22 +82,22 @@ var rowContent = '<div class="row text-center">\n' +
 	' <div class="col-md-1"><a href="#" class="btn btn-sm"><i class="fa fa-times fa-lg"></i></a></div>\n' +
 	'</div>';
 
-var tableNameInput = '<div id="table-name-row" class="row text-left extra-options">\n' +
+let tableNameInput = '<div id="table-name-row" class="row text-left extra-options">\n' +
 	'  <div class="col-sm-4">\n' +
 	'    <label for="table-name" id="table-name-label">Table Name</label>\n' +
 	'<input id="table-name" type="text" name="table-name" required="required" style="width: 120px; margin: 3px 3px 3px 3px; height: 70%;"/>\n' +
 	'  </div></div>';
 
-var createTable = '<div id="create-table-row" class="row text-left extra-options">\n' +
+let createTable = '<div id="create-table-row" class="row text-left extra-options">\n' +
 	'  <div class="col-sm-4">\n' +
 	'    <input id="create-table" type="checkbox" name="create-table" style="margin-right: 3px; height: 70%;"/>\n' +
 	'    <label for="create-table" id="create-table-label">Create Table Statement</label>\n' +
 	'  </div>\n' +
 	'</div>';
 
-var delimiter = '<div id="delimiter" class="row text-left extra-options"><div class="col-sm-4">\n' +
+let delimiter = '<div id="delimiter" class="row text-left extra-options rdf-line"><div class="col-sm-4">\n' +
 		'<label for="delimiter">Delimiter</label>' +
-		'  <select required="required" class="form-control-sm delimiter">\n' +
+		'  <select required="required" class="rdf-input">\n' +
 		'    <option value="comma">Comma</option>\n' +
 		'    <option value="tab">Tab</option>\n' +
 		'    <option value="pipe">Pipe</option>\n' +
@@ -105,17 +105,17 @@ var delimiter = '<div id="delimiter" class="row text-left extra-options"><div cl
 		'    <option value="caret">Caret</option>\n' +
 		'  </select></div></div>';
 
-var alertMsg = '<div class="alert alert-danger">Duplicate headers are not allowed</div>';
+let alertMsg = '<div class="alert alert-danger">Duplicate headers are not allowed</div>';
 
-var badCookie = '<div class="alert alert-danger">"There was something wrong with the cookie set in your browser. Please clear your cookies and try again."</div>';
+let badCookie = '<div class="alert alert-danger">"There was something wrong with the cookie set in your browser. Please clear your cookies and try again."</div>';
 
-var maxCols = '<div class="alert alert-danger">Maximum number of columns reached</div>';
+let maxCols = '<div class="alert alert-danger">Maximum number of columns reached</div>';
 
-var generalErr = '<div class="alert alert-danger">Oops ! Something went wrong. Please try again</div>';
+let generalErr = '<div class="alert alert-danger">Oops ! Something went wrong. Please try again</div>';
 
-var requestLimit = '<div class="alert alert-danger">Please limit your data generation requests to reasonable amount. Try again in 10 minutes.</div>';
+let requestLimit = '<div class="alert alert-danger">Please limit your data generation requests to reasonable amount. Try again in 10 minutes.</div>';
 
-var loader = '<div id="loader"><div class="sk-fading-circle"><div class="sk-circle1 sk-circle"></div>' +
+let loader = '<div id="loader"><div class="sk-fading-circle"><div class="sk-circle1 sk-circle"></div>' +
 						'<div class="sk-circle2 sk-circle"></div><div class="sk-circle3 sk-circle"></div>' +
             '<div class="sk-circle4 sk-circle"></div><div class="sk-circle5 sk-circle"></div>' +
             '<div class="sk-circle6 sk-circle"></div><div class="sk-circle7 sk-circle"></div>' +
@@ -123,21 +123,21 @@ var loader = '<div id="loader"><div class="sk-fading-circle"><div class="sk-circ
             '<div class="sk-circle10 sk-circle"></div><div class="sk-circle11 sk-circle"></div>' +
             '<div class="sk-circle12 sk-circle"></div></div></div>';
 
-var bucketUrl = 'https://storage.googleapis.com/mockdatagen_files/';
+let bucketUrl = 'https://storage.googleapis.com/mockdatagen_files/';
 
-var sqlExtension = '<div id="sql-extension" class="row text-left extra-options">\n  <div class="col-sm-4">\n<label style="margin-right: 8px;">File Extension</label>    <input id="sql-text" type="radio" name="sql-extension" value=".txt" style="margin-right: 3px;" required/>\n    <label for="sql-text" >.txt</label>\n<input id="sql-sql" type="radio" name="sql-extension" value=".sql" style="margin-right: 3px;"/>\n<label for="sql-sql" >.sql</label>\n  </div>\n</div>'
+let sqlExtension = '<div id="sql-extension" class="row text-left extra-options">\n  <div class="col-sm-4">\n<label style="margin-right: 8px;">File Extension</label>    <input id="sql-text" type="radio" name="sql-extension" value=".txt" style="margin-right: 3px;" required/>\n    <label for="sql-text" >.txt</label>\n<input id="sql-sql" type="radio" name="sql-extension" value=".sql" style="margin-right: 3px;"/>\n<label for="sql-sql" >.sql</label>\n  </div>\n</div>'
 
-var rootNode = '<div class="row text-left extra-options">\n' +
+let rootNode = '<div class="row text-left extra-options">\n' +
                '<div class="col-sm-4"><label for="root-node" id="root-node-label">Root Node </label>\n' +
                '<input id="root-node" name="root-node" required="required" value="root"\n' +
                'style="width: 120px; margin: 3px 3px 3px 3px; height: 70%;;"/>\n</div></div>\n';
 
-var recordNode = '<div class="row text-left extra-options">\n' +
+let recordNode = '<div class="row text-left extra-options">\n' +
 								 '<div class="col-sm-4"><label for="record-node" id="record-node-label">Record Node</label>\n' +
                  '<input id="record-node" name="record-node" required="required" value="record"\n' +
                  'style="width: 120px; margin: 3px 3px 3px 3px; height: 70%;;"/>\n</div>\n</div>'
 
-var verificationSent = '<div class="alert alert-success">' +
+let verificationSent = '<div class="alert alert-success">' +
 			'Verification email sent successfully. Please check your email for further instructions.</div>'
 
-var verify = "<div id='verification'><p style='font-size: 10;'>First time in Mock data generator ? Enter your email below to confirm you're human</p><input type='text' placeholder='Email' id='verification-email'>'><button type='button' id='verify' class='btn btn-outline-success'>Send verification</button></div>";
+let verify = "<div id='verification'><p style='font-size: 10;'>First time in Mock data generator ? Enter your email below to confirm you're human</p><input type='email' placeholder='Email' id='verification-email'><button type='button' id='verify' class='btn btn-outline-success'>Send verification</button></div>";

@@ -15,7 +15,7 @@ class AWKDataGenerator:
     FLOAT_MAX = 'floatRangeMax'
 
     def __init__(self):
-        with open('backend/data_generation/awk.json', 'r') as awk_file:
+        with open('data_generation/awk.json', 'r') as awk_file:
             self.awk_config = json.loads(awk_file.read())
             # Data types and their corresponding commands in AWK
             self.commands = self.awk_config['commands']

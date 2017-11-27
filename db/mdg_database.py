@@ -31,9 +31,9 @@ class MockDataGeneratorDB:
             return uid.get(self.ID)  # Return _id
         self.collection.insert_one({
             self.EMAIL: email,
-            self.LAST_USED: datetime.now(),
             self.GENERATED_COUNT: 1,
-            self.VERIFIED: False
+            self.VERIFIED: False,
+            self.LAST_USED: datetime.now(),
         })
         return self.add_user_to_collection(email)
 

@@ -1,7 +1,7 @@
 {
   "conversion": {
-    "xml": "backend/convert_utils/csv2xml/c2x-cmd -s:{0} -sep:, -alias:eRoot={1},eRecord={2} -t",
-    "xlsx": "backend/convert_utils/csv2xlsx/csv2xlsx -colsep , -infile {0} -outfile {1} -silent",
+    "xml": "convert_utils/csv2xml/c2x-cmd -s:{0} -sep:, -alias:eRoot={1},eRecord={2} -t",
+    "xlsx": "convert_utils/csv2xlsx/csv2xlsx -colsep , -infile {0} -outfile {1} -silent",
     "json": "csvtojson {0} > {1} --delimiter=','"
   },
   "sql": {

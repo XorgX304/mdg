@@ -1,15 +1,15 @@
-import os
-import json
 import gzip
+import json
+import os
 import shutil
-from datetime import timedelta, datetime
 from collections import OrderedDict
+from datetime import timedelta, datetime
 import pandas as pd
 from flask import Flask, request, render_template, make_response
 from flask_mail import Mail
-from backend.data_generation.awk_data_generator import AWKDataGenerator
-from backend.data_generation.data_generator import DataGenerator
-from backend.db.mdg_database import MockDataGeneratorDB
+from db.mdg_database import MockDataGeneratorDB
+from data_generation.data_generator import DataGenerator
+from data_generation.awk_data_generator import AWKDataGenerator
 
 
 # Module level constants
@@ -33,8 +33,9 @@ INDEX = 'index.html'
 with open('config.json', 'r') as config_file:
     CONFIG = json.loads(config_file.read())
 
+
 # Instances
-app = Flask(__name__, static_url_path='', template_folder='static')  # Set static folder path
+app = Flask(__name__, static_url_path='', template_folder='static')  # static/template folder path
 app.config.update(
     MAIL_SERVER='smtp.gmail.com',
     MAIL_PORT=465,
@@ -54,13 +55,14 @@ def index():
     return render_template(INDEX)
 
 
-# Verification
+# Verification email sending
 @app.route('/sendverification')
 def send_verification():
     send_email(request.args.get('email'))
     return "Verification sent."
 
 
+# Validating verification URL &
 @app.route('/verify')
 def verify():
     """
@@ -300,3 +302,6 @@ def send_email(recipient):
 def not_found(err):
     return app.send_static_file('404.html'), 404
 
+
+if __name__ == '__main__':
+    app.run()
