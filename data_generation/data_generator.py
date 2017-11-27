@@ -1,6 +1,6 @@
 import datetime
 import uuid
-from random import randrange, randint, choice, random, uniform
+from random import randint, choice, random, uniform
 from ipaddress import IPv4Address, IPv6Address
 
 

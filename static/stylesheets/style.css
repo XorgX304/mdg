@@ -781,7 +781,7 @@ ul.dropdown-lr {
     height: 200px;
     z-index: 15;
     top: 50%;
-    left: 50%;
+    left: 25%;
     margin: -375px -100px -150px -400px
 }
 

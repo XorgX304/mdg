@@ -5,6 +5,7 @@ import shutil
 from collections import OrderedDict
 from datetime import timedelta, datetime
 import pandas as pd
+from gevent.wsgi import WSGIServer
 from flask import Flask, request, render_template, make_response
 from flask_mail import Mail
 from db.mdg_database import MockDataGeneratorDB
@@ -29,6 +30,7 @@ COMMA = ','
 DELIMITER = 'delimiter'
 UTF = 'utf-8'
 MAX_ROWS = 250000
+ENV = os.environ
 INDEX = 'index.html'
 with open('config.json', 'r') as config_file:
     CONFIG = json.loads(config_file.read())
@@ -40,11 +42,11 @@ app.config.update(
     MAIL_SERVER='smtp.gmail.com',
     MAIL_PORT=465,
     MAIL_USE_SSL=True,
-    MAIL_USERNAME=os.environ.get('MAIL_USERNAME'),
-    MAIL_PASSWORD=os.environ.get('MAIL_PASSWORD')
+    MAIL_USERNAME=ENV.get('MAIL_USERNAME'),
+    MAIL_PASSWORD=ENV.get('MAIL_PASSWORD')
 )
 mail = Mail(app)
-db = MockDataGeneratorDB('localhost', '27017', 'mdg', 'users')
+db = MockDataGeneratorDB('localhost', 27017, 'mdg', 'users')
 awk = AWKDataGenerator()
 data_generator = DataGenerator()
 
@@ -304,4 +306,4 @@ def not_found(err):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
