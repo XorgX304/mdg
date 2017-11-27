@@ -26,6 +26,7 @@ $(function () {
 	});
 
 	$('.final').on('click', '#verify', function(event) {
+		$('.final').empty();
 		$('.final').append(loader);
 		$.ajax({
 			type: 'GET',

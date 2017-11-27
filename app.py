@@ -5,13 +5,11 @@ import shutil
 from datetime import timedelta, datetime
 from collections import OrderedDict
 import pandas as pd
-import pymongo
-from bson.objectid import ObjectId
-from bson.errors import InvalidId
 from flask import Flask, request, render_template, make_response
 from flask_mail import Mail
 from backend.data_generation.awk_data_generator import AWKDataGenerator
 from backend.data_generation.data_generator import DataGenerator
+from backend.db.mdg_database import MockDataGeneratorDB
 
 
 # Module level constants
@@ -45,7 +43,7 @@ app.config.update(
     MAIL_PASSWORD=os.environ.get('MAIL_PASSWORD')
 )
 mail = Mail(app)
-db = pymongo.MongoClient('mongodb://localhost:27017').mdg
+db = MockDataGeneratorDB('localhost', '27017', 'mdg', 'users')
 awk = AWKDataGenerator()
 data_generator = DataGenerator()
 
@@ -71,13 +69,13 @@ def verify():
     Else render index.html with error message.
     """
     uid = request.args.get('uid')
-    if not find_by_id(uid):
+    if not db.find_by_id(uid):
         return render_template(INDEX, err=CONFIG['bad_uid'])
-    if is_verified(uid):
+    if db.is_verified(uid):
         response = make_response(render_template(INDEX, err=CONFIG['email_verified']))
     else:
         response = make_response(render_template(INDEX, success=CONFIG['success']))
-    update_user(uid, verification=True)
+    db.update_user(uid, verification=True)
     response.set_cookie(MDG, uid, expires=datetime.now() + timedelta(days=365), httponly=True)
     return response
 
@@ -102,10 +100,10 @@ def generate():
     if not uid:
         return CONFIG['not_verified'], 401
     # Check for cookie authenticity
-    if not find_by_id(uid):
+    if not db.find_by_id(uid):
         return CONFIG['bad_cookie_value'], 403
     # Updates user's generated_count and last_used:
-    update_user(uid)
+    db.update_user(uid)
 
     """Data generation logic"""
     # Decode request literal to utf8
@@ -137,7 +135,7 @@ def generate():
         file.write(COMMA.join(headers) + EOL)
     # Write file
     write_awk_generated(headers, awk_generated, post_data, num_rows, filename, options_dict)
-    # Check if file needs to be converted from CSV
+    # Check if file needs to be converted to another format
     if not is_csv(file_type):
         filename = file_conversion(file_type, filename, options_dict, headers, post_data)
     filename = compress_file(filename)
@@ -288,65 +286,12 @@ def compress_file(filename):
 
 def send_email(recipient):
     """Send recipient a verification email """
-    uid = add_user_to_collection(recipient)
+    uid = db.add_user_to_collection(recipient)
     mail.send_message(
         'Verify your email address',
         sender='Mock data generator',
         recipients=[recipient],
         html=CONFIG['verify_html'].format(uid))
-    return
-
-
-def add_user_to_collection(email):
-    """
-    Check if @param email in collection `users`.
-    If true, return its _id, else inserts it to collection and calls add_user_to_collection again
-    :param email: Email address to look for in collection.
-    """
-    uid = find_by_email(email)
-    if uid:  # Validation that uid is not None
-        return uid.get('_id')  # Return _id
-    db.users.insert_one({
-            "email": email,
-            "last_used": datetime.now(),
-            "generated_count": 1,
-            "verified": False
-         })
-    return add_user_to_collection(email)
-
-
-def find_by_email(email):
-    """Returns document if email in collection else None"""
-    return db.users.find_one({'email': email})
-
-
-def find_by_id(uid):
-    """Returns document if _id in collection else None"""
-    try:
-        return db.users.find_one({'_id': ObjectId(uid)})
-    except InvalidId:
-        return
-
-
-def is_verified(uid):
-    """Check if user's verified status in set to True"""
-    return find_by_id(uid).get('verified')
-
-
-def update_user(uid, verification=False):
-    """
-    Changes user verification status to `True` if verification boolean is set.
-    Otherwise, will increment generated_count and update last_use to datetime.now().
-    """
-    if verification:
-        db.users.find_one_and_update(
-            {'_id': ObjectId(uid)}, {'$set': {'verified': True}}
-        )
-    else:
-        db.users.find_one_and_update(
-            {'_id': ObjectId(uid)}, {'$set': {'last_used': datetime.now()},
-                                     '$inc': {'generated_count': 1}}
-        )
     return
 
 
