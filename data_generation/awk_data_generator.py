@@ -23,7 +23,7 @@ class AWKDataGenerator:
             self.constants = self.awk_config['constants']
 
     def __str__(self):
-        return "AWK generated data generator"
+        return "Data generator for AWK generated types"
 
     def _get_awk_cmd(self, data_type, header, options):
         """
@@ -50,7 +50,7 @@ class AWKDataGenerator:
     def _awk_command_body(self, post_data, headers, options):
         """
         Creates the awk command body for all awk generated columns(headers).
-        :param post_data: POST request files
+        :param post_data: POST request data_files
         :param headers: CSV column headers
         :param options: Data type options
         """

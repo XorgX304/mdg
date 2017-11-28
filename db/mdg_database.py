@@ -49,7 +49,11 @@ class MockDataGeneratorDB:
 
     def is_verified(self, uid):
         """Check if user's verified status in set to True"""
-        return self.find_by_id(uid).get(self.VERIFIED)
+        try:
+            verified = self.find_by_id(uid).get(self.VERIFIED)
+            return verified
+        except AttributeError:
+            return False
 
     def update_user(self, uid, verification=False):
         """

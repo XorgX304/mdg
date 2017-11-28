@@ -25,21 +25,21 @@ class DataGenerator:
     DATE_RANGE_END = 'dateRangeEnd'
 
     def __init__(self):
-        # Load files to RAM
-        self.countries = open('files/countries.txt').read().split(self.EOL)
-        self.first_names = open('files/names.txt').read().split(self.EOL)
-        self.last_names = open('files/last_names.txt').read().split(self.EOL)
-        self.colors = open('files/colors.txt').read().split(self.EOL)
-        self.companies = open('files/companies.txt').read().split(self.EOL)
-        self.credit_cards = open('files/credit_cards.txt').read().split(self.EOL)
-        self.days = open('files/days.txt').read().split(self.EOL)
-        self.domains = open('files/domains.txt').read().split(self.EOL)
-        self.emails = open('files/emails.txt').read().split(self.EOL)
-        self.months = open('files/months.txt').read().split(self.EOL)
-        self.streets = open('files/streets.txt').read().split(self.EOL)
-        self.addresses = open('files/addresses.txt').read().split(self.EOL)
-        self.urls = open('files/urls.txt').read().split(self.EOL)
-        self.usernames = open('files/usernames.txt').read().split(self.EOL)
+        # Load data files to RAM
+        self.countries = open('data_files/countries.txt').read().split(self.EOL)
+        self.first_names = open('data_files/names.txt').read().split(self.EOL)
+        self.last_names = open('data_files/last_names.txt').read().split(self.EOL)
+        self.colors = open('data_files/colors.txt').read().split(self.EOL)
+        self.companies = open('data_files/companies.txt').read().split(self.EOL)
+        self.credit_cards = open('data_files/credit_cards.txt').read().split(self.EOL)
+        self.days = open('data_files/days.txt').read().split(self.EOL)
+        self.domains = open('data_files/domains.txt').read().split(self.EOL)
+        self.emails = open('data_files/emails.txt').read().split(self.EOL)
+        self.months = open('data_files/months.txt').read().split(self.EOL)
+        self.streets = open('data_files/streets.txt').read().split(self.EOL)
+        self.addresses = open('data_files/addresses.txt').read().split(self.EOL)
+        self.urls = open('data_files/urls.txt').read().split(self.EOL)
+        self.usernames = open('data_files/usernames.txt').read().split(self.EOL)
         # Data types and their corresponding commands in the class
         self.commands = {
             "rand-date": self.random_date,
@@ -73,7 +73,7 @@ class DataGenerator:
         }
 
     def __str__(self):
-        return "Python generated data generator"
+        return "Data generator for Python generated types"
 
     # Dates
     def random_date(self, *args):
@@ -122,7 +122,7 @@ class DataGenerator:
         return random() > false_percentage / 100
 
     def gender(self, column, options):
-        """Return variable Female/Male based on female percentage param"""
+        """Return variable Female/Male based on male percentage param"""
         male_percentage = int(options.get(column + self.GENDER_PERCENTAGE))
         if random() > male_percentage / 100:
             return self.FEMALE

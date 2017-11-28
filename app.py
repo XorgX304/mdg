@@ -14,19 +14,20 @@ from data_generation.awk_data_generator import AWKDataGenerator
 
 
 # Module level constants
-CSV = 'csv'
-MDG = 'mdg'
+EOL = '\n'
 AMP = '&'
+SEMI_COLON = ';'
 EQ = '='
 QUOTES = '"'
-SEMI_COLON = ';'
-EOL = '\n'
 COMMA = ','
-DELIMITER = 'delimiter'
 UTF = 'utf-8'
-MAX_ROWS = 250000
-ENV = os.environ
+CSV = 'csv'
+MDG = 'mdg'
+DELIMITER = 'delimiter'
 INDEX = 'index.html'
+MAX_ROWS = 250000
+MAX_COLS = 10
+ENV = os.environ
 
 with open('config.json', 'r') as config_file:
     CONFIG = json.loads(config_file.read())
@@ -42,7 +43,7 @@ app.config.update(
     MAIL_PASSWORD=ENV.get('MAIL_PASSWORD')
 )
 mail = Mail(app)
-db = MockDataGeneratorDB(ENV.get('DB_HOST'), 27017, ENV.get('DB_NAME'), ENV.get('DB_COL'))
+db = MockDataGeneratorDB(ENV.get('DB_HOST'), ENV.get('DB_PORT'), ENV.get('DB_NAME'), ENV.get('DB_COL'))
 awk = AWKDataGenerator()
 data_generator = DataGenerator()
 client = storage.Client()
@@ -107,7 +108,6 @@ def generate():
     # Updates user's generated_count and last_used:
     db.update_user(uid)
 
-    """Data generation logic"""
     # Decode request literal to utf8
     request_literal = request.get_data().decode(UTF)
     # Create on OrderedDict from the request literal
@@ -127,12 +127,12 @@ def generate():
     # Now headers contain all column names and options_dict contains all special file/data key:value pairs
 
     # Extract file name, type and number of rows
-    filename = post_data.get(headers.pop()) + CSV
+    filename = post_data.get(headers.pop()) + CONFIG['extensions']['csv']
     num_rows = post_data.get(headers.pop())
     file_type = post_data.get(headers.pop())
-    if int(num_rows) > MAX_ROWS or len(headers) > 10:
+    if int(num_rows) > MAX_ROWS or len(headers) > MAX_COLS:
         return "Illegel request", 400
-    # Create an empty file with headers
+    # Create a file with headers
     with open(filename, 'w') as file:
         file.write(COMMA.join(headers) + EOL)
     # Write file
@@ -148,11 +148,11 @@ def generate():
 
 def parse_post_data(request_data):
     """
-    Creates an ordered dict containing the POST request files.
-    Uses literal request files (not parsed) due to parsed files's order being mixed which affects
-    the user's wanted order
+    Creates an ordered dict containing the POST request data.
+    Uses literal request data (not parsed) due to the original request key order being mixed which affects
+    the user's wanted order.
     """
-    # Split literal request files
+    # Split literal request data
     split_data = [element.split(EQ) for element in request_data.split(AMP)]
     post_data = OrderedDict()
     for group in split_data:
@@ -179,7 +179,7 @@ def write_awk_generated(headers, awk_generated, post_data, num_rows, filename, o
 
 
 def write_python_generated(filename, post_data, python_generated, delimiter, options):
-    """Write non-AWK column files using Pandas"""
+    """Write non-AWK column data using Pandas"""
     df = pd.read_csv(filename, sep=COMMA)
     for header in python_generated:
         try:
@@ -198,7 +198,7 @@ def write_python_generated(filename, post_data, python_generated, delimiter, opt
 
 def is_csv(file_type):
     """Check if file type is CSV"""
-    return file_type == CSV
+    return file_type == CONFIG['extensions']['csv']
 
 
 def file_conversion(file_type, filename, options, headers, post_data):
