@@ -123,8 +123,6 @@ let loader = '<div id="loader"><div class="sk-fading-circle"><div class="sk-circ
             '<div class="sk-circle10 sk-circle"></div><div class="sk-circle11 sk-circle"></div>' +
             '<div class="sk-circle12 sk-circle"></div></div></div>';
 
-let bucketUrl = 'https://storage.googleapis.com/mockdatagen_files/';
-
 let sqlExtension = '<div id="sql-extension" class="row text-left extra-options">\n  <div class="col-sm-4">\n<label style="margin-right: 8px;">File Extension</label>    <input id="sql-text" type="radio" name="sql-extension" value=".txt" style="margin-right: 3px;" required/>\n    <label for="sql-text" >.txt</label>\n<input id="sql-sql" type="radio" name="sql-extension" value=".sql" style="margin-right: 3px;"/>\n<label for="sql-sql" >.sql</label>\n  </div>\n</div>'
 
 let rootNode = '<div class="row text-left extra-options">\n' +
@@ -140,4 +138,4 @@ let recordNode = '<div class="row text-left extra-options">\n' +
 let verificationSent = '<div class="alert alert-success">' +
 			'Verification email sent successfully. Please check your email for further instructions.</div>'
 
-let verify = "<div id='verification'><p style='font-size: 10;'>First time in Mock data generator ? Enter your email below to confirm you're human</p><input type='email' placeholder='Email' id='verification-email'><button type='button' id='verify' class='btn btn-outline-success'>Send verification</button></div>";
+let verify = "<div id='verification'><label for='verification-email'>First time in Mock data generator ? Enter your email below to confirm you're human</label><br><input type='email' placeholder='Email' id='verification-email' required='required' style='margin-bottom: 5px;'><br><button type='button' id='verify' class='btn btn-outline-success'>Send verification</button></div>";

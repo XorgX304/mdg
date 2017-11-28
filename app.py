@@ -5,7 +5,7 @@ import shutil
 from collections import OrderedDict
 from datetime import timedelta, datetime
 import pandas as pd
-from gevent.wsgi import WSGIServer
+from google.cloud import storage
 from flask import Flask, request, render_template, make_response
 from flask_mail import Mail
 from db.mdg_database import MockDataGeneratorDB
@@ -14,12 +14,7 @@ from data_generation.awk_data_generator import AWKDataGenerator
 
 
 # Module level constants
-CSV = '.csv'
-JSON = '.json'
-XML = '.xml'
-XLSX = '.xlsx'
-SQL = '.sql'
-GZIP = '.gz'
+CSV = 'csv'
 MDG = 'mdg'
 AMP = '&'
 EQ = '='
@@ -32,6 +27,7 @@ UTF = 'utf-8'
 MAX_ROWS = 250000
 ENV = os.environ
 INDEX = 'index.html'
+
 with open('config.json', 'r') as config_file:
     CONFIG = json.loads(config_file.read())
 
@@ -46,13 +42,15 @@ app.config.update(
     MAIL_PASSWORD=ENV.get('MAIL_PASSWORD')
 )
 mail = Mail(app)
-db = MockDataGeneratorDB('localhost', 27017, 'mdg', 'users')
+db = MockDataGeneratorDB(ENV.get('DB_HOST'), 27017, ENV.get('DB_NAME'), ENV.get('DB_COL'))
 awk = AWKDataGenerator()
 data_generator = DataGenerator()
+client = storage.Client()
+bucket = client.get_bucket(CONFIG['bucket'])
 
 
-# Index
 @app.route('/')
+# Index
 def index():
     return render_template(INDEX)
 
@@ -142,8 +140,10 @@ def generate():
     # Check if file needs to be converted to another format
     if not is_csv(file_type):
         filename = file_conversion(file_type, filename, options_dict, headers, post_data)
+    # Compress, upload, delete locally & return download link
     filename = compress_file(filename)
-    return filename
+    download_url = upload_to_storage(filename)
+    return download_url
 
 
 def parse_post_data(request_data):
@@ -203,13 +203,13 @@ def is_csv(file_type):
 
 def file_conversion(file_type, filename, options, headers, post_data):
     """Check file type and call appropriate conversion function"""
-    if file_type == JSON:
+    if file_type == CONFIG['extensions']['json']:
         filename = convert_to_json(filename)
-    elif file_type == XLSX:
+    elif file_type == CONFIG['extensions']['xlsx']:
         filename = convert_to_xlsx(filename)
-    elif file_type == XML:
+    elif file_type == CONFIG['extensions']['xml']:
         filename = convert_to_xml(filename, options)
-    elif file_type == SQL:
+    elif file_type == CONFIG['extensions']['sql']:
         filename = convert_to_sql(filename, options, headers, post_data)
     return filename
 
@@ -218,21 +218,21 @@ def convert_to_xml(filename, options):
     """Call csv2xml library to convert CSV to XML"""
     root_node = options.get(CONFIG['options']["file_type_options"][4])
     record_node = options.get(CONFIG['options']["file_type_options"][5])
-    xml_file = filename.split('.')[0] + '.xml'
+    xml_file = filename.split('.')[0] + CONFIG['extensions']['xml']
     os.system(CONFIG['conversion']['xml'].format(filename, root_node, record_node))
     return xml_file
 
 
 def convert_to_xlsx(filename):
     """Call csv2xlsx library to convert CSV to XLSX"""
-    xlsx_file = filename.split('.')[0] + '.xlsx'
+    xlsx_file = filename.split('.')[0] + CONFIG['extensions']['xlsx']
     os.system(CONFIG['conversion']['xlsx'].format(filename, xlsx_file))
     return xlsx_file
 
 
 def convert_to_json(filename):
     """Call csv2json library to convert CSV to JSON"""
-    json_file = filename.split('.')[0] + '.json'
+    json_file = filename.split('.')[0] + CONFIG['extensions']['json']
     os.system(CONFIG['conversion']['json'].format(filename, json_file))
     return json_file
 
@@ -281,9 +281,9 @@ def sql_create_table(headers, post_data):
 
 def compress_file(filename):
     """Compress file function. Returns GZIP of file argument"""
-    compressed_file = filename + GZIP
+    compressed_file = filename + CONFIG['extensions']['gzip']
     with open(filename, 'rb') as in_file:
-        with gzip.open(filename + GZIP, 'wb') as out_file:
+        with gzip.open(filename + CONFIG['extensions']['gzip'], 'wb') as out_file:
             shutil.copyfileobj(in_file, out_file)
     return compressed_file
 
@@ -296,6 +296,31 @@ def send_email(recipient):
         sender='Mock data generator',
         recipients=[recipient],
         html=CONFIG['verify_html'].format(uid))
+    return
+
+
+def upload_to_storage(file):
+    """
+    Uploads file to Google Cloud Storage, makes it publicly available and calls
+    delete_from_disk function. Returns public URL of file.
+    """
+    bucket.blob(file).upload_from_filename(file)
+    bucket.blob(file).make_public()
+    delete_from_disk(file)
+    return bucket.blob(file).public_url
+
+
+def delete_from_disk(file):
+    """
+    Deletes both compressed & uncompressed versions of the file from disk.
+    Also checks for a CSV version of the same file (as all files are first created in
+    CSV and then converted.)
+    """
+    os.remove(file)  # Remove compressed
+    file = file.split('.')
+    os.remove('.'.join([file[0], file[1]]))  # Remove uncompressed
+    if file[1] != CSV:
+        os.remove(file[0] + CONFIG['extensions']['csv'])  # Remove CSV version if file is not in CSV format
     return
 
 

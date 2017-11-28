@@ -38,7 +38,7 @@ $(function () {
 				$('.final').append(verificationSent)
 			},
 			error: function(err) {
-				console.error(err)
+				displayTempErrorMsg(generalErr);
 				}
 			})
 		});
@@ -60,10 +60,9 @@ $(function () {
 	// Remove download button after click and restore `Generate Data` button
 	form.on('click', '#download > a', function (e) {
 		e.preventDefault();
-		let file = $('#download > a').attr('title');
+		window.open($('#download > a').attr('href'))
 		$(this).parent().remove();
 		$('#generate-data').show();
-		window.open(bucketUrl + file);
 	});
 
 	// Add/Remove additional options per DATA type, change data type image and tooltip message.
@@ -146,7 +145,7 @@ $(function () {
 
 
 /*
---------- Functions and main AJAX request ---------
+--------- Functions and /generate POST AJAX request ---------
  */
 
 
@@ -203,10 +202,10 @@ function downloadPlaceHolder() {
 }
 
 // Remove placeholder and display download button
-function displayDownload(file) {
+function displayDownload(downloadUrl) {
 	$('#loader').remove();
 	$('.final').append(downloadBtn);
-	$('#download').find('a').attr('title', file)
+	$('#download').find('a').attr('href', downloadUrl)
 }
 
 function displayTempErrorMsg(message) {
@@ -255,8 +254,8 @@ function generateMockData() {
 		'type': 'POST',
 		'url': '/generate',
 		'data': postData,
-		success: function (file) {
-			displayDownload(file)
+		success: function (downloadUrl) {
+			displayDownload(downloadUrl)
 		},
 		error: function (err) {
 			if (err.status === 429) {

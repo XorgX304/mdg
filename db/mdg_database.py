@@ -1,7 +1,7 @@
+from datetime import datetime
 import pymongo
 from bson.objectid import ObjectId
 from bson.errors import InvalidId
-from datetime import datetime
 
 
 class MockDataGeneratorDB:
@@ -15,27 +15,26 @@ class MockDataGeneratorDB:
     GENERATED_COUNT = 'generated_count'
     VERIFIED = 'verified'
 
-    def __init__(self, host, port, db, collection):
-        self.db = db
+    def __init__(self, host, port, database, collection):
         self.conn = pymongo.MongoClient(self.MONGO_URI.format(host, port))
-        self.collection = self.conn[self.db][collection]
+        self.collection = self.conn[database][collection]
 
     def add_user_to_collection(self, email):
         """
-        Check if @param email in collection `users`.
-        If true, return its _id, else inserts it to collection and calls add_user_to_collection again
+        Check if @param email in collection.
+        If true, return its document's _id, else inserts it to collection and returns its document's _id
         :param email: Email address to look for in collection.
         """
         uid = self.find_by_email(email)
         if uid:  # Validation that uid is not None
             return uid.get(self.ID)  # Return _id
-        self.collection.insert_one({
+        user = self.collection.insert_one({
             self.EMAIL: email,
             self.GENERATED_COUNT: 1,
             self.VERIFIED: False,
             self.LAST_USED: datetime.now(),
         })
-        return self.add_user_to_collection(email)
+        return str(user.inserted_id)
 
     def find_by_email(self, email):
         """Returns document if email in collection else None"""
@@ -55,7 +54,7 @@ class MockDataGeneratorDB:
     def update_user(self, uid, verification=False):
         """
         Changes user verification status to `True` if verification boolean is set.
-        Otherwise, will increment generated_count and update last_use to datetime.now().
+        Otherwise, increments generated_count and updates last_use to datetime.now().
         """
         if verification:
             self.collection.find_one_and_update(
