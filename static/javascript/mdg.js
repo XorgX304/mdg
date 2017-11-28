@@ -2,6 +2,7 @@
 File also includes Bootstrap template JS code
 -- Unminified version --
 */
+
 const downloadBtn = '<p style="display: inline-block; font-size: 14px; text-align: left;"' + ' id="download"><a href="#" download><button class="btn btn-secondary btn-success">' + '<i class="fa fa-download"></i></button></a></p>';
 const floatRange = '<p style="font-size: 14px; text-align: left;">Min<input min="0" max="10000000" value="1" type="number"' + ' class="float-range-min"' + ' required="required">Max' + '<input type="number" min="0" max="10000000"' + ' value="10" class="float-range-max" required="required"></p>';
 const intRange = '<p style="font-size: 14px; text-align: left;">Min' + '<input min="0" max="10000000000" value="1" type="number" class="id-range-min" required="required">Max' + '<input min="0" max="10000000000" value="1000" type="number" class="id-range-max" required="required"></p>';

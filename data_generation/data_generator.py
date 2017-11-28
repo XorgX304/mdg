@@ -52,7 +52,7 @@ class DataGenerator:
             "ipv6": self.ipv6,
             "ip": self.ipv4,
             "hex": self.hex_color,
-            "short-hex": self.short_hex_color,
+            "shorthex": self.short_hex_color,
             "rgb": self.rgb,
             "rgba": self.rgba,
             "country": self.countries,
@@ -163,3 +163,4 @@ class DataGenerator:
     def rgba(self, *args):
         """Generate random color in rgba format"""
         return self.RGBA_COLOR_FORMAT.format((randint(0, 255)), randint(0, 255), randint(0, 255), round(random(), 1))
+
