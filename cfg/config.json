@@ -16,7 +16,7 @@
     "create": "DROP TABLE IF EXISTS {0};\nCREATE TABLE {0} ({1});\n"
   },
   "options": {
-    "file_type_options": ["tableName", "createTable", "delimiter", "sqlExtension", "rootNode", "recordNode"],
+    "file_type_options": ["tableName", "createTable", "delimiter", "sqlExtension", "rootNode", "recordNode", "compress"],
     "data_type_options": ["dateRangeStart", "dateRangeEnd", "boolPercentage", "intRangeMin", "intRangeMax",
       "floatRangeMin", "floatRangeMax", "decimalLimit", "genderPercentage"],
     "awk_generated": ["auto-increment", "random-float", "random-int", "timestamp", "zipcode", "phone", "cc-number",

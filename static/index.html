@@ -1,8 +1,10 @@
+
+
 {% extends "layout.html" %}
 {% block body %}
-  <!-- Header-->
-  <header class="masthead">
-    <div class="container">
+<!-- Header-->
+<header class="masthead">
+   <div class="container">
       <div class="message-container">
       </div>
       {% if err %}
@@ -12,340 +14,354 @@
       {% endif %}
       <div class="intro-text"><span class="name">Mock Data Generator</span><span class="skills">JSON - CSV - XML - SQL - XLSX</span><br/>
       </div>
-    </div>
-  </header>
-  <!-- Generate data_files section-->
-  <section id="generate">
-    <div class="container">
-      <h2 class="text-center">My Data</h2><br/>
+   </div>
+</header>
+<!-- Generate data_files section-->
+<section id="generate">
+   <div class="container">
+      <h2 class="text-center">My Data</h2>
+      <br/>
       <!-- Data generating form-->
       <form id="main-form">
-        <div class="row-container">
-          <div class="row text-center">
-            <div class="col-md-3">Column Name</div>
-            <div class="col-md-2">Column Type</div>
-            <div class="col-md-4">Options</div>
-            <div class="col-md-1"></div>
-          </div>
-          <div class="row-body">
+         <div class="row-container">
             <div class="row text-center">
-              <div class="col-md-3">
-                <input required="required" type="text" value="ID" class="form-control row-input"/>
-              </div>
-              <div class="col-md-2">
-                <select required="required" class="form-control-sm">
-                  <option disabled="disabled" value="">Choose Data Type</option>
-                  <optgroup label="ID"></optgroup>
-                  <option value="auto-increment" selected="selected">Auto Increment Id</option>
-                  <option value="uuid">UUID</option>
-                  <optgroup label="Numbers"></optgroup>
-                  <option value="random-int">Number</option>
-                  <option value="random-float">Float</option>
-                  <optgroup label="Names"></optgroup>
-                  <option value="first-names">First Names</option>
-                  <option value="last-names">Last Names</option>
-                  <optgroup label="Address"></optgroup>
-                  <option value="zipcode">Zipcode</option>
-                  <option value="country">Country</option>
-                  <option value="lat">Latitude</option>
-                  <option value="long">Longitude</option>
-                  <option value="street-name">Street Name</option>
-                  <option value="street-addr">Address</option>
-                  <option value="phone">Phone Number</option>
-                  <optgroup label="Internet"></optgroup>
-                  <option value="email">Email</option>
-                  <option value="username">Username</option>
-                  <option value="company">Company</option>
-                  <option value="domain">Domain</option>
-                  <option value="url">URL</option>
-                  <option value="ip">IPv4</option>
-                  <option value="ipv6">IPv6</option>
-                  <optgroup label="Finance"></optgroup>
-                  <option value="cc-number">Credit Card Number</option>
-                  <option value="cc-type">Credit Card Type</option>
-                  <option value="cc-exp">Expiry Date</option>
-                  <option value="cvv">CVV</option>
-                  <option value="balance">Balance</option>
-                  <optgroup label="Date"></optgroup>
-                  <option value="rand-date">Date</option>
-                  <option value="date-range">Date Range</option>
-                  <option value="weekday">Weekday</option>
-                  <option value="month">Month</option>
-                  <option value="timestamp">UNIX Timestamp</option>
-                  <optgroup label="Color"></optgroup>
-                  <option value="color-name">Color Name</option>
-                  <option value="hex">Hex </option>
-                  <option value="shorthex">Short Hex</option>
-                  <option value="rgb">RGB</option>
-                  <option value="rgba">RGBA </option>
-                  <optgroup label="Other"></optgroup>
-                  <option value="gender">Gender</option>
-                  <option value="null-val">Null</option>
-                  <option value="bool">Boolean</option>
-                </select>
-              </div>
-              <div class="col-md-4"></div>
-              <div class="col-md-1"><a href="#" class="btn btn-sm"><i class="fa fa-times fa-lg"></i></a></div>
+               <div class="col-md-3">Column Name</div>
+               <div class="col-md-2">Column Type</div>
+               <div class="col-md-4">Options</div>
+               <div class="col-md-1"></div>
             </div>
-            <div class="row text-center">
-              <div class="col-md-3">
-                <input required="required" type="text" value="FirstName" class="form-control row-input"/>
-              </div>
-              <div class="col-md-2">
-                <select required="required" class="form-control-sm">
-                  <option disabled="disabled" selected="selected" value="">Choose Data Type</option>
-                  <optgroup label="ID"></optgroup>
-                  <option value="auto-increment">Auto Increment Id</option>
-                  <option value="uuid">UUID</option>
-                  <optgroup label="Numbers"></optgroup>
-                  <option value="random-int">Number</option>
-                  <option value="random-float">Float</option>
-                  <optgroup label="Names"></optgroup>
-                  <option value="first-names" selected="selected">First Names</option>
-                  <option value="last-names">Last Names</option>
-                  <optgroup label="Address"></optgroup>
-                  <option value="zipcode">Zipcode</option>
-                  <option value="country">Country</option>
-                  <option value="lat">Latitude</option>
-                  <option value="long">Longitude</option>
-                  <option value="street-name">Street Name</option>
-                  <option value="street-addr">Address</option>
-                  <option value="phone">Phone Number</option>
-                  <optgroup label="Internet"></optgroup>
-                  <option value="email">Email</option>
-                  <option value="username">Username</option>
-                  <option value="company">Company</option>
-                  <option value="domain">Domain</option>
-                  <option value="url">URL</option>
-                  <option value="ip">IPv4</option>
-                  <option value="ipv6">IPv6</option>
-                  <optgroup label="Finance"></optgroup>
-                  <option value="cc-number">Credit Card Number</option>
-                  <option value="cc-type">Credit Card Type</option>
-                  <option value="cc-exp">Expiry Date</option>
-                  <option value="cvv">CVV</option>
-                  <option value="balance">Balance</option>
-                  <optgroup label="Date"></optgroup>
-                  <option value="rand-date">Date</option>
-                  <option value="date-range">Date Range</option>
-                  <option value="weekday">Weekday</option>
-                  <option value="month">Month</option>
-                  <option value="timestamp">UNIX Timestamp</option>
-                  <optgroup label="Color"></optgroup>
-                  <option value="color-name">Color Name</option>
-                  <option value="hex">Hex </option>
-                  <option value="shorthex">Short Hex</option>
-                  <option value="rgb">RGB</option>
-                  <option value="rgba">RGBA </option>
-                  <optgroup label="Other"></optgroup>
-                  <option value="gender">Gender</option>
-                  <option value="null-val">Null</option>
-                  <option value="bool">Boolean</option>
-                </select>
-              </div>
-              <div class="col-md-4"></div>
-              <div class="col-md-1"><a href="#" class="btn btn-sm"><i class="fa fa-times fa-lg"></i></a></div>
+            <div class="row-body">
+               <div class="row text-center">
+                  <div class="col-md-3">
+                     <input required="required" type="text" value="ID" class="form-control row-input"/>
+                  </div>
+                  <div class="col-md-2">
+                     <select required="required" class="form-control-sm">
+                        <option disabled="disabled" value="">Choose Data Type</option>
+                        <optgroup label="ID"></optgroup>
+                        <option value="auto-increment" selected="selected">Auto Increment Id</option>
+                        <option value="uuid">UUID</option>
+                        <optgroup label="Numbers"></optgroup>
+                        <option value="random-int">Number</option>
+                        <option value="random-float">Float</option>
+                        <optgroup label="Names"></optgroup>
+                        <option value="first-names">First Names</option>
+                        <option value="last-names">Last Names</option>
+                        <optgroup label="Address"></optgroup>
+                        <option value="zipcode">Zipcode</option>
+                        <option value="country">Country</option>
+                        <option value="lat">Latitude</option>
+                        <option value="long">Longitude</option>
+                        <option value="street-name">Street Name</option>
+                        <option value="street-addr">Address</option>
+                        <option value="phone">Phone Number</option>
+                        <optgroup label="Internet"></optgroup>
+                        <option value="email">Email</option>
+                        <option value="username">Username</option>
+                        <option value="company">Company</option>
+                        <option value="domain">Domain</option>
+                        <option value="url">URL</option>
+                        <option value="ip">IPv4</option>
+                        <option value="ipv6">IPv6</option>
+                        <optgroup label="Finance"></optgroup>
+                        <option value="cc-number">Credit Card Number</option>
+                        <option value="cc-type">Credit Card Type</option>
+                        <option value="cc-exp">Expiry Date</option>
+                        <option value="cvv">CVV</option>
+                        <option value="balance">Balance</option>
+                        <optgroup label="Date"></optgroup>
+                        <option value="rand-date">Date</option>
+                        <option value="date-range">Date Range</option>
+                        <option value="weekday">Weekday</option>
+                        <option value="month">Month</option>
+                        <option value="timestamp">UNIX Timestamp</option>
+                        <optgroup label="Color"></optgroup>
+                        <option value="color-name">Color Name</option>
+                        <option value="hex">Hex </option>
+                        <option value="shorthex">Short Hex</option>
+                        <option value="rgb">RGB</option>
+                        <option value="rgba">RGBA </option>
+                        <optgroup label="Other"></optgroup>
+                        <option value="gender">Gender</option>
+                        <option value="null-val">Null</option>
+                        <option value="bool">Boolean</option>
+                     </select>
+                  </div>
+                  <div class="col-md-4"></div>
+                  <div class="col-md-1"><a href="#" class="btn btn-sm"><i class="fa fa-times fa-lg"></i></a></div>
+               </div>
+               <div class="row text-center">
+                  <div class="col-md-3">
+                     <input required="required" type="text" value="FirstName" class="form-control row-input"/>
+                  </div>
+                  <div class="col-md-2">
+                     <select required="required" class="form-control-sm">
+                        <option disabled="disabled" selected="selected" value="">Choose Data Type</option>
+                        <optgroup label="ID"></optgroup>
+                        <option value="auto-increment">Auto Increment Id</option>
+                        <option value="uuid">UUID</option>
+                        <optgroup label="Numbers"></optgroup>
+                        <option value="random-int">Number</option>
+                        <option value="random-float">Float</option>
+                        <optgroup label="Names"></optgroup>
+                        <option value="first-names" selected="selected">First Names</option>
+                        <option value="last-names">Last Names</option>
+                        <optgroup label="Address"></optgroup>
+                        <option value="zipcode">Zipcode</option>
+                        <option value="country">Country</option>
+                        <option value="lat">Latitude</option>
+                        <option value="long">Longitude</option>
+                        <option value="street-name">Street Name</option>
+                        <option value="street-addr">Address</option>
+                        <option value="phone">Phone Number</option>
+                        <optgroup label="Internet"></optgroup>
+                        <option value="email">Email</option>
+                        <option value="username">Username</option>
+                        <option value="company">Company</option>
+                        <option value="domain">Domain</option>
+                        <option value="url">URL</option>
+                        <option value="ip">IPv4</option>
+                        <option value="ipv6">IPv6</option>
+                        <optgroup label="Finance"></optgroup>
+                        <option value="cc-number">Credit Card Number</option>
+                        <option value="cc-type">Credit Card Type</option>
+                        <option value="cc-exp">Expiry Date</option>
+                        <option value="cvv">CVV</option>
+                        <option value="balance">Balance</option>
+                        <optgroup label="Date"></optgroup>
+                        <option value="rand-date">Date</option>
+                        <option value="date-range">Date Range</option>
+                        <option value="weekday">Weekday</option>
+                        <option value="month">Month</option>
+                        <option value="timestamp">UNIX Timestamp</option>
+                        <optgroup label="Color"></optgroup>
+                        <option value="color-name">Color Name</option>
+                        <option value="hex">Hex </option>
+                        <option value="shorthex">Short Hex</option>
+                        <option value="rgb">RGB</option>
+                        <option value="rgba">RGBA </option>
+                        <optgroup label="Other"></optgroup>
+                        <option value="gender">Gender</option>
+                        <option value="null-val">Null</option>
+                        <option value="bool">Boolean</option>
+                     </select>
+                  </div>
+                  <div class="col-md-4"></div>
+                  <div class="col-md-1"><a href="#" class="btn btn-sm"><i class="fa fa-times fa-lg"></i></a></div>
+               </div>
+               <div class="row text-center">
+                  <div class="col-md-3">
+                     <input required="required" type="text" value="Country" class="form-control row-input"/>
+                  </div>
+                  <div class="col-md-2">
+                     <select required="required" class="form-control-sm">
+                        <option disabled="disabled" selected="selected" value="">Choose Data Type</option>
+                        <optgroup label="ID"></optgroup>
+                        <option value="auto-increment">Auto Increment Id</option>
+                        <option value="uuid">UUID</option>
+                        <optgroup label="Numbers"></optgroup>
+                        <option value="random-int">Number</option>
+                        <option value="random-float">Float</option>
+                        <optgroup label="Names"></optgroup>
+                        <option value="first-names">First Names</option>
+                        <option value="last-names">Last Names</option>
+                        <optgroup label="Address"></optgroup>
+                        <option value="zipcode">Zipcode</option>
+                        <option value="country" selected="selected">Country</option>
+                        <option value="lat">Latitude</option>
+                        <option value="long">Longitude</option>
+                        <option value="street-name">Street Name</option>
+                        <option value="street-addr">Address</option>
+                        <option value="phone">Phone Number</option>
+                        <optgroup label="Internet"></optgroup>
+                        <option value="email">Email</option>
+                        <option value="username">Username</option>
+                        <option value="company">Company</option>
+                        <option value="domain">Domain</option>
+                        <option value="url">URL</option>
+                        <option value="ip">IPv4</option>
+                        <option value="ipv6">IPv6</option>
+                        <optgroup label="Finance"></optgroup>
+                        <option value="cc-number">Credit Card Number</option>
+                        <option value="cc-type">Credit Card Type</option>
+                        <option value="cc-exp">Expiry Date</option>
+                        <option value="cvv">CVV</option>
+                        <option value="balance">Balance</option>
+                        <optgroup label="Date"></optgroup>
+                        <option value="rand-date">Date</option>
+                        <option value="date-range">Date Range</option>
+                        <option value="weekday">Weekday</option>
+                        <option value="month">Month</option>
+                        <option value="timestamp">UNIX Timestamp</option>
+                        <optgroup label="Color"></optgroup>
+                        <option value="color-name">Color Name</option>
+                        <option value="hex">Hex </option>
+                        <option value="shorthex">Short Hex</option>
+                        <option value="rgb">RGB</option>
+                        <option value="rgba">RGBA </option>
+                        <optgroup label="Other"></optgroup>
+                        <option value="gender">Gender</option>
+                        <option value="null-val">Null</option>
+                        <option value="bool">Boolean</option>
+                     </select>
+                  </div>
+                  <div class="col-md-4"></div>
+                  <div class="col-md-1"><a href="#" class="btn btn-sm"><i class="fa fa-times fa-lg"></i></a></div>
+               </div>
+               <div class="row text-center">
+                  <div class="col-md-3">
+                     <input required="required" type="text" value="Birthday" class="form-control row-input"/>
+                  </div>
+                  <div class="col-md-2">
+                     <select required="required" class="form-control-sm">
+                        <option disabled="disabled" selected="selected" value="">Choose Data Type</option>
+                        <optgroup label="ID"></optgroup>
+                        <option value="auto-increment">Auto Increment Id</option>
+                        <option value="uuid">UUID</option>
+                        <optgroup label="Numbers"></optgroup>
+                        <option value="random-int">Number</option>
+                        <option value="random-float">Float</option>
+                        <optgroup label="Names"></optgroup>
+                        <option value="first-names">First Names</option>
+                        <option value="last-names">Last Names</option>
+                        <optgroup label="Address"></optgroup>
+                        <option value="zipcode">Zipcode</option>
+                        <option value="country">Country</option>
+                        <option value="lat">Latitude</option>
+                        <option value="long">Longitude</option>
+                        <option value="street-name">Street Name</option>
+                        <option value="street-addr">Address</option>
+                        <option value="phone">Phone Number</option>
+                        <optgroup label="Internet"></optgroup>
+                        <option value="email">Email</option>
+                        <option value="username">Username</option>
+                        <option value="company">Company</option>
+                        <option value="domain">Domain</option>
+                        <option value="url">URL</option>
+                        <option value="ip">IPv4</option>
+                        <option value="ipv6">IPv6</option>
+                        <optgroup label="Finance"></optgroup>
+                        <option value="cc-number">Credit Card Number</option>
+                        <option value="cc-type">Credit Card Type</option>
+                        <option value="cc-exp">Expiry Date</option>
+                        <option value="cvv">CVV</option>
+                        <option value="balance">Balance</option>
+                        <optgroup label="Date"></optgroup>
+                        <option value="rand-date" selected="selected">Date</option>
+                        <option value="date-range">Date Range</option>
+                        <option value="weekday">Weekday</option>
+                        <option value="month">Month</option>
+                        <option value="timestamp">UNIX Timestamp</option>
+                        <optgroup label="Color"></optgroup>
+                        <option value="color-name">Color Name</option>
+                        <option value="hex">Hex </option>
+                        <option value="shorthex">Short Hex</option>
+                        <option value="rgb">RGB</option>
+                        <option value="rgba">RGBA </option>
+                        <optgroup label="Other"></optgroup>
+                        <option value="gender">Gender</option>
+                        <option value="null-val">Null</option>
+                        <option value="bool">Boolean</option>
+                     </select>
+                  </div>
+                  <div class="col-md-4"></div>
+                  <div class="col-md-1"><a href="#" class="btn btn-sm"><i class="fa fa-times fa-lg"></i></a></div>
+               </div>
             </div>
-            <div class="row text-center">
-              <div class="col-md-3">
-                <input required="required" type="text" value="Country" class="form-control row-input"/>
-              </div>
-              <div class="col-md-2">
-                <select required="required" class="form-control-sm">
-                  <option disabled="disabled" selected="selected" value="">Choose Data Type</option>
-                  <optgroup label="ID"></optgroup>
-                  <option value="auto-increment">Auto Increment Id</option>
-                  <option value="uuid">UUID</option>
-                  <optgroup label="Numbers"></optgroup>
-                  <option value="random-int">Number</option>
-                  <option value="random-float">Float</option>
-                  <optgroup label="Names"></optgroup>
-                  <option value="first-names">First Names</option>
-                  <option value="last-names">Last Names</option>
-                  <optgroup label="Address"></optgroup>
-                  <option value="zipcode">Zipcode</option>
-                  <option value="country" selected="selected">Country</option>
-                  <option value="lat">Latitude</option>
-                  <option value="long">Longitude</option>
-                  <option value="street-name">Street Name</option>
-                  <option value="street-addr">Address</option>
-                  <option value="phone">Phone Number</option>
-                  <optgroup label="Internet"></optgroup>
-                  <option value="email">Email</option>
-                  <option value="username">Username</option>
-                  <option value="company">Company</option>
-                  <option value="domain">Domain</option>
-                  <option value="url">URL</option>
-                  <option value="ip">IPv4</option>
-                  <option value="ipv6">IPv6</option>
-                  <optgroup label="Finance"></optgroup>
-                  <option value="cc-number">Credit Card Number</option>
-                  <option value="cc-type">Credit Card Type</option>
-                  <option value="cc-exp">Expiry Date</option>
-                  <option value="cvv">CVV</option>
-                  <option value="balance">Balance</option>
-                  <optgroup label="Date"></optgroup>
-                  <option value="rand-date">Date</option>
-                  <option value="date-range">Date Range</option>
-                  <option value="weekday">Weekday</option>
-                  <option value="month">Month</option>
-                  <option value="timestamp">UNIX Timestamp</option>
-                  <optgroup label="Color"></optgroup>
-                  <option value="color-name">Color Name</option>
-                  <option value="hex">Hex </option>
-                  <option value="shorthex">Short Hex</option>
-                  <option value="rgb">RGB</option>
-                  <option value="rgba">RGBA </option>
-                  <optgroup label="Other"></optgroup>
-                  <option value="gender">Gender</option>
-                  <option value="null-val">Null</option>
-                  <option value="bool">Boolean</option>
-                </select>
-              </div>
-              <div class="col-md-4"></div>
-              <div class="col-md-1"><a href="#" class="btn btn-sm"><i class="fa fa-times fa-lg"></i></a></div>
+         </div>
+         <!-- Add new form row (data_files column/key) button--><a href="#" id="add-new" class="btn btn-sm"><i class="fa fa-plus fa-lg"></i></a><br/>
+         <!-- Individual data_files type options-->
+         <h4 class="text-center">Options<i aria-hidden="true" class="fa fa-cog"></i></h4>
+         <br/>
+         <div class="wrap-container">
+            <div class="row text-left">
+               <div class="col-sm-4">
+                  <label for="data-type" class="rdf-line">File Type</label>
+                  <select id="data-type" name="data-type" class="rdf-input">
+                     <option value="csv">CSV</option>
+                     <option value="json">JSON</option>
+                     <option value="sql">SQL</option>
+                     <option value="xml">XML</option>
+                     <option value="xlsx">XLSX</option>
+                  </select>
+                  <img src="/images/csv.png" id="data-img" style="width:32px; height:28px"/><a href="#" data-toggle="tooltip" title="All files are first created in CSV format and then converted to their appropriate type." id="tooltip"><i class="fa fa-info-circle"></i></a>
+               </div>
             </div>
-            <div class="row text-center">
-              <div class="col-md-3">
-                <input required="required" type="text" value="Birthday" class="form-control row-input"/>
-              </div>
-              <div class="col-md-2">
-                <select required="required" class="form-control-sm">
-                  <option disabled="disabled" selected="selected" value="">Choose Data Type</option>
-                  <optgroup label="ID"></optgroup>
-                  <option value="auto-increment">Auto Increment Id</option>
-                  <option value="uuid">UUID</option>
-                  <optgroup label="Numbers"></optgroup>
-                  <option value="random-int">Number</option>
-                  <option value="random-float">Float</option>
-                  <optgroup label="Names"></optgroup>
-                  <option value="first-names">First Names</option>
-                  <option value="last-names">Last Names</option>
-                  <optgroup label="Address"></optgroup>
-                  <option value="zipcode">Zipcode</option>
-                  <option value="country">Country</option>
-                  <option value="lat">Latitude</option>
-                  <option value="long">Longitude</option>
-                  <option value="street-name">Street Name</option>
-                  <option value="street-addr">Address</option>
-                  <option value="phone">Phone Number</option>
-                  <optgroup label="Internet"></optgroup>
-                  <option value="email">Email</option>
-                  <option value="username">Username</option>
-                  <option value="company">Company</option>
-                  <option value="domain">Domain</option>
-                  <option value="url">URL</option>
-                  <option value="ip">IPv4</option>
-                  <option value="ipv6">IPv6</option>
-                  <optgroup label="Finance"></optgroup>
-                  <option value="cc-number">Credit Card Number</option>
-                  <option value="cc-type">Credit Card Type</option>
-                  <option value="cc-exp">Expiry Date</option>
-                  <option value="cvv">CVV</option>
-                  <option value="balance">Balance</option>
-                  <optgroup label="Date"></optgroup>
-                  <option value="rand-date" selected="selected">Date</option>
-                  <option value="date-range">Date Range</option>
-                  <option value="weekday">Weekday</option>
-                  <option value="month">Month</option>
-                  <option value="timestamp">UNIX Timestamp</option>
-                  <optgroup label="Color"></optgroup>
-                  <option value="color-name">Color Name</option>
-                  <option value="hex">Hex </option>
-                  <option value="shorthex">Short Hex</option>
-                  <option value="rgb">RGB</option>
-                  <option value="rgba">RGBA </option>
-                  <optgroup label="Other"></optgroup>
-                  <option value="gender">Gender</option>
-                  <option value="null-val">Null</option>
-                  <option value="bool">Boolean</option>
-                </select>
-              </div>
-              <div class="col-md-4"></div>
-              <div class="col-md-1"><a href="#" class="btn btn-sm"><i class="fa fa-times fa-lg"></i></a></div>
+            <div class="row text-left">
+               <div class="col-sm-4">
+                  <label for="num-rows" class="rdf-line">Number Of Rows</label>
+                  <input id="num-rows" type="number" name="num-rows" placeholder="5000" max="250000" min="0" required="required" class="rdf-input"/>
+               </div>
             </div>
-          </div>
-        </div>
-        <!-- Add new form row (data_files column/key) button--><a href="#" id="add-new" class="btn btn-sm"><i class="fa fa-plus fa-lg"></i></a><br/>
-        <!-- Individual data_files type options-->
-        <h4 class="text-center">Options<i aria-hidden="true" class="fa fa-cog"></i></h4><br/>
-        <div class="wrap-container">
+            <div class="row text-left">
+               <div class="col-sm-4">
+                  <label for="file-name" id="file-name-label" class="rdf-line">File Name</label>
+                  <input id="file-name" type="text" name="file-name" required="required" class="rdf-input"/>
+               </div>
+            </div>
+            <div id="delimiter" class="row text-left extra-options">
+               <div class="col-sm-4">
+                  <label for="delimiter" style="margin-right: 4px;" class="rdf-line">Delimiter</label>
+                  <select required="required" class="rdf-input">
+                     <option value="comma">Comma</option>
+                     <option value="tab">Tab</option>
+                     <option value="pipe">Pipe</option>
+                     <option value="semi">Semi colon</option>
+                     <option value="">Caret</option>
+                  </select>
+               </div>
+            </div>
+         </div>
           <div class="row text-left">
-            <div class="col-sm-4">
-              <label for="data-type" class="rdf-line">File Type</label>
-              <select id="data-type" name="data-type" class="rdf-input">
-                <option value="csv">CSV</option>
-                <option value="json">JSON</option>
-                <option value="sql">SQL</option>
-                <option value="xml">XML</option>
-                <option value="xlsx">XLSX</option>
-              </select><img src="/images/csv.png" id="data-img" style="width:32px; height:28px"/><a href="#" data-toggle="tooltip" title="All files are first created in CSV format and then converted to their appropriate type." id="tooltip"><i class="fa fa-info-circle"></i></a>
+               <div class="col-sm-4">
+                 <input id="compress" type="checkbox" name="compress" class="rdf-input" style="margin-right: -48px; margin-left: -50px; height: 0;"/>
+                 <label for="compress" id="compress-label" class="rdf-line">Compress</label>
+               </div>
             </div>
-          </div>
-          <div class="row text-left">
-            <div class="col-sm-4">
-              <label for="num-rows" class="rdf-line">Number Of Rows</label>
-              <input id="num-rows" type="number" name="num-rows" placeholder="5000" max="250000" min="0" required="required" class="rdf-input"/>
-            </div>
-          </div>
-          <div class="row text-left">
-            <div class="col-sm-4">
-              <label for="file-name" id="file-name-label" class="rdf-line">File Name</label>
-              <input id="file-name" type="text" name="file-name" required="required" class="rdf-input"/>
-            </div>
-          </div>
-          <div id="delimiter" class="row text-left extra-options">
-            <div class="col-sm-4">
-              <label for="delimiter" style="margin-right: 4px;" class="rdf-line">Delimiter</label>
-              <select required="required" class="rdf-input">
-                <option value="comma">Comma</option>
-                <option value="tab">Tab</option>
-                <option value="pipe">Pipe</option>
-                <option value="semi">Semi colon</option>
-                <option value="">Caret</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <!-- Generate & upload-->
-        <button type="submit" id="generate-data" class="btn btn-outline-success">Generate Data</button>
-        <div class="final">
-        </div>
+         <!-- Generate & upload-->
+         <button type="submit" id="generate-data" class="btn btn-outline-success">Generate Data</button>
+         <div class="final">
+         </div>
       </form>
-    </div>
-  </section>
-  <!-- About section-->
-  <section id="about" class="success">
-    <div class="container">
+   </div>
+</section>
+<!-- About section-->
+<section id="about" class="success">
+   <div class="container">
       <h2 class="text-center">About</h2>
       <br>
       <div class="col-lg-11 ml-lg-auto">
-        <p>Mock data generator is a free to use test data mocking web application.
-          Generate up to 250,000 rows of random data at a time.</p>
-        <p>Technologies: Mock data generator uses Python, AWK, Flask, MongoDB, jQuery & JavaScript, Nginx & Gunicorn,
-        and is deployed on Google Compute Engine with file storing in Google Storage.</p>
-        <p>If you found a bug, an issue, have a question, suggestion, or just want to look at the source code,
-          you can find everything at the Mock data generator
-          <a href="https://github.com/evyatarmeged/mdg"> GitHub repository.</a></p>
+         <p>Mock data generator is a free to use test data mocking web application.
+            Generate up to 250,000 rows of random data at a time.
+         </p>
+         <p>Technologies: Mock data generator uses Python, AWK, Flask, MongoDB, jQuery & JavaScript, Nginx & Gunicorn,
+            and is deployed on Google Compute Engine with file storing in Google Storage.
+         </p>
+         <p>If you found a bug, an issue, have a question, suggestion, or just want to look at the source code,
+            you can find everything at the Mock data generator
+            <a href="https://github.com/evyatarmeged/mdg"> GitHub repository.</a>
+         </p>
       </div>
       <p class="small">v0.2</p>
-    </div>
-  </section>
-   <!-- Donate section-->
-  <section id="donate">
-    <div class="container">
+   </div>
+</section>
+<!-- Donate section-->
+<section id="donate">
+   <div class="container">
       <h2 class="text-center">Donate</h2>
       <br>
       <div class="col-lg-11 ml-lg-auto">
-        <p>Mock data generator is free, but maintaining it costs money. If you found this page helpful,
-          please consider making a secure donation by pressing the button below.</p>
-        <p>Donation is 100% optional, but is greatly appreciated.</p>
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-          <input type="hidden" name="cmd" value="_s-xclick"/>
-          <input type="hidden" name="hosted_button_id" value="8UAQ92XCVV3QY"/>
-          <input type="image" src="https://www.paypalobjects.com/en_US/IL/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!"/><img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1"/>
-        </form>
+         <p>Mock data generator is free, but maintaining it costs money. If you found this page helpful,
+            please consider making a secure donation by pressing the button below.
+         </p>
+         <p>Donation is 100% optional, but is greatly appreciated.</p>
+         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_s-xclick"/>
+            <input type="hidden" name="hosted_button_id" value="8UAQ92XCVV3QY"/>
+            <input type="image" src="https://www.paypalobjects.com/en_US/IL/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!"/><img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1"/>
+         </form>
       </div>
-    </div>
-  </section>
-  {% endblock %}
+   </div>
+</section>
+{% endblock %}
+

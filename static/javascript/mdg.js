@@ -14,6 +14,7 @@ const tableNameInput = '<div id="table-name-row" class="row text-left extra-opti
 const createTable = '<div id="create-table-row" class="row text-left extra-options">\n' + '  <div class="col-sm-4">\n' + '    <input id="create-table" type="checkbox" name="create-table" style="margin-right: 3px; height: 70%;"/>\n' + '    <label for="create-table" id="create-table-label">Create Table Statement</label>\n' + '  </div>\n' + '</div>';
 const delimiter = '<div id="delimiter" class="row text-left extra-options rdf-line"><div class="col-sm-4">\n' + '<label for="delimiter">Delimiter</label>' + '  <select required="required" class="rdf-input">\n' + '    <option value="comma">Comma</option>\n' + '    <option value="tab">Tab</option>\n' + '    <option value="pipe">Pipe</option>\n' + '    <option value="semi">Semi colon</option>\n' + '    <option value="caret">Caret</option>\n' + '  </select></div></div>';
 const alertMsg = '<div class="alert alert-danger">Duplicate headers are not allowed</div>';
+const fileNameAlert = '<div class="alert alert-danger">"." character not allowed in file name</div>';
 const badCookie = '<div class="alert alert-danger">"There was something wrong with the cookie set in your browser. Please clear your cookies and try again."</div>';
 const maxCols = '<div class="alert alert-danger">Maximum number of columns reached</div>';
 const generalErr = '<div class="alert alert-danger">Oops ! Something went wrong. Please try again</div>';
@@ -145,6 +146,10 @@ $(function () {
       $('.alert-danger').remove();
     });
   });
+
+  $('.wrap-container').on('keyup', '#file-name', function() {
+    $('.alert-danger').remove();
+  })
   // Remove download button after click and restore `Generate Data` button
   form.on('click', '#download > a', function (e) {
     e.preventDefault();
@@ -162,8 +167,8 @@ $(function () {
       dataImg.attr('src', '/images/sql.png');
       tooltip.attr('title', 'Checking the "Create Table" box will also include the "DROP TABLE IF EXISTS"' + ' statement.\r\nAvoid using SQL keywords such as NULL, TABLE or COLUMN in table or column name.');
       wrapContainer.append(tableNameInput);
-      wrapContainer.append(createTable);
       wrapContainer.append(sqlExtension);
+      wrapContainer.append(createTable);
       break;
     case 'json':
       removeExtraOptions();
@@ -251,6 +256,16 @@ function addNewField() {
     $('.row-body').append(rowContent);
   }
 }
+
+function validateFilename() {
+	let fileName = $('#file-name').val();
+	if (fileName.includes('.')) {
+		$('.alert-danger').remove();
+		$('.final').append(fileNameAlert);
+		return
+	}
+	generateMockData();
+}
 // Test for duplication in column names. If none, call generateMockData
 function checkInputDuplication() {
   let inputs = $('.row-input'),
@@ -266,7 +281,7 @@ function checkInputDuplication() {
     }
   });
   if (inputs.length === uniques.length) {
-    generateMockData()
+    validateFilename();
   }
 }
 // Loader placeholder for file generation
@@ -307,6 +322,7 @@ function generateMockData() {
     postData[column] = type;
   });
   // Get data type, number of rows, file name & additional options
+  postData.compress = $('#compress').is(':checked')
   postData.dataType = '.' + $('#data-type').val();
   if (postData.dataType === '.sql') {
     postData.tableName = $('#table-name').val();

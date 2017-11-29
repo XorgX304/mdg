@@ -29,7 +29,7 @@ MAX_ROWS = 250000
 MAX_COLS = 10
 ENV = os.environ
 
-with open('config.json', 'r') as config_file:
+with open('cfg/config.json', 'r') as config_file:
     CONFIG = json.loads(config_file.read())
 
 
@@ -128,6 +128,8 @@ def generate():
 
     # Extract file name, type and number of rows
     filename = post_data.get(headers.pop()) + CONFIG['extensions']['csv']
+    if filename.count('.') > 1:
+        return 'Illegel filename', 400
     num_rows = post_data.get(headers.pop())
     file_type = post_data.get(headers.pop())
     if int(num_rows) > MAX_ROWS or len(headers) > MAX_COLS:
@@ -141,7 +143,8 @@ def generate():
     if not is_csv(file_type):
         filename = file_conversion(file_type, filename, options_dict, headers, post_data)
     # Compress, upload, delete locally & return download link
-    filename = compress_file(filename)
+    if options_dict.get(CONFIG['options']['file_type_options'][6]) == 'true':
+        filename = compress_file(filename)
     download_url = upload_to_storage(filename)
     return download_url
 
@@ -312,15 +315,18 @@ def upload_to_storage(file):
 
 def delete_from_disk(file):
     """
-    Deletes both compressed & uncompressed versions of the file from disk.
+    Deletes both compressed (if exists) & uncompressed versions of the file from disk.
     Also checks for a CSV version of the same file (as all files are first created in
     CSV and then converted.)
     """
-    os.remove(file)  # Remove compressed
+    os.remove(file)
     file = file.split('.')
-    os.remove('.'.join([file[0], file[1]]))  # Remove uncompressed
+    # Check for GZIP extension in file
+    if '.' + file[-1] == CONFIG['extensions']['gzip']:
+        # Removes original file if first os.remove call has removed gzipped version
+        os.remove('.'.join([file[0], file[1]]))
     if file[1] != CSV:
-        os.remove(file[0] + CONFIG['extensions']['csv'])  # Remove CSV version if file is not in CSV format
+        os.remove(file[0] + CONFIG['extensions']['csv'])  # Remove CSV version if file format is different than CSV
     return
 
 
