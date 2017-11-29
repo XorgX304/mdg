@@ -336,5 +336,10 @@ def not_found(err):
     return app.send_static_file('404.html'), 404
 
 
+@app.route('/robots.txt')
+def robots():
+    return app.send_static_file('robots.txt')
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
