@@ -11,7 +11,7 @@
     "decimal": " DECIMAL(20,10)",
     "int": " INT(10)",
     "date": " DATE",
-    "varchar": " VARCHAR(100)",
+    "varchar": " VARCHAR(250)",
     "insert": "INSERT INTO {} VALUES (%s);\n",
     "create": "DROP TABLE IF EXISTS {0};\nCREATE TABLE {0} ({1});\n"
   },

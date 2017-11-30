@@ -13,6 +13,7 @@ class DataGenerator:
     MAX_YEAR = 2018
     HEX_COLOR = 0xFFFFFF
     SHORT_HEX_COLOR = 0xFFF
+    MAC_FORMAT = '%02x:%02x:%02x:%02x:%02x:%02x'
     HEX_FORMAT = '#%06x'
     SHORT_HEX_FORMAT = '#%03x'
     RGBA_COLOR_FORMAT = '({}, {}, {}, {})'
@@ -39,37 +40,40 @@ class DataGenerator:
         self.streets = open('data_files/streets.txt').read().split()
         self.addresses = open('data_files/addresses.txt').read().split()
         self.urls = open('data_files/urls.txt').read().split()
+        self.user_agents = open('data_files/user_agents.txt').read().split(self.EOL)
         self.usernames = open('data_files/usernames.txt').read().split()
         # Data types and their corresponding commands in the class
         self.commands = {
-            "rand-date": self.random_date,
-            "date-range": self.date_range,
-            "lat": self.latitude,
-            "long": self.longitude,
-            "uuid": self.gen_uuid,
-            "bool": self.boolean,
-            "gender": self.gender,
-            "ipv6": self.ipv6,
-            "ip": self.ipv4,
-            "hex": self.hex_color,
-            "shorthex": self.short_hex_color,
-            "rgb": self.rgb,
-            "rgba": self.rgba,
-            "country": self.countries,
-            "first-names": self.first_names,
-            "last-names": self.last_names,
-            "cc-type": self.credit_cards,
-            "street-name": self.streets,
-            "color-name": self.colors,
-            "company": self.companies,
-            "weekday": self.days,
-            "email": self.emails,
-            "month": self.months,
-            "username": self.usernames,
-            "url": self.urls,
-            "street-addr": self.addresses,
-            "domain": self.domains,
-            "null-val": self.null_val
+            'rand-date': self.random_date,
+            'date-range': self.date_range,
+            'lat': self.latitude,
+            'long': self.longitude,
+            'uuid': self.gen_uuid,
+            'bool': self.boolean,
+            'gender': self.gender,
+            'ipv6': self.ipv6,
+            'ip': self.ipv4,
+            'user-agent': self.user_agents,
+            'mac-addr': self.mac_address,
+            'hex': self.hex_color,
+            'shorthex': self.short_hex_color,
+            'rgb': self.rgb,
+            'rgba': self.rgba,
+            'country': self.countries,
+            'first-names': self.first_names,
+            'last-names': self.last_names,
+            'cc-type': self.credit_cards,
+            'street-name': self.streets,
+            'color-name': self.colors,
+            'company': self.companies,
+            'weekday': self.days,
+            'email': self.emails,
+            'month': self.months,
+            'username': self.usernames,
+            'url': self.urls,
+            'street-addr': self.addresses,
+            'domain': self.domains,
+            'null-val': self.null_val
         }
 
     def __str__(self):
@@ -138,7 +142,7 @@ class DataGenerator:
         """Return a random element from list"""
         return choice(elements)
 
-    # IPs
+    # Internet & Computers
     def ipv6(self, *args):
         """Generate random IPv6 address"""
         return str(IPv6Address(randint(0, 2 ** self.IPV6_LENGTH - 1)))
@@ -146,6 +150,9 @@ class DataGenerator:
     def ipv4(self, *args):
         """Generate random IPv4 address"""
         return str(IPv4Address(randint(0, (2 ** self.IPV4_LENGTH - 1))))
+
+    def mac_address(self, *args):
+        return self.MAC_FORMAT % tuple((randint(0, 255) for _ in range(6)))
 
     # Colors
     def hex_color(self, *args):
