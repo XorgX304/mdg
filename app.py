@@ -2,6 +2,7 @@ import gzip
 import json
 import os
 import shutil
+import uuid
 from collections import OrderedDict
 from datetime import timedelta, datetime
 import pandas as pd
@@ -94,7 +95,7 @@ def donate():
 def generate():
     """
     Checks if request has cookie, if cookie matches _id in MongoDB users collection,
-    Updates users last_used time & increments generated count by 1.
+    Updates users last_used time & increments generated_count by 1.
     Finally, Executes data generation:
     Parses request parameters, generates, compresses &  uploads file. Returns download link.
     """
@@ -127,9 +128,7 @@ def generate():
     # Now headers contain all column names and options_dict contains all special file/data key:value pairs
 
     # Extract file name, type and number of rows
-    filename = post_data.get(headers.pop()) + CONFIG['extensions']['csv']
-    if filename.count('.') > 1:
-        return 'Illegel filename', 400
+    filename = uuid.uuid4().hex + CONFIG['extensions']['csv']
     num_rows = post_data.get(headers.pop())
     file_type = post_data.get(headers.pop())
     if int(num_rows) > MAX_ROWS or len(headers) > MAX_COLS:
@@ -192,8 +191,8 @@ def write_python_generated(filename, post_data, python_generated, delimiter, opt
             df[header] = df[header].apply(
                     lambda x: data_generator.rand_element(callback) if isinstance(callback, list)
                     else callback(header, options))
-        except TypeError as err:
-            print(err)
+        except TypeError:
+            pass
     # Write the csv with new values and delimiter
     df.to_csv(filename, sep=delimiter, index=False)
     return
@@ -244,7 +243,7 @@ def convert_to_sql(filename, options, headers, post_data):
     """
     Convert CSV file to SQL.
     Extract table name and create table arguments from options, write SQL insert statements formatted with values
-    from each file's row using pandas itertuples function.
+    from each row using pandas itertuples function.
     """
     # Set wanted sql file extension
     sql_file = filename.split('.')[0] + options.get(CONFIG['options']['file_type_options'][3])
