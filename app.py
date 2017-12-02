@@ -87,7 +87,7 @@ def verify():
 # Donation
 @app.route('/donate')
 def donate():
-    return render_template('donate.html')
+    return app.send_static_file('donate.html')
 
 
 # Generate POST handler
@@ -209,6 +209,8 @@ def file_conversion(file_type, filename, options, headers, post_data):
         filename = convert_to_json(filename)
     elif file_type == CONFIG['extensions']['xlsx']:
         filename = convert_to_xlsx(filename)
+    elif file_type == CONFIG['extensions']['html']:
+        filename = convert_to_html(filename)
     elif file_type == CONFIG['extensions']['xml']:
         filename = convert_to_xml(filename, options)
     elif file_type == CONFIG['extensions']['sql']:
@@ -230,6 +232,13 @@ def convert_to_xlsx(filename):
     xlsx_file = filename.split('.')[0] + CONFIG['extensions']['xlsx']
     os.system(CONFIG['conversion']['xlsx'].format(filename, xlsx_file))
     return xlsx_file
+
+
+def convert_to_html(filename):
+    """Call csv2html library to convert CSV to HTML"""
+    html_file = filename.split('.')[0] + CONFIG['extensions']['html']
+    os.system(CONFIG['conversion']['html'].format(html_file, filename))
+    return html_file
 
 
 def convert_to_json(filename):

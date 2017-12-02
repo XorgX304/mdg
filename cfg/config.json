@@ -2,6 +2,7 @@
   "conversion": {
     "xml": "convert_utils/csv2xml/c2x-cmd -s:{0} -sep:, -alias:eRoot={1},eRecord={2} -t",
     "xlsx": "convert_utils/csv2xlsx/csv2xlsx -colsep , -infile {0} -outfile {1} -silent",
+    "html": "csv2html -o {0} {1}",
     "json": "csvtojson {0} > {1} --delimiter=','"
   },
   "sql": {
@@ -36,6 +37,7 @@
     "xml": ".xml",
     "xlsx": ".xlsx",
     "sql": ".sql",
+    "html": ".html",
     "gzip": ".gz"
   },
   "bad_uid": "There was an error with verification. Are you sure you followed the correct link ?",

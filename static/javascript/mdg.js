@@ -139,7 +139,7 @@ $(function () {
     checkInputDuplication();
   });
   // Remove all alerts about column name duplication on keyup from column name input
-  $('.row-body').on('keyup', '.form-control', function () {
+  $('.row-body').on('keyup', '.form-control', function() {
     $.each($('.form-control'), function (i, item) {
       $(item).css('background-color', 'white');
       $('.alert-danger').remove();
@@ -180,13 +180,18 @@ $(function () {
     case 'xml':
       removeExtraOptions();
       dataImg.attr('src', '/images/xml.png');
-      tooltip.attr('title', 'Avoid using special characters in column(node) name. This makes for an valid XML file.\r\n');
+      tooltip.attr('title', 'Avoid using special characters in column(node) name. This makes for an invalid XML file.\r\n');
       wrapContainer.append(rootNode);
       wrapContainer.append(recordNode);
       break;
     case 'xlsx':
       removeExtraOptions();
       dataImg.attr('src', '/images/xlsx.png');
+      tooltip.attr('title', '');
+      break;
+    case 'html':
+      removeExtraOptions();
+      dataImg.attr('src', '/images/html.png');
       tooltip.attr('title', '');
       break;
     }
@@ -221,7 +226,7 @@ $(function () {
     removeAlerts()
   }
   // Register button drop
-  $('#bad-login-register').on('click', function (e) {
+  $('#bad-login-register').on('click', function  (e) {
     e.stopPropagation();
     $('#reg-btn').toggleClass('show')
   });
@@ -231,7 +236,7 @@ $(function () {
  */
 // Remove all alert divs after 10 seconds
 function removeAlerts() {
-  setTimeout(function () {
+  setTimeout(function  () {
     $('.error').remove();
     $('.successful').remove();
   }, 10000)
