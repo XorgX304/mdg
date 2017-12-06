@@ -2,7 +2,7 @@
 File also includes Bootstrap template JS code
 -- Unminified version --
 */
-
+'use strict';
 const downloadBtn = '<p style="display: inline-block; font-size: 14px; text-align: left;"' + ' id="download"><a href="#" download><button class="btn btn-secondary btn-success">' + '<i class="fa fa-download"></i></button></a></p>';
 const floatRange = '<p style="font-size: 14px; text-align: left;">Min<input min="0" max="10000000" value="1" type="number"' + ' class="float-range-min"' + ' required="required">Max' + '<input type="number" min="0" max="10000000"' + ' value="10" class="float-range-max" required="required"></p>';
 const intRange = '<p style="font-size: 14px; text-align: left;">Min' + '<input min="0" max="10000000000" value="1" type="number" class="id-range-min" required="required">Max' + '<input min="0" max="10000000000" value="1000" type="number" class="id-range-max" required="required"></p>';
@@ -25,7 +25,6 @@ const recordNode = '<div class="row text-left extra-options">\n' + '<div class="
 const verificationSent = '<div class="alert alert-success">' + 'Verification email sent successfully. Please check your email for further instructions.</div>'
 const verify = "<div id='verification'><label for='verification-email'>First time in Mock data generator ? Enter your email below to confirm you're human</label><br><input type='email' placeholder='Email' id='verification-email' required='required' style='margin-bottom: 5px;'><br><button type='button' id='verify' class='btn btn-outline-success'>Send verification</button></div>";
 (function ($) {
-  "use strict"; // Start of use strict
   // Smooth scrolling using jQuery easing
   $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function () {
     if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
@@ -65,9 +64,8 @@ const verify = "<div id='verification'><label for='verification-email'>First tim
       $(this).removeClass("floating-label-form-group-with-focus");
     });
   });
-})(jQuery); // End of use strict
+})(jQuery);
 ! function (o) {
-  "use strict";
   o('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function () {
     if (location.pathname.replace(/^\//, "") == this.pathname.replace(/^\//, "") && location.hostname == this.hostname) {
       let a = o(this.hash);
@@ -94,7 +92,6 @@ const verify = "<div id='verification'><label for='verification-email'>First tim
     })
   })
 }(jQuery);
-'use strict';
 $(function () {
   // Variables after page load
   let rowContainer = $('.row-container'),
@@ -351,7 +348,6 @@ function generateMockData() {
   });
   return false
 }
-'use strict';
 
 function typeOptions(type, column, td, postData) {
   switch (type) {
