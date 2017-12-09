@@ -13,7 +13,7 @@ const rowContent = '<div class="row text-center">\n' + ' <div class="col-md-3">\
 const tableNameInput = '<div id="table-name-row" class="row text-left extra-options">\n' + '  <div class="col-sm-4">\n' + '    <label for="table-name" id="table-name-label">Table Name</label>\n' + '<input id="table-name" type="text" name="table-name" required="required" style="width: 120px; margin: 3px 3px 3px 3px; height: 70%;"/>\n' + '  </div></div>';
 const createTable = '<div id="create-table-row" class="row text-left extra-options">\n' + '  <div class="col-sm-4">\n' + '    <input id="create-table" type="checkbox" name="create-table" style="margin-right: 3px; height: 70%;"/>\n' + '    <label for="create-table" id="create-table-label">Create Table Statement</label>\n' + '  </div>\n' + '</div>';
 const delimiter = '<div id="delimiter" class="row text-left extra-options rdf-line"><div class="col-sm-4">\n' + '<label for="delimiter">Delimiter</label>' + '  <select required="required" class="rdf-input delimiter">\n' + '    <option value="comma">Comma</option>\n' + '    <option value="tab">Tab</option>\n' + '    <option value="pipe">Pipe</option>\n' + '    <option value="semi">Semi colon</option>\n' + '    <option value="caret">Caret</option>\n' + '  </select></div></div>';
-const alertMsg = '<div class="alert alert-danger">Duplicate headers are not allowed</div>';
+const alertMsg = '<div id="warning-msg" class="alert alert-danger">Duplicate or forbidden column names</div>';
 const badCookie = '<div class="alert alert-danger">"There was something wrong with the cookie set in your browser. Please clear your cookies and try again."</div>';
 const maxCols = '<div class="alert alert-danger">Maximum number of columns reached</div>';
 const generalErr = '<div class="alert alert-danger">Oops ! Something went wrong. Please try again</div>';
@@ -24,6 +24,9 @@ const rootNode = '<div class="row text-left extra-options">\n' + '<div class="co
 const recordNode = '<div class="row text-left extra-options">\n' + '<div class="col-sm-4"><label for="record-node" id="record-node-label">Record Node</label>\n' + '<input id="record-node" name="record-node" required="required" value="record"\n' + 'style="width: 120px; margin: 3px 3px 3px 3px; height: 70%;;"/>\n</div>\n</div>'
 const verificationSent = '<div class="alert alert-success">' + 'Verification email sent successfully. Please check your email for further instructions.</div>'
 const verify = "<div id='verification'><label for='verification-email'>First time in Mock data generator ? Enter your email below to confirm you're human</label><br><input type='email' placeholder='Email' id='verification-email' required='required' style='margin-bottom: 5px;'><br><button type='button' id='verify' class='btn btn-outline-success'>Send verification</button></div>";
+const badColNames = ['int', 'rand', 'NR', 'print', 'OFS', 'OFMT'];
+
+
 (function ($) {
   // Smooth scrolling using jQuery easing
   $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function () {
@@ -111,7 +114,7 @@ $(function () {
     $(this).parent().parent().remove();
     event.preventDefault();
   });
-  $('.final').on('click', '#verify', function (event) {
+  $('.final').on('click', '#verify', function () {
     let email = $('#verification-email').val();
     $('.final').empty();
     $('.final').append(loader);
@@ -130,10 +133,10 @@ $(function () {
       }
     })
   });
-  // Prevent form submission and call checkInputDuplication function
+  // Prevent form submission and call checkInputValidity function
   form.on('submit', function (event) {
     event.preventDefault();
-    checkInputDuplication();
+    checkInputValidity();
   });
   // Remove all alerts about column name duplication on keyup from column name input
   $('.row-body').on('keyup', '.form-control', function() {
@@ -146,7 +149,7 @@ $(function () {
   // Remove download button after click and restore `Generate Data` button
   form.on('click', '#download > a', function (e) {
     e.preventDefault();
-    window.open($('#download > a').attr('href'))
+    window.open($('#download > a').attr('href'));
     $(this).parent().remove();
     $('#generate-data').show();
   });
@@ -255,12 +258,14 @@ function addNewField() {
   }
 }
 
-// Test for duplication in column names. If none, call generateMockData
-function checkInputDuplication() {
+// Tests for duplicate or forbidden column names. If none, calls generateMockData
+function checkInputValidity() {
   let inputs = $('.row-input'),
-    uniques = [];
+    uniques = [],
+    valid = true;
   $.each(inputs, function (i, item) {
-    if (uniques.indexOf($(item).val()) !== -1) {
+    if (uniques.indexOf($(item).val()) !== -1 || badColNames.includes($(item).val())) {
+      valid = false;
       $(item).css('background-color', 'red');
       if ($('#warning-msg').length === 0) {
         $('#main-form').before(alertMsg)
@@ -269,7 +274,7 @@ function checkInputDuplication() {
       uniques.push($(item).val())
     }
   });
-  if (inputs.length === uniques.length) {
+  if (inputs.length === uniques.length && valid) {
     generateMockData();
   }
 }
@@ -282,7 +287,7 @@ function downloadPlaceHolder() {
 function displayDownload(downloadUrl) {
   $('#loader').remove();
   $('.final').append(downloadBtn);
-  $('#download').find('a').attr('href', downloadUrl)
+  $('#download').find('a').attr('href', downloadUrl);
   $('#download').find('a').attr('download', downloadUrl)
 }
 
