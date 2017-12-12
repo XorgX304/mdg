@@ -114,6 +114,17 @@ $(function () {
     $(this).parent().parent().remove();
     event.preventDefault();
   });
+  // Remove special chars from column names due to erroneous behaviour
+  $('input').on('input', function() {
+    let char = this.selectionStart,
+        forbidden = /[^a-z0-9_]/gi,
+        value = $(this).val();
+    if(forbidden.test(value)) {
+      $(this).val(value.replace(forbidden, ''));
+      char--;
+    }
+  this.setSelectionRange(char, char);
+  });
   $('.final').on('click', '#verify', function () {
     let email = $('#verification-email').val();
     $('.final').empty();
