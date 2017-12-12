@@ -172,7 +172,8 @@ $(function () {
     case 'sql':
       removeExtraOptions();
       dataImg.attr('src', '/images/sql.png');
-      tooltip.attr('title', 'Checking the "Create Table" box will also include the "DROP TABLE IF EXISTS"' + ' statement.\r\nAvoid using SQL keywords such as NULL, TABLE or COLUMN in table or column name.');
+      tooltip.attr('title', 'Checking the "Create Table" box will also include the "DROP TABLE IF EXISTS"' +
+          ' statement.\r\nAvoid using SQL keywords such as NULL, COLUMN, or INT in table or column names.');
       wrapContainer.append(tableNameInput);
       wrapContainer.append(sqlExtension);
       wrapContainer.append(createTable);
@@ -191,7 +192,7 @@ $(function () {
     case 'xml':
       removeExtraOptions();
       dataImg.attr('src', '/images/xml.png');
-      tooltip.attr('title', 'Avoid using special characters in column(node) name. This makes for an invalid XML file.\r\n');
+      tooltip.attr('title', '');
       wrapContainer.append(rootNode);
       wrapContainer.append(recordNode);
       break;
