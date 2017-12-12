@@ -40,6 +40,7 @@
     "html": ".html",
     "gzip": ".gz"
   },
+  "bad_col_names": ["int", "rand", "NR", "print", "OFS", "OFMT"],
   "bad_uid": "There was an error with verification. Are you sure you followed the correct link ?",
   "success": "Verification Successful. You can now generate and download files freely.",
   "email_verified": "Email address is already verified. You can generate data freely now.",

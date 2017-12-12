@@ -27,7 +27,6 @@ MDG = 'mdg'
 DELIMITER = 'delimiter'
 INDEX = 'index.html'
 MAX_ROWS = 250000
-MAX_COLS = 10
 ENV = os.environ
 
 with open('cfg/config.json', 'r') as config_file:
@@ -131,7 +130,7 @@ def generate():
     filename = uuid.uuid4().hex + CONFIG['extensions']['csv']
     num_rows = post_data.get(headers.pop())
     file_type = post_data.get(headers.pop())
-    if int(num_rows) > MAX_ROWS or len(headers) > MAX_COLS:
+    if not check_request_validity(num_rows, headers):
         return "Illegel request", 400
     # Create a file with headers
     with open(filename, 'w') as file:
@@ -336,6 +335,29 @@ def delete_from_disk(file):
     if file[1] != CSV:
         os.remove(file[0] + CONFIG['extensions']['csv'])  # Remove CSV version if file format is different than CSV
     return
+
+
+def check_request_validity(num_rows, headers):
+    """Check if request params are valid (passing both max_num_rows & max_min_headers)"""
+    return all((max_num_rows(num_rows), max_min_headers(headers), bad_header_names(headers)))
+
+
+def max_num_rows(num_rows):
+    """Test if num_rows param gt 250,000"""
+    return int(num_rows) <= MAX_ROWS
+
+
+def max_min_headers(headers):
+    """Test if headers length gt 0 & lt 10 """
+    return 10 >= len(headers) > 0
+
+
+def bad_header_names(headers):
+    """Test if names that break the AWK script exist in headers"""
+    for name in CONFIG['bad_col_names']:
+        if name in headers:
+            return False
+    return True
 
 
 # 404 #
