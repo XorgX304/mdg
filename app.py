@@ -256,7 +256,7 @@ def convert_to_sql(filename, options, headers, post_data):
     from each row using pandas itertuples function.
     """
     # Set wanted sql file extension
-    sql_file = filename.split('.')[0] + options.get(CONFIG['options']['file_type_options'][3])
+    sql_file = filename.split('.')[0] + '.' + options.get(CONFIG['options']['file_type_options'][3])
     # Set wanted table name and format SQL insert string with table name
     table_name = options.get(CONFIG['options']['file_type_options'][0])  # Get table name from options
     sql_insert = CONFIG['sql']['insert'].format(table_name)
