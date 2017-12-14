@@ -70,3 +70,7 @@ class MockDataGeneratorDB:
                                            self.INC: {self.GENERATED_COUNT: 1}}
             )
         return
+
+    def close(self):
+        self.conn.close()
+        return True

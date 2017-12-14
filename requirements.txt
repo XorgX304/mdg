@@ -1,3 +1,6 @@
+locustio
+beautifulsoup4
+requests
 pandas==0.21.0
 Flask==0.11.1
 Flask-Mail==0.9.1
