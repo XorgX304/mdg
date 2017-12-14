@@ -25,7 +25,7 @@ const recordNode = '<div class="row text-left extra-options">\n' + '<div class="
 const verificationSent = '<div class="alert alert-success">' + 'Verification email sent successfully. Please check your email for further instructions.</div>'
 const verify = "<div id='verification'><label for='verification-email'>First time in Mock data generator ? Enter your email below to confirm you're human</label><br><input type='email' placeholder='Email' id='verification-email' required='required' style='margin-bottom: 5px;'><br><button type='button' id='verify' class='btn btn-outline-success'>Send verification</button></div>";
 const badColNames = ['int', 'rand', 'NR', 'print', 'OFS', 'OFMT'];
-
+const downloadInfo = '<div id="download-info" class="alert alert-info" style="font-size: 14px;">For HTML, JSON or XML - use Right Click > Save Link As</div>';
 
 (function ($) {
   // Smooth scrolling using jQuery easing
@@ -162,6 +162,7 @@ $(function () {
     e.preventDefault();
     window.open($('#download > a').attr('href'));
     $(this).parent().remove();
+    $('#download-info').remove();
     $('#generate-data').show();
   });
   // Add/Remove additional options per DATA type, change data type image and tooltip message.
@@ -307,6 +308,7 @@ function downloadPlaceHolder() {
 function displayDownload(downloadUrl) {
   $('#loader').remove();
   $('.final').append(downloadBtn);
+  $('.final').append(downloadInfo);
   $('#download').find('a').attr('href', downloadUrl);
   $('#download').find('a').attr('download', downloadUrl)
 }
