@@ -48,7 +48,7 @@ mail = Mail(app)
 db = MockDataGeneratorDB(ENV.get('DB_HOST'), ENV.get('DB_PORT'), ENV.get('DB_NAME'), ENV.get('DB_COL'))
 awk = AWKDataGenerator()
 data_generator = DataGenerator()
-client = storage.Client()
+client = storage.Client('mdgen-187315')
 bucket = client.get_bucket(CONFIG['bucket'])
 
 
@@ -359,8 +359,8 @@ def bad_header_names(headers):
     Test if a bad name (breaks AWK) exist in headers or if name contains
     special chars (breaks XML generation)
     """
-    for name in CONFIG['bad_col_names']:
-        if name in headers or any(c in name for c in punctuation):
+    for header in headers:
+        if header in CONFIG['bad_col_names'] or any(c in header for c in SPECIAL_CHARS):
             return False
     return True
 
