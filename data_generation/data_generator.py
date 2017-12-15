@@ -25,23 +25,23 @@ class DataGenerator:
     DATE_RANGE_START = 'dateRangeStart'
     DATE_RANGE_END = 'dateRangeEnd'
 
-    def __init__(self):
+    def __init__(self, path='data_files'):
         # Load data files to RAM
-        self.countries = open('data_files/countries.txt').read().split(self.EOL)
-        self.first_names = open('data_files/names.txt').read().split()
-        self.last_names = open('data_files/last_names.txt').read().split()
-        self.colors = open('data_files/colors.txt').read().split()
-        self.companies = open('data_files/companies.txt').read().split(self.EOL)
-        self.credit_cards = open('data_files/credit_cards.txt').read().split(self.EOL)
-        self.days = open('data_files/days.txt').read().split()
-        self.domains = open('data_files/domains.txt').read().split()
-        self.emails = open('data_files/emails.txt').read().split()
-        self.months = open('data_files/months.txt').read().split()
-        self.streets = open('data_files/streets.txt').read().split(self.EOL)
-        self.addresses = open('data_files/addresses.txt').read().split(self.EOL)
-        self.urls = open('data_files/urls.txt').read().split()
-        self.user_agents = open('data_files/user_agents.txt').read().split(self.EOL)
-        self.usernames = open('data_files/usernames.txt').read().split()
+        self.countries = open(path + '/countries.txt').read().split(self.EOL)
+        self.first_names = open(path + '/names.txt').read().split()
+        self.last_names = open(path + '/last_names.txt').read().split()
+        self.colors = open(path + '/colors.txt').read().split()
+        self.companies = open(path + '/companies.txt').read().split(self.EOL)
+        self.credit_cards = open(path + '/credit_cards.txt').read().split(self.EOL)
+        self.days = open(path + '/days.txt').read().split()
+        self.domains = open(path + '/domains.txt').read().split()
+        self.emails = open(path + '/emails.txt').read().split()
+        self.months = open(path + '/months.txt').read().split()
+        self.streets = open(path + '/streets.txt').read().split(self.EOL)
+        self.addresses = open(path + '/addresses.txt').read().split(self.EOL)
+        self.urls = open(path + '/urls.txt').read().split()
+        self.user_agents = open(path + '/user_agents.txt').read().split(self.EOL)
+        self.usernames = open(path + '/usernames.txt').read().split()
         # Data types and their corresponding commands in the class
         self.commands = {
             'rand-date': self.random_date,
