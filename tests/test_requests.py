@@ -98,7 +98,3 @@ class POSTRequestTestCase(unittest.TestCase):
         del test_data['test_header1']
         response = self.mock_app.post(self.generate, data=test_data)
         self.assertEqual(400, response.status_code)
-
-
-if __name__ == '__main__':
-    unittest.main()

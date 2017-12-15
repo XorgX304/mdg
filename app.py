@@ -5,7 +5,7 @@ import shutil
 import uuid
 from collections import OrderedDict
 from datetime import timedelta, datetime
-from string import punctuation
+from string import punctuation, digits
 import pandas as pd
 from google.cloud import storage
 from flask import Flask, request, render_template, make_response
@@ -29,7 +29,7 @@ DELIMITER = 'delimiter'
 INDEX = 'index.html'
 MAX_ROWS = 250000
 ENV = os.environ
-SPECIAL_CHARS = punctuation.replace('_', '')
+SPECIAL_CHARS = punctuation.replace('_', '') + digits
 
 with open('cfg/config.json', 'r') as config_file:
     CONFIG = json.loads(config_file.read())

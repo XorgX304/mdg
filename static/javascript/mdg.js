@@ -117,7 +117,7 @@ $(function () {
   // Remove special chars from column names due to erroneous behaviour
   form.on('input', 'input', function() {
     let char = this.selectionStart,
-        forbidden = /[^a-z0-9_]/gi,
+        forbidden = /[^a-z_]/gi,
         value = $(this).val();
     if(forbidden.test(value)) {
       $(this).val(value.replace(forbidden, ''));
