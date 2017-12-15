@@ -2,7 +2,6 @@ import unittest
 import datetime
 import uuid
 from random import randint, choice
-import ddt
 from data_generation.awk_data_generator import AWKDataGenerator
 from data_generation.data_generator import DataGenerator
 
@@ -12,6 +11,7 @@ class PythonDataGeneratorTestCase(unittest.TestCase):
 
     def setUp(self):
         self.dg = DataGenerator('../data_files')
+        self.col = uuid.uuid4().hex  # Random col name
 
     def test_rand_date(self):
         for i in range(50):
@@ -23,12 +23,11 @@ class PythonDataGeneratorTestCase(unittest.TestCase):
     def test_date_range(self):
         for i in range(50):
             start, end = sorted((self.dg.random_date(), self.dg.random_date()))  # Two random dates
-            col = uuid.uuid4().hex  # Random col name
             options = {
-                col + 'dateRangeStart': str(start),
-                col + 'dateRangeEnd': str(end)
+                self.col + 'dateRangeStart': str(start),
+                self.col + 'dateRangeEnd': str(end)
             }
-            self.assertTrue(start <= self.dg.date_range(col, options) <= end)
+            self.assertTrue(start <= self.dg.date_range(self.col, options) <= end)
 
     def test_longitude(self):
         for i in range(50):
@@ -37,6 +36,18 @@ class PythonDataGeneratorTestCase(unittest.TestCase):
     def test_latitude(self):
         for i in range(50):
             self.assertTrue(-90 <= self.dg.latitude() <= 90)
+
+    def test_uuid(self):
+        self.assertIsInstance(self.dg.gen_uuid(), uuid.UUID)
+
+    def test_boolean(self):
+        pass
+
+    def test_gender(self):
+        pass
+
+    def test_null(self):
+        self.assertIsNone(self.dg.null_val())
 
 
 

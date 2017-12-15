@@ -13,7 +13,7 @@ const rowContent = '<div class="row text-center">\n' + ' <div class="col-md-3">\
 const tableNameInput = '<div id="table-name-row" class="row text-left extra-options">\n' + '  <div class="col-sm-4">\n' + '    <label for="table-name" id="table-name-label">Table Name</label>\n' + '<input id="table-name" type="text" name="table-name" required="required" style="width: 120px; margin: 3px 3px 3px 3px; height: 70%;"/>\n' + '  </div></div>';
 const createTable = '<div id="create-table-row" class="row text-left extra-options">\n' + '  <div class="col-sm-4">\n' + '    <input id="create-table" type="checkbox" name="create-table" style="margin-right: 3px; height: 70%;"/>\n' + '    <label for="create-table" id="create-table-label">Create Table Statement</label>\n' + '  </div>\n' + '</div>';
 const delimiter = '<div id="delimiter" class="row text-left extra-options rdf-line"><div class="col-sm-4">\n' + '<label for="delimiter">Delimiter</label>' + '  <select required="required" class="rdf-input delimiter">\n' + '    <option value="comma">Comma</option>\n' + '    <option value="tab">Tab</option>\n' + '    <option value="pipe">Pipe</option>\n' + '    <option value="semi">Semi colon</option>\n' + '    <option value="caret">Caret</option>\n' + '  </select></div></div>';
-const alertMsg = '<div id="warning-msg" class="alert alert-danger">Duplicate, empty or forbidden column names</div>';
+const alertMsg = '<div id="warning-msg" class="alert alert-danger">Duplicate, forbidden, or too few column names</div>';
 const badCookie = '<div class="alert alert-danger">"There was something wrong with the cookie set in your browser. Please clear your cookies and try again."</div>';
 const maxCols = '<div class="alert alert-danger">Maximum number of columns reached</div>';
 const generalErr = '<div class="alert alert-danger">Oops ! Something went wrong. Please try again</div>';
@@ -273,7 +273,7 @@ function checkInputValidity() {
   let inputs = $('.row-input'),
     uniques = [],
     valid = true;
-  if (inputs.length === 0) {
+  if (inputs.length <= 1) {
     badInputActions(null)
   } else {
     $.each(inputs, function (i, item) {
@@ -285,7 +285,7 @@ function checkInputValidity() {
       }
     });
   }
-  if (inputs.length === uniques.length && uniques.length > 0 && valid) {
+  if (inputs.length === uniques.length && uniques.length > 1 && valid) {
     generateMockData();
   }
 }
