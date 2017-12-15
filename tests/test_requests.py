@@ -1,10 +1,11 @@
 import os
 import unittest
 import uuid
+from random import choice
 from collections import OrderedDict
-from bs4 import BeautifulSoup
 from tests import mock_app
-from string import digits, punctuation
+from string import punctuation, digits
+from bs4 import BeautifulSoup
 
 
 """
@@ -102,17 +103,22 @@ class POSTRequestTestCase(unittest.TestCase):
         response = self.mock_app.post(self.generate, data=test_data)
         self.assertEqual(400, response.status_code)
 
-    def test_bad_header_digit(self):
+    def test_header_with_digit_invalid(self):
         for i in range(len(digits)):
             test_data = self.test_data
-            test_data['header' + digits[i]] = 'mock_data_type'
+            test_data['{}header'.format(digits[i])] = 'mock_data_type'
             response = self.mock_app.post(self.generate, data=test_data)
             self.assertEqual(400, response.status_code)
 
+    def test_header_with_digit_valid(self):
+        test_data = self.test_data
+        test_data['header{}'.format(choice(digits))] = 'mock_data_type'
+        response = self.mock_app.post(self.generate, data=test_data)
+        self.assertEqual(200, response.status_code)
+
     def test_bad_header_char(self):
         charset = punctuation.replace('_', '')
-        for i in range(len(charset)):
-            test_data = self.test_data
-            test_data['header' + charset[i]] = 'mock_data_type'
-            response = self.mock_app.post(self.generate, data=test_data)
-            self.assertEqual(400, response.status_code)
+        test_data = self.test_data
+        test_data['header{}' + choice(charset)] = 'mock_data_type'
+        response = self.mock_app.post(self.generate, data=test_data)
+        self.assertEqual(400, response.status_code)

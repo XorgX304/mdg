@@ -27,6 +27,21 @@ const verify = "<div id='verification'><label for='verification-email'>First tim
 const badColNames = ['int', 'rand', 'NR', 'print', 'OFS', 'OFMT'];
 const downloadInfo = '<div id="download-info" class="alert alert-info" style="font-size: 14px;">For HTML, JSON or XML - use Right Click > Save Link As</div>';
 
+// Prototype function for checking whether string has digits only
+String.prototype.isNumber = function(){return /^\d+$/.test(this);};
+
+
+// Get random char
+function randChar() {
+  let char = Math.random().toString(36).substring(2,3);
+  if (char.isNumber()) {
+    return randChar()
+  } else {
+    return char
+  }
+}
+
+
 (function ($) {
   // Smooth scrolling using jQuery easing
   $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function () {
@@ -115,16 +130,16 @@ $(function () {
     event.preventDefault();
   });
   // Remove special chars from column names due to erroneous behaviour
-  $form.on('input', 'input', function() {
+  $('form').on('input', 'input', function() {
     let char = this.selectionStart,
-        forbidden = /[^a-z_]/gi,
-        value = $(this).val();
-    if(forbidden.test(value)) {
-      $(this).val(value.replace(forbidden, ''));
-      char--;
-    }
+    forbidden = /[^a-z0-9_]/gi,
+    value = $(this).val();
+  if(forbidden.test(value)) {
+    $(this).val(value.replace(forbidden, ''));
+    char--;
+  }
   this.setSelectionRange(char, char);
-  });
+});
   $('.final').on('click', '#verify', function () {
     let $final = $('.final');
     let $email = $('#verification-email').val();
@@ -307,13 +322,12 @@ function downloadPlaceHolder() {
 }
 // Remove placeholder and display download button
 function displayDownload(downloadUrl) {
-  let $final = $('.final'),
-      $download = $('#download');
+  let $final = $('.final');
   $('#loader').remove();
   $final.append(downloadBtn);
   $final.append(downloadInfo);
-  $download.find('a').attr('href', downloadUrl);
-  $download.find('a').attr('download', downloadUrl)
+  $('#download').find('a').attr('href', downloadUrl);
+  $('#download').find('a').attr('download', downloadUrl)
 }
 
 function displayTempErrorMsg(message) {
@@ -335,11 +349,14 @@ function generateMockData() {
       $column = $(row).find('input').val(), // Column name
       $type = $(row).find('select').val(); // Generated type
     if ($column.includes(' ')) {
-      $column = $column.split(' ').join('') // Remove white space from column name (causes invalid JSON & XML)
+      $column = $column.split(' ').join(''); // Remove white space from column name (causes invalid JSON & XML)
     }
     // Checking for special types & additional options
-    postData = typeOptions($type, $column, $td, postData);
+    if ($column.charAt(0).isNumber()) {
+      $column = randChar() + $column
+    }
     postData[$column] = $type;
+    postData = typeOptions($type, $column, $td, postData);
   });
   // Get data type, number of rows & additional options
   postData.compress = $('#compress').is(':checked');

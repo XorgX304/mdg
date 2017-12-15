@@ -22,7 +22,7 @@ DELIMITER = 'delimiter'
 INDEX = 'index.html'
 MAX_ROWS = 250000
 ENV = os.environ
-SPECIAL_CHARS = punctuation.replace('_', '') + digits
+SPECIAL_CHARS = punctuation.replace('_', '')
 
 dotenv_file = find_dotenv(raise_error_if_not_found=True)
 load_dotenv(dotenv_file)
@@ -75,7 +75,6 @@ def generate():
         return CONFIG['not_verified'], 401
     if not db.find_by_id(uid):
         return CONFIG['bad_cookie_value'], 403
-    # Updates user's generated_count and last_used:
     request_literal = request.get_data().decode(UTF)
     post_data = parse_post_data(request_literal)
     headers = list(post_data.keys())
@@ -92,7 +91,7 @@ def generate():
     test_headers = [h for h in headers if h not in ('numRows', 'fileType', 'dataType')]
     if not check_request_validity(num_rows, test_headers):
         return "Illegel request", 400
-    return None
+    return 'test passed', 200
 
 
 def parse_post_data(request_data):
@@ -117,12 +116,8 @@ def max_min_headers(headers):
 
 
 def bad_header_names(headers):
-    """
-    Test if a bad name (breaks AWK) exist in headers or if name contains
-    special chars (breaks XML generation)
-    """
     for header in headers:
-        if header in CONFIG['bad_col_names'] or any(c in SPECIAL_CHARS for c in header):
+        if header in CONFIG['bad_col_names'] or any(c in SPECIAL_CHARS for c in header) or header[0].isdigit():
             return False
     return True
 
@@ -130,7 +125,6 @@ def bad_header_names(headers):
 # 404 #
 @app.errorhandler(404)
 def not_found(err):
-
     return app.send_static_file('404.html'), 404
 
 

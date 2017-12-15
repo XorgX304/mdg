@@ -5,7 +5,7 @@ import shutil
 import uuid
 from collections import OrderedDict
 from datetime import timedelta, datetime
-from string import punctuation, digits
+from string import punctuation
 import pandas as pd
 from google.cloud import storage
 from flask import Flask, request, render_template, make_response
@@ -30,7 +30,7 @@ DELIMITER = 'delimiter'
 INDEX = 'index.html'
 MAX_ROWS = 250000
 ENV = os.environ
-SPECIAL_CHARS = punctuation.replace('_', '') + digits
+SPECIAL_CHARS = punctuation.replace('_', '')
 
 with open('cfg/config.json', 'r') as config_file:
     CONFIG = json.loads(config_file.read())
@@ -133,7 +133,6 @@ def generate():
             options_dict[option] = post_data.get(option)
     headers = [header for header in headers if header not in options_dict.keys()]
     # Now headers contain all column names and options_dict contains all special file/data key:value pairs
-
     # Extract file name, type and number of rows
     filename = uuid.uuid4().hex + CONFIG['extensions']['csv']
     num_rows = post_data.get(headers.pop())
@@ -370,7 +369,7 @@ def bad_header_names(headers):
     special chars (breaks XML generation)
     """
     for header in headers:
-        if header in CONFIG['bad_col_names'] or any(c in SPECIAL_CHARS for c in header):
+        if header in CONFIG['bad_col_names'] or any(c in SPECIAL_CHARS for c in header) or header[0].isdigit():
             return False
     return True
 
