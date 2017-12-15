@@ -31,11 +31,11 @@ const downloadInfo = '<div id="download-info" class="alert alert-info" style="fo
   // Smooth scrolling using jQuery easing
   $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function () {
     if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-      let target = $(this.hash);
-      target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-      if (target.length) {
+      let $target = $(this.hash);
+      $target = $target.length ? $target : $('[name=' + this.hash.slice(1) + ']');
+      if ($target.length) {
         $('html, body').animate({
-          scrollTop: (target.offset().top - 48)
+          scrollTop: ($target.offset().top - 48)
         }, 1000, "easeInOutExpo");
         return false;
       }
@@ -97,11 +97,11 @@ const downloadInfo = '<div id="download-info" class="alert alert-info" style="fo
 }(jQuery);
 $(function () {
   // Variables after page load
-  let rowContainer = $('.row-container'),
-    form = $('#main-form'),
-    tooltip = $('#tooltip');
+  let $rowContainer = $('.row-container'),
+    $form = $('#main-form'),
+    $tooltip = $('#tooltip');
   // Prevent default behaviour of tooltip click
-  tooltip.on('click', function (event) {
+  $tooltip.on('click', function (event) {
     event.preventDefault()
   });
   // Call add new field function
@@ -110,12 +110,12 @@ $(function () {
     event.preventDefault();
   });
   // Remove current row
-  rowContainer.on('click', '.btn.btn-sm', function (event) {
+  $rowContainer.on('click', '.btn.btn-sm', function (event) {
     $(this).parent().parent().remove();
     event.preventDefault();
   });
   // Remove special chars from column names due to erroneous behaviour
-  form.on('input', 'input', function() {
+  $form.on('input', 'input', function() {
     let char = this.selectionStart,
         forbidden = /[^a-z_]/gi,
         value = $(this).val();
@@ -126,18 +126,19 @@ $(function () {
   this.setSelectionRange(char, char);
   });
   $('.final').on('click', '#verify', function () {
-    let email = $('#verification-email').val();
-    $('.final').empty();
-    $('.final').append(loader);
+    let $final = $('.final');
+    let $email = $('#verification-email').val();
+    $final.empty();
+    $final.append(loader);
     $.ajax({
       type: 'GET',
       url: '/sendverification',
       data: {
-        email: email
+        email: $email
       },
       success: function (msg) {
-        $('.final').empty();
-        $('.final').append(verificationSent)
+        $final.empty();
+        $final.append(verificationSent)
       },
       error: function (err) {
         displayTempErrorMsg(generalErr);
@@ -145,7 +146,7 @@ $(function () {
     })
   });
   // Prevent form submission and call checkInputValidity function
-  form.on('submit', function (event) {
+  $form.on('submit', function (event) {
     event.preventDefault();
     checkInputValidity();
   });
@@ -158,7 +159,7 @@ $(function () {
   });
 
   // Remove download button after click and restore `Generate Data` button
-  form.on('click', '#download > a', function (e) {
+  $form.on('click', '#download > a', function (e) {
     e.preventDefault();
     window.open($('#download > a').attr('href'));
     $(this).parent().remove();
@@ -167,67 +168,67 @@ $(function () {
   });
   // Add/Remove additional options per DATA type, change data type image and tooltip message.
   $('#data-type').on('change', function () {
-    let dataImg = $('#data-img'),
-      wrapContainer = $('.wrap-container');
+    let $dataImg = $('#data-img'),
+      $wrapContainer = $('.wrap-container');
     switch ($(this).val()) {
     case 'sql':
       removeExtraOptions();
-      dataImg.attr('src', '/images/sql.png');
-      tooltip.attr('title', 'Checking the "Create Table" box will also include the "DROP TABLE IF EXISTS"' +
+      $dataImg.attr('src', '/images/sql.png');
+      $tooltip.attr('title', 'Checking the "Create Table" box will also include the "DROP TABLE IF EXISTS"' +
           ' statement.\r\nAvoid using SQL keywords such as NULL, COLUMN, or INT in table or column names.');
-      wrapContainer.append(tableNameInput);
-      wrapContainer.append(sqlExtension);
-      wrapContainer.append(createTable);
+      $wrapContainer.append(tableNameInput);
+      $wrapContainer.append(sqlExtension);
+      $wrapContainer.append(createTable);
       break;
     case 'json':
       removeExtraOptions();
-      dataImg.attr('src', '/images/json.png');
-      tooltip.attr('title', 'Use --jsonArray flag with MongoDB to import the file to a collection.');
+      $dataImg.attr('src', '/images/json.png');
+      $tooltip.attr('title', 'Use --jsonArray flag with MongoDB to import the file to a collection.');
       break;
     case 'csv':
       removeExtraOptions();
-      dataImg.attr('src', '/images/csv.png');
-      tooltip.attr('title', 'All files are first created in CSV format and then converted to their appropriate type.');
-      wrapContainer.append(delimiter);
+      $dataImg.attr('src', '/images/csv.png');
+      $tooltip.attr('title', 'All files are first created in CSV format and then converted to their appropriate type.');
+      $wrapContainer.append(delimiter);
       break;
     case 'xml':
       removeExtraOptions();
-      dataImg.attr('src', '/images/xml.png');
-      tooltip.attr('title', '');
-      wrapContainer.append(rootNode);
-      wrapContainer.append(recordNode);
+      $dataImg.attr('src', '/images/xml.png');
+      $tooltip.attr('title', '');
+      $wrapContainer.append(rootNode);
+      $wrapContainer.append(recordNode);
       break;
     case 'xlsx':
       removeExtraOptions();
-      dataImg.attr('src', '/images/xlsx.png');
-      tooltip.attr('title', '');
+      $dataImg.attr('src', '/images/xlsx.png');
+      $tooltip.attr('title', '');
       break;
     case 'html':
       removeExtraOptions();
-      dataImg.attr('src', '/images/html.png');
-      tooltip.attr('title', '');
+      $dataImg.attr('src', '/images/html.png');
+      $tooltip.attr('title', '');
       break;
     }
   });
   // Add/Remove additional options per FIELD type on change
-  rowContainer.on('change', 'select', function () {
-    let options = $(this).parent().next();
-    options.text('');
+  $rowContainer.on('change', 'select', function () {
+    let $options = $(this).parent().next();
+    $options.text('');
     switch ($(this).val()) {
     case 'date-range':
-      options.append(dateInput);
+      $options.append(dateInput);
       break;
     case 'bool':
-      options.append(boolInput);
+      $options.append(boolInput);
       break;
     case 'random-int':
-      options.append(intRange);
+      $options.append(intRange);
       break;
     case 'random-float':
-      options.append(floatRange);
+      $options.append(floatRange);
       break;
     case 'gender':
-      options.append(genderInput);
+      $options.append(genderInput);
       break;
     }
   });
@@ -270,13 +271,13 @@ function addNewField() {
 
 // Tests for duplicate or forbidden column names. If none, calls generateMockData
 function checkInputValidity() {
-  let inputs = $('.row-input'),
+  let $inputs = $('.row-input'),
     uniques = [],
     valid = true;
-  if (inputs.length <= 1) {
+  if ($inputs.length <= 1) {
     badInputActions(null)
   } else {
-    $.each(inputs, function (i, item) {
+    $.each($inputs, function (i, item) {
       if (uniques.indexOf($(item).val()) !== -1 || badColNames.includes($(item).val())) {
         valid = false;
         badInputActions(item)
@@ -285,7 +286,7 @@ function checkInputValidity() {
       }
     });
   }
-  if (inputs.length === uniques.length && uniques.length > 1 && valid) {
+  if ($inputs.length === uniques.length && uniques.length > 1 && valid) {
     generateMockData();
   }
 }
@@ -306,19 +307,22 @@ function downloadPlaceHolder() {
 }
 // Remove placeholder and display download button
 function displayDownload(downloadUrl) {
+  let $final = $('.final'),
+      $download = $('#download');
   $('#loader').remove();
-  $('.final').append(downloadBtn);
-  $('.final').append(downloadInfo);
-  $('#download').find('a').attr('href', downloadUrl);
-  $('#download').find('a').attr('download', downloadUrl)
+  $final.append(downloadBtn);
+  $final.append(downloadInfo);
+  $download.find('a').attr('href', downloadUrl);
+  $download.find('a').attr('download', downloadUrl)
 }
 
 function displayTempErrorMsg(message) {
+  let $final = $('.final');
   $('#loader').remove();
   $('#guest-limit').remove();
-  $('.final').append(message);
+  $final.append(message);
   setTimeout(function () {
-    $('.final').empty();
+    $final .empty();
     $('#generate-data').show()
   }, 5000);
 }
@@ -327,18 +331,18 @@ function generateMockData() {
   let postData = {};
   // Extract column name & type from each table row
   $('.row-body').find('.row').each(function (index, row) {
-    let td = $(this), // Current table cell to extract values from
-      column = $(row).find('input').val(), // Column name
-      type = $(row).find('select').val(); // Generated type
-    if (column.includes(' ')) {
-      column = column.split(' ').join('') // Remove white space from column name (causes invalid JSON & XML)
+    let $td = $(this), // Current table cell to extract values from
+      $column = $(row).find('input').val(), // Column name
+      $type = $(row).find('select').val(); // Generated type
+    if ($column.includes(' ')) {
+      $column = $column.split(' ').join('') // Remove white space from column name (causes invalid JSON & XML)
     }
     // Checking for special types & additional options
-    postData = typeOptions(type, column, td, postData);
-    postData[column] = type;
+    postData = typeOptions($type, $column, $td, postData);
+    postData[$column] = $type;
   });
   // Get data type, number of rows & additional options
-  postData.compress = $('#compress').is(':checked')
+  postData.compress = $('#compress').is(':checked');
   postData.dataType = '.' + $('#data-type').val();
   if (postData.dataType === '.sql') {
     postData.tableName = $('#table-name').val();
@@ -364,8 +368,9 @@ function generateMockData() {
       if (err.status === 429) {
         displayTempErrorMsg(requestLimit)
       } else if (err.status === 401) {
-        $('.final').empty();
-        $('.final').append(verify);
+        let $final = $('.final');
+        $final.empty();
+        $final.append(verify);
       } else if (err.status === 403) {
         displayTempErrorMsg(badCookie)
       } else {
