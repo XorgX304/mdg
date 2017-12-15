@@ -1,10 +1,10 @@
 import json
 import os
-import uuid
 from datetime import timedelta, datetime
-from string import punctuation
+from string import punctuation, digits
 from collections import OrderedDict
 from flask import Flask, request, render_template, make_response
+from dotenv import load_dotenv, find_dotenv
 from db.mdg_database import MockDataGeneratorDB
 
 
@@ -22,7 +22,10 @@ DELIMITER = 'delimiter'
 INDEX = 'index.html'
 MAX_ROWS = 250000
 ENV = os.environ
-SPECIAL_CHARS = punctuation.replace('_', '')
+SPECIAL_CHARS = punctuation.replace('_', '') + digits
+
+dotenv_file = find_dotenv(raise_error_if_not_found=True)
+load_dotenv(dotenv_file)
 
 with open('../cfg/config.json', 'r') as config_file:
     CONFIG = json.loads(config_file.read())
@@ -85,10 +88,9 @@ def generate():
             options_dict[option] = post_data.get(option)
     headers = [header for header in headers if header not in options_dict.keys()]
     num_rows = post_data.get('numRows')
-    headers.pop()
     file_type = post_data.get('fileType')
-    headers.pop()
-    if not check_request_validity(num_rows, headers):
+    test_headers = [h for h in headers if h not in ('numRows', 'fileType', 'dataType')]
+    if not check_request_validity(num_rows, test_headers):
         return "Illegel request", 400
     return None
 
@@ -111,7 +113,7 @@ def max_num_rows(num_rows):
 
 
 def max_min_headers(headers):
-    return 10 >= len(headers) > 0
+    return 10 >= len(headers) > 1
 
 
 def bad_header_names(headers):
@@ -119,8 +121,8 @@ def bad_header_names(headers):
     Test if a bad name (breaks AWK) exist in headers or if name contains
     special chars (breaks XML generation)
     """
-    for name in CONFIG['bad_col_names']:
-        if name in headers or any(c in name for c in punctuation):
+    for header in headers:
+        if header in CONFIG['bad_col_names'] or any(c in SPECIAL_CHARS for c in header):
             return False
     return True
 
@@ -135,7 +137,3 @@ def not_found(err):
 @app.route('/robots.txt')
 def robots():
     return app.send_static_file('robots.txt')
-
-
-if __name__ == '__main__':
-    app.run()

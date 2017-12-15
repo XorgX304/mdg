@@ -1,3 +1,4 @@
+dotenv
 locustio
 beautifulsoup4
 requests

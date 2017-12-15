@@ -4,6 +4,8 @@ import uuid
 from collections import OrderedDict
 from bs4 import BeautifulSoup
 from tests import mock_app
+from string import digits, punctuation
+
 
 """
 Set up a mock Flask app and run all request related tests against it
@@ -53,7 +55,8 @@ class POSTRequestTestCase(unittest.TestCase):
 
     def mock_post_data(self):
         self.test_data = OrderedDict()
-        self.test_data['test_header1'] = 'country'
+        self.test_data['test_header'] = 'country'
+        self.test_data['another_test_header'] = 'uuid'
         self.test_data['dataType'] = '.csv'
         self.test_data['numRows'] = 50
         return self.test_data
@@ -95,6 +98,21 @@ class POSTRequestTestCase(unittest.TestCase):
 
     def test_header_limit_min(self):
         test_data = self.test_data
-        del test_data['test_header1']
+        del test_data['test_header']
         response = self.mock_app.post(self.generate, data=test_data)
         self.assertEqual(400, response.status_code)
+
+    def test_bad_header_digit(self):
+        for i in range(len(digits)):
+            test_data = self.test_data
+            test_data['header' + digits[i]] = 'mock_data_type'
+            response = self.mock_app.post(self.generate, data=test_data)
+            self.assertEqual(400, response.status_code)
+
+    def test_bad_header_char(self):
+        charset = punctuation.replace('_', '')
+        for i in range(len(charset)):
+            test_data = self.test_data
+            test_data['header' + charset[i]] = 'mock_data_type'
+            response = self.mock_app.post(self.generate, data=test_data)
+            self.assertEqual(400, response.status_code)

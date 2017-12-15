@@ -367,7 +367,7 @@ def bad_header_names(headers):
     special chars (breaks XML generation)
     """
     for header in headers:
-        if header in CONFIG['bad_col_names'] or any(c in header for c in SPECIAL_CHARS):
+        if header in CONFIG['bad_col_names'] or any(c in SPECIAL_CHARS for c in header):
             return False
     return True
 
