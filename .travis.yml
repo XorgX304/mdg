@@ -10,7 +10,8 @@ services:
   - mongodb
 
 before_script:
+  # Recommended by TravisCI before executing first command
   - sleep 15
-  - "mongo mdg --eval 'db.users.insert({\"_id\" : ObjectId(\"5a1be8a34e87d517acc39652\"), \"verified\" : true, \"generated_count\" : 0, \"email\" : \"cambina1@gmail.com\", \"last_used\" : ISODate(\"2017-12-16T00:59:37.318Z\")})'"
+  - "mongo mdg --eval 'db.users.insert({\"_id\" : ObjectId(\"5a1be8a34e87d517acc39652\"), \"verified\" : true, \"generated_count\" : 0, \"email\" : \"whocares@gmail.com\", \"last_used\" : ISODate(\"2017-12-16T00:59:37.318Z\")})'"
 
 script: py.test tests/

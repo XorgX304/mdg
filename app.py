@@ -30,7 +30,7 @@ DELIMITER = 'delimiter'
 INDEX = 'index.html'
 MAX_ROWS = 250000
 ENV = os.environ
-SPECIAL_CHARS = punctuation.replace('_', '')
+FORBIDDEN_CHARS = punctuation.replace('_', '')
 
 with open('cfg/config.json', 'r') as config_file:
     CONFIG = json.loads(config_file.read())
@@ -100,7 +100,7 @@ def generate():
     """
     Checks if request has cookie, if cookie matches _id in MongoDB users collection,
     Updates users last_used time & increments generated_count by 1.
-
+    Performs server side header validation.
     Finally, Executes data generation:
     Parses request parameters, generates, compresses &  uploads file. Returns download link.
     """
@@ -109,14 +109,17 @@ def generate():
     uid = request.cookies.get('mdg')
     if not uid:
         return CONFIG['not_verified'], 401
+
     # Check for cookie authenticity
     if not db.find_by_id(uid):
         return CONFIG['bad_cookie_value'], 403
+
     # Updates user's generated_count and last_used:
     db.update_user(uid)
 
     # Decode request literal to utf8
     request_literal = request.get_data().decode(UTF)
+
     # Create on OrderedDict from the request literal
     post_data = parse_post_data(request_literal)
 
@@ -124,19 +127,23 @@ def generate():
     headers = list(post_data.keys())
     awk_generated = list(
         header for header in headers if post_data.get(header) in CONFIG['options']['awk_generated'])
+
     # Extract specific data types options
     options_dict = {
         key: post_data.get(key) for key in headers for option in CONFIG['options']['data_type_options'] if option in key}
+
     # Extract options regarding file type
     for option in CONFIG['options']['file_type_options']:
         if option in headers:
             options_dict[option] = post_data.get(option)
     headers = [header for header in headers if header not in options_dict.keys()]
     # Now headers contain all column names and options_dict contains all special file/data key:value pairs
+
     # Extract file name, type and number of rows
     filename = uuid.uuid4().hex + CONFIG['extensions']['csv']
     num_rows = post_data.get(headers.pop())
     file_type = post_data.get(headers.pop())
+
     if not check_request_validity(num_rows, headers):
         return "Illegel request", 400
 
@@ -146,13 +153,16 @@ def generate():
 
     # Write file
     write_awk_generated(headers, awk_generated, post_data, num_rows, filename, options_dict)
+
     # Check if file needs to be converted to another format
     if not is_csv(file_type):
         filename = file_conversion(file_type, filename, options_dict, headers, post_data)
+
     # Compress, upload, delete locally & return download link
     if options_dict.get(CONFIG['options']['file_type_options'][6]) == 'true':
         filename = compress_file(filename)
     download_url = upload_to_storage(filename)
+
     return download_url
 
 
@@ -349,7 +359,7 @@ def delete_from_disk(file):
 
 
 def check_request_validity(num_rows, headers):
-    """Check if request params are valid (passing both max_num_rows & max_min_headers)"""
+    """Check if request params are valid"""
     return all((validate_num_rows(num_rows), validate_header_length(headers), bad_header_names(headers)))
 
 
@@ -365,11 +375,13 @@ def validate_header_length(headers):
 
 def bad_header_names(headers):
     """
-    Test if a bad name (breaks AWK) exist in headers or if name contains
-    special chars (breaks XML generation)
+    A header is considered forbidden if:
+    1) It is one of the bad_col_names from the config
+    2) It contains a special char (underscores allowed)
+    3) Its first char is a digit
     """
     for header in headers:
-        if header.lower() in CONFIG['bad_col_names'] or any(c in SPECIAL_CHARS for c in header) or header[0].isdigit():
+        if header.lower() in CONFIG['bad_col_names'] or any(c in FORBIDDEN_CHARS for c in header) or header[0].isdigit():
             return False
     return True
 
