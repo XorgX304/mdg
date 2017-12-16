@@ -350,15 +350,15 @@ def delete_from_disk(file):
 
 def check_request_validity(num_rows, headers):
     """Check if request params are valid (passing both max_num_rows & max_min_headers)"""
-    return all((max_num_rows(num_rows), max_min_headers(headers), bad_header_names(headers)))
+    return all((validate_num_rows(num_rows), validate_header_length(headers), bad_header_names(headers)))
 
 
-def max_num_rows(num_rows):
+def validate_num_rows(num_rows):
     """Test if num_rows param gt 250,000"""
-    return int(num_rows) <= MAX_ROWS
+    return MAX_ROWS >= int(num_rows) > 0
 
 
-def max_min_headers(headers):
+def validate_header_length(headers):
     """Test if headers length gt 1 & lt 10 """
     return 10 >= len(headers) > 1
 
@@ -369,7 +369,7 @@ def bad_header_names(headers):
     special chars (breaks XML generation)
     """
     for header in headers:
-        if header in CONFIG['bad_col_names'] or any(c in SPECIAL_CHARS for c in header) or header[0].isdigit():
+        if header.lower() in CONFIG['bad_col_names'] or any(c in SPECIAL_CHARS for c in header) or header[0].isdigit():
             return False
     return True
 

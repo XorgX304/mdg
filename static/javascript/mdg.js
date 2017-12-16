@@ -24,7 +24,7 @@ const rootNode = '<div class="row text-left extra-options">\n' + '<div class="co
 const recordNode = '<div class="row text-left extra-options">\n' + '<div class="col-sm-4"><label for="record-node" id="record-node-label">Record Node</label>\n' + '<input id="record-node" name="record-node" required="required" value="record"\n' + 'style="width: 120px; margin: 3px 3px 3px 3px; height: 70%;;"/>\n</div>\n</div>'
 const verificationSent = '<div class="alert alert-success">' + 'Verification email sent successfully. Please check your email for further instructions.</div>'
 const verify = "<div id='verification'><label for='verification-email'>First time in Mock data generator ? Enter your email below to confirm you're human</label><br><input type='email' placeholder='Email' id='verification-email' required='required' style='margin-bottom: 5px;'><br><button type='button' id='verify' class='btn btn-outline-success'>Send verification</button></div>";
-const badColNames = ['int', 'rand', 'NR', 'print', 'OFS', 'OFMT'];
+const badColNames = ['int', 'float', 'rand', 'nr', 'print', 'ofs', 'ofmt'];
 const downloadInfo = '<div id="download-info" class="alert alert-info" style="font-size: 14px;">For HTML, JSON or XML - use Right Click > Save Link As</div>';
 
 // Prototype function for checking whether string has digits only
@@ -293,7 +293,7 @@ function checkInputValidity() {
     badInputActions(null)
   } else {
     $.each($inputs, function (i, item) {
-      if (uniques.indexOf($(item).val()) !== -1 || badColNames.includes($(item).val())) {
+      if (uniques.indexOf($(item).val()) !== -1 || badColNames.includes($(item.toLowerCase()).val())) {
         valid = false;
         badInputActions(item)
       } else {

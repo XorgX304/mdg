@@ -1,10 +1,9 @@
 import json
 import os
 from datetime import timedelta, datetime
-from string import punctuation, digits
+from string import punctuation
 from collections import OrderedDict
 from flask import Flask, request, render_template, make_response
-from dotenv import load_dotenv, find_dotenv
 from db.mdg_database import MockDataGeneratorDB
 
 
@@ -24,11 +23,10 @@ MAX_ROWS = 250000
 ENV = os.environ
 SPECIAL_CHARS = punctuation.replace('_', '')
 
-dotenv_file = find_dotenv(raise_error_if_not_found=True)
-load_dotenv(dotenv_file)
 
-with open('../cfg/config.json', 'r') as config_file:
+with open('cfg/config.json', 'r') as config_file:
     CONFIG = json.loads(config_file.read())
+
 
 app = Flask(__name__, static_url_path='', template_folder='static')
 db = MockDataGeneratorDB(ENV.get('DB_HOST'), ENV.get('DB_PORT'), ENV.get('DB_NAME'), ENV.get('DB_COL'))
