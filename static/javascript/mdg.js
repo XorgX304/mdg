@@ -147,7 +147,7 @@ function generateMockData() {
         $column = $column.split(" ").join(""); // Remove white space from column name (causes invalid JSON & XML)
       }
       // Checking for special types & additional options
-      if (isNumber($column.charAt(0))) {
+      if (isNumber($column.charAt(0)) || $column.length === 0) {
         $column = randChar() + $column;
       }
       postData[$column] = $type;
