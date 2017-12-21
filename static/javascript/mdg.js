@@ -54,8 +54,9 @@ function checkInputValidity() {
     $.each($inputs, function(i, item) {
       if (
         uniques.indexOf($(item).val()) !== -1 ||
-        badColNames.includes($(item.toLowerCase()).val())
-      ) {
+        badColNames.includes($(item).val().toLowerCase())
+      )
+       {
         valid = false;
         badInputActions(item);
       } else {
@@ -107,6 +108,12 @@ function displayTempErrorMsg(message) {
   }, 5000);
 }
 
+// Remove special chars from column names due to erroneous behaviour
+function removeForbidden(string) {
+  return string.replace(/[^a-zA-Z0-9_]/g, "")
+}
+
+
 function setDataTypeKeys(postData) {
   if (postData.dataType === ".sql") {
     postData.tableName = $("#table-name").val();
@@ -135,6 +142,7 @@ function generateMockData() {
         $type = $(row)
           .find("select")
           .val(); // Generated type
+      $column = removeForbidden($column);
       if ($column.includes(" ")) {
         $column = $column.split(" ").join(""); // Remove white space from column name (causes invalid JSON & XML)
       }
@@ -245,17 +253,7 @@ $(function() {
       .remove();
     event.preventDefault();
   });
-  // Remove special chars from column names due to erroneous behaviour
-  $("form").on("input", "input", function() {
-    let char = this.selectionStart,
-      forbidden = /[^a-z0-9_]/gi,
-      value = $(this).val();
-    if (forbidden.test(value)) {
-      $(this).val(value.replace(forbidden, ""));
-      char--;
-    }
-    this.setSelectionRange(char, char);
-  });
+
   $(".final").on("click", "#verify", function() {
     let $final = $(".final");
     let $email = $("#verification-email").val();
