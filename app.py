@@ -295,7 +295,7 @@ def convert_to_sql(filename, options, headers, post_data):
     from each row using pandas itertuples function.
     """
     # Set wanted sql file extension
-    sql_file = filename.split('.')[0] + '.' + options.get(
+    sql_file = filename.split('.')[0] + options.get(
         CONFIG['options']['file_type_options'][3])
 
     # Set wanted table name and format SQL insert string with table name
@@ -384,8 +384,8 @@ def delete_from_disk(file):
         # Removes original file if first os.remove call has removed gzipped version
         os.remove('.'.join([file[0], file[1]]))
     if file[1] != CSV:
-        os.remove(file[0] + CONFIG['extensions']['csv']
-                  )  # Remove CSV version if file format is different than CSV
+        # Remove CSV version if file format is different than CSV
+        os.remove(file[0] + CONFIG['extensions']['csv'])
     return
 
 
