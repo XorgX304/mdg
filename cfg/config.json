@@ -41,10 +41,10 @@
     "gzip": ".gz"
   },
   "bad_col_names": ["int", "float", "rand", "nr", "print", "ofs", "ofmt"],
-  "bad_uid": "There was an error with verification. Are you sure you followed the correct link ?",
+  "bad_token": "There was an error with verification. Are you sure you followed the correct link ?",
   "success": "Verification Successful. You can now generate and download files freely.",
   "email_verified": "Email address is already verified. You can generate data freely now.",
-  "verify_html": "Please click on the link below to verify your email address:\n<br><a href=https://mockdatagenerator.com/verify?uid={0}>Click Here To Verify</a>",
+  "verify_html": "Please click on the link below to verify your email address:\n<br><a href=https://mockdatagenerator.com/verify?token={0}>Click Here To Verify</a>",
   "not_verified": "not_verified",
   "bad_cookie_value": "bad cookie value",
   "bucket": "mdgen_files"

@@ -15,13 +15,9 @@ from db.mdg_database import MockDataGeneratorDB
 from data_generation.data_generator import DataGenerator
 from data_generation.awk_data_generator import AWKDataGenerator
 
+
 # Module level constants
-EOL = '\n'
-AMP = '&'
-SEMI_COLON = ';'
-EQ = '='
-QUOTES = '"'
-COMMA = ','
+EOL = '\r\n'
 UTF = 'utf-8'
 CSV = 'csv'
 MDG = 'mdg'
@@ -37,10 +33,9 @@ with open('cfg/config.json', 'r') as config_file:
 dotenv_file = find_dotenv(raise_error_if_not_found=True)
 load_dotenv(dotenv_file)
 
+
 # Instances
-app = Flask(
-    __name__, static_url_path='',
-    template_folder='static')  # static/template folder path
+app = Flask(__name__, static_url_path='', template_folder='static')  # static/template folder path
 app.config.update(
     MAIL_SERVER='smtp.gmail.com',
     MAIL_PORT=465,
@@ -49,8 +44,7 @@ app.config.update(
     MAIL_PASSWORD=ENV.get('MAIL_PASSWORD'))
 mail = Mail(app)
 db = MockDataGeneratorDB(
-    ENV.get('DB_HOST'), ENV.get('DB_PORT'), ENV.get('DB_NAME'),
-    ENV.get('DB_COL'))
+    ENV.get('DB_HOST'), ENV.get('DB_PORT'), ENV.get('DB_NAME'), ENV.get('DB_COL'))
 awk = AWKDataGenerator()
 data_generator = DataGenerator()
 client = storage.Client('mdgen-187315')
@@ -66,30 +60,33 @@ def index():
 # Verification email sending
 @app.route('/sendverification')
 def send_verification():
-    send_email(request.args.get('email'))
-    return "Verification sent."
+    if send_email(request.args.get('email')):
+        return "Verification sent.", 200
+    else:
+        # I'm a teapot
+        return 'Failed', 418
 
 
 # Validating verification URL &
 @app.route('/verify')
 def verify():
     """
-    Check if uid from URL equals document _id in Mongo collection.
+    Check if parameter from URL equals document token in Mongo collection.
     If true, set cookie and render index.html with success message.
     Else render index.html with error message.
     """
-    uid = request.args.get('uid')
-    if not db.find_by_id(uid):
-        return render_template(INDEX, err=CONFIG['bad_uid'])
-    if db.is_verified(uid):
+    token = request.args.get('token')
+    user = db.find_by_token(token)
+    if not user:
+        return render_template(INDEX, err=CONFIG['bad_token'])
+    if user['verified']:
         response = make_response(
             render_template(INDEX, err=CONFIG['email_verified']))
     else:
-        response = make_response(
-            render_template(INDEX, success=CONFIG['success']))
-    db.update_user(uid, verification=True)
+        response = make_response(render_template(INDEX, success=CONFIG['success']))
+        db.update_user(token, verification=True)
     response.set_cookie(
-        MDG, uid, expires=datetime.now() + timedelta(days=365), httponly=True)
+        MDG, token, expires=datetime.now() + timedelta(days=365), httponly=True)
     return response
 
 
@@ -103,7 +100,7 @@ def donate():
 @app.route('/generate', methods=['POST'])
 def generate():
     """
-    Checks if request has cookie, if cookie matches _id in MongoDB users collection,
+    Checks if request has cookie, if cookie matches user token in MongoDB users collection,
     Updates users last_used time & increments generated_count by 1.
     Performs server side header validation.
     Finally, Executes data generation:
@@ -111,16 +108,16 @@ def generate():
     """
 
     # Check if user was verified
-    uid = request.cookies.get('mdg')
-    if not uid:
+    token = request.cookies.get('mdg')
+    if not token:
         return CONFIG['not_verified'], 401
 
     # Check for cookie authenticity
-    if not db.find_by_id(uid):
+    if not db.find_by_token(token):
         return CONFIG['bad_cookie_value'], 403
 
     # Updates user's generated_count and last_used:
-    db.update_user(uid)
+    db.update_user(token)
 
     # Decode request literal to utf8
     request_literal = request.get_data().decode(UTF)
@@ -160,7 +157,7 @@ def generate():
 
     # Create a file with headers
     with open(filename, 'w') as file:
-        file.write(COMMA.join(headers) + EOL)
+        file.write(','.join(headers) + EOL)
 
     # Write file
     write_awk_generated(headers, awk_generated, post_data, num_rows, filename,
@@ -186,7 +183,7 @@ def parse_post_data(request_data):
     the user's wanted order.
     """
     # Split literal request data
-    split_data = [element.split(EQ) for element in request_data.split(AMP)]
+    split_data = [element.split('=') for element in request_data.split('&')]
     post_data = OrderedDict()
     for group in split_data:
         post_data[group[0]] = group[1]
@@ -211,7 +208,7 @@ def write_awk_generated(headers, awk_generated, post_data, num_rows, filename,
         python_generated = set(headers) - set(awk_generated)
         # Get delimiter from options or set default one
         delimiter = CONFIG['delimiter_chars'].get(
-            options.get(DELIMITER), COMMA)
+            options.get(DELIMITER), ',')
         write_python_generated(filename, post_data, python_generated,
                                delimiter, options)
     return
@@ -221,7 +218,7 @@ def write_python_generated(filename, post_data, python_generated, delimiter,
                            options):
     """Write non-AWK column data using Pandas"""
 
-    df = pd.read_csv(filename, sep=COMMA)
+    df = pd.read_csv(filename, sep=',')
     for header in python_generated:
         try:
             callback = data_generator.commands.get(post_data.get(header))
@@ -305,7 +302,7 @@ def convert_to_sql(filename, options, headers, post_data):
     sql_insert = CONFIG['sql']['insert'].format(table_name)
 
     # Load previously created CSV with pandas
-    df = pd.read_csv(filename, sep=COMMA, index_col=0)
+    df = pd.read_csv(filename, sep=',', index_col=0)
     with open(sql_file, 'w') as file:
         # Test if create table was checked by user
         # Parameter comes as string representation from request hence the `== true` check
@@ -317,8 +314,8 @@ def convert_to_sql(filename, options, headers, post_data):
         for row in df.itertuples():
             file.write(
                 # Wrap value with double quotes if its VARCHAR or DATE
-                sql_insert % (COMMA.join([
-                    QUOTES + x + QUOTES if isinstance(x, str) else str(x)
+                sql_insert % (','.join([
+                    '"' + x + '"' if isinstance(x, str) else str(x)
                     for x in list(row)
                 ])))
     return sql_file
@@ -336,7 +333,7 @@ def sql_create_table(headers, post_data):
             table_creation.append(header + CONFIG['sql']['date'])
         else:
             table_creation.append(header + CONFIG['sql']['varchar'])
-    return (COMMA + EOL).join(table_creation)
+    return (',' + EOL).join(table_creation)
 
 
 def compress_file(filename):
@@ -350,14 +347,14 @@ def compress_file(filename):
 
 
 def send_email(recipient):
-    """Send recipient a verification email """
-    uid = db.add_user_to_collection(recipient)
+    """Send recipient a verification email"""
+    token = db.add_user_to_collection(recipient)
     mail.send_message(
         'Verify your email address',
         sender='Mock data generator',
         recipients=[recipient],
-        html=CONFIG['verify_html'].format(uid))
-    return
+        html=CONFIG['verify_html'].format(token))
+    return True
 
 
 def upload_to_storage(file):
