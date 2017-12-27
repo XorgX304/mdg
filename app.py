@@ -30,7 +30,7 @@ FORBIDDEN_CHARS = punctuation.replace('_', '')
 with open('cfg/config.json', 'r') as config_file:
     CONFIG = json.loads(config_file.read())
 
-dotenv_file = find_dotenv(raise_error_if_not_found=True)
+dotenv_file = find_dotenv()
 load_dotenv(dotenv_file)
 
 
@@ -47,6 +47,7 @@ db = MockDataGeneratorDB(
     ENV.get('DB_HOST'), ENV.get('DB_PORT'), ENV.get('DB_NAME'), ENV.get('DB_COL'))
 awk = AWKDataGenerator()
 data_generator = DataGenerator()
+
 client = storage.Client('mdgen-187315')
 bucket = client.get_bucket(CONFIG['bucket'])
 
@@ -76,9 +77,10 @@ def verify():
     Else render index.html with error message.
     """
     token = request.args.get('token')
-    user = db.find_by_token(token)
-    if not user:
+    if not token or not db.find_by_token(token):
         return render_template(INDEX, err=CONFIG['bad_token'])
+
+    user = db.find_by_token(token)
     if user['verified']:
         response = make_response(
             render_template(INDEX, err=CONFIG['email_verified']))
@@ -124,7 +126,6 @@ def generate():
 
     # Create on OrderedDict from the request literal
     post_data = parse_post_data(request_literal)
-
     # Create headers list, awk generated list & and special options dictionary
     headers = list(post_data.keys())
     awk_generated = list(
@@ -145,12 +146,16 @@ def generate():
     headers = [
         header for header in headers if header not in options_dict.keys()
     ]
-    # Now headers contain all column names and options_dict contains all special file/data key:value pairs
 
-    # Extract file name, type and number of rows
+    # Randomize file name
     filename = uuid.uuid4().hex + CONFIG['extensions']['csv']
-    num_rows = post_data.get(headers.pop())
-    file_type = post_data.get(headers.pop())
+
+    # Extract data type and number of rows and delete them from headers
+    num_rows = post_data.get('numRows')
+    headers.remove('numRows')
+    file_type = post_data.get('dataType')
+    headers.remove('dataType')
+    # Now headers contain all column names and options_dict contains all special file/data key:value pairs
 
     if not check_request_validity(num_rows, headers):
         return "Illegel request", 400
