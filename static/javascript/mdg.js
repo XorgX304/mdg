@@ -108,20 +108,28 @@ function displayTempErrorMsg(message) {
   }, 5000);
 }
 
-// Remove special chars from column names due to erroneous behaviour
-function removeForbidden(string) {
+
+function normalizeString(string) {
+  /* Remove special chars & spaces from column names due to erroneous behaviour
+     Also check if column.length is 0 or if first char is a digit, which also breaks parts of
+     the AWK data generation
+     return normalized string
+     */
+    if (isNumber(string.charAt(0)) || string.length === 0) {
+        string = randChar() + string;
+      }
   return string.replace(/[^a-zA-Z0-9_]/g, "")
 }
 
 
 function setDataTypeKeys(postData) {
   if (postData.dataType === ".sql") {
-    postData.tableName = $("#table-name").val();
+    postData.tableName = normalizeString($("#table-name").val());
     postData.createTable = $("#create-table").is(":checked");
     postData.sqlExtension = $("input[name=sql-extension]:checked").val();
   } else if (postData.dataType === ".xml") {
-    postData.rootNode = $("#root-node").val();
-    postData.recordNode = $("#record-node").val();
+    postData.rootNode = normalizeString($("#root-node").val());
+    postData.recordNode = normalizeString($("#record-node").val());
   } else if (postData.dataType === ".csv") {
     postData.delimiter = $(".delimiter").val();
   }
@@ -142,14 +150,8 @@ function generateMockData() {
         $type = $(row)
           .find("select")
           .val(); // Generated type
-      $column = removeForbidden($column);
-      if ($column.includes(" ")) {
-        $column = $column.split(" ").join(""); // Remove white space from column name (causes invalid JSON & XML)
-      }
+      $column = normalizeString($column);
       // Checking for special types & additional options
-      if (isNumber($column.charAt(0)) || $column.length === 0) {
-        $column = randChar() + $column;
-      }
       postData[$column] = $type;
       postData = typeOptions($type, $column, $td, postData);
     });
