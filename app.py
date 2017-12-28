@@ -34,7 +34,7 @@ dotenv_file = find_dotenv()
 load_dotenv(dotenv_file)
 
 
-# Instances
+# Flask app instances
 app = Flask(__name__, static_url_path='', template_folder='static')  # static/template folder path
 app.config.update(
     MAIL_SERVER='smtp.gmail.com',
@@ -43,12 +43,15 @@ app.config.update(
     MAIL_USERNAME=ENV.get('MAIL_USERNAME'),
     MAIL_PASSWORD=ENV.get('MAIL_PASSWORD'))
 mail = Mail(app)
+
+# DB & Data generators
 db = MockDataGeneratorDB(
     ENV.get('DB_HOST'), ENV.get('DB_PORT'), ENV.get('DB_NAME'), ENV.get('DB_COL'))
 awk = AWKDataGenerator()
 data_generator = DataGenerator()
 
-client = storage.Client('mdgen-187315')
+# Google Cloud Storage client & bucket
+client = storage.Client()
 bucket = client.get_bucket(CONFIG['bucket'])
 
 

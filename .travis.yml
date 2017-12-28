@@ -10,8 +10,6 @@ services:
   - mongodb
 
 before_script:
-  - sudo apt-get install google-cloud-sdk
-  - gcloud config set project "mdgen-187315"
   # Recommended by TravisCI before executing first command
   - sleep 15
   - "mongo mdg --eval 'db.users.insert({\"_id\" : ObjectId(\"5a1be8a34e87d517acc39652\"), \"verified\" : true, \"token\": \"0123456789\",
