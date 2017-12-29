@@ -118,7 +118,12 @@ function normalizeString(string) {
     if (isNumber(string.charAt(0)) || string.length === 0) {
         string = randChar() + string;
       }
-  return string.replace(/[^a-zA-Z0-9_]/g, "")
+    string = string.replace(/[^a-zA-Z0-9_]/g, "");
+    // If all chars in string were illegel, set string to a random char
+    if (string.length === 0) {
+      string = randChar();
+    }
+    return string;
 }
 
 
